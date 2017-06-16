@@ -3,14 +3,13 @@ package com.ss.editor.extension.scene.filter.impl;
 import static com.ss.editor.extension.loader.SceneLoader.tryToGetAssetManager;
 import com.jme3.shadow.AbstractShadowFilter;
 import com.jme3.shadow.DirectionalLightShadowFilter;
-import com.jme3.util.clone.Cloner;
-import com.ss.editor.extension.property.EditablePropertyType;
 import com.ss.editor.extension.property.EditableProperty;
+import com.ss.editor.extension.property.EditablePropertyType;
 import com.ss.editor.extension.property.SimpleProperty;
 import com.ss.editor.extension.scene.filter.EditableSceneFilter;
-import org.jetbrains.annotations.NotNull;
 import com.ss.rlib.util.array.Array;
 import com.ss.rlib.util.array.ArrayFactory;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * The editable implementation of a {@link DirectionalLightShadowFilter}.
@@ -33,33 +32,15 @@ public class EditableDirectionalLightShadowFilter extends DirectionalLightShadow
 
         final Array<EditableProperty<?, ?>> result = ArrayFactory.newArray(EditableProperty.class);
 
-        result.add(new SimpleProperty<>(EditablePropertyType.ENUM, "Edge filtering mode", this,
-                                        EditableDirectionalLightShadowFilter::getEdgeFilteringMode,
-                                        EditableDirectionalLightShadowFilter::setEdgeFilteringMode));
-        result.add(new SimpleProperty<>(EditablePropertyType.ENUM, "Shadow compare mode", this,
-                                        EditableDirectionalLightShadowFilter::getShadowCompareMode,
-                                        EditableDirectionalLightShadowFilter::setShadowCompareMode));
-        result.add(new SimpleProperty<>(EditablePropertyType.FLOAT, "Shadow z extend", this,
-                                        EditableDirectionalLightShadowFilter::getShadowZExtend,
-                                        EditableDirectionalLightShadowFilter::setShadowZExtend));
-        result.add(new SimpleProperty<>(EditablePropertyType.FLOAT, "Shadow z fade length", this,
-                                        EditableDirectionalLightShadowFilter::getShadowZFadeLength,
-                                        EditableDirectionalLightShadowFilter::setShadowZFadeLength));
-        result.add(new SimpleProperty<>(EditablePropertyType.FLOAT, "Lambda", this,
-                                        EditableDirectionalLightShadowFilter::getLambda,
-                                        EditableDirectionalLightShadowFilter::setLambda));
-        result.add(new SimpleProperty<>(EditablePropertyType.FLOAT, "Shadow intensity", this,
-                                        EditableDirectionalLightShadowFilter::getShadowIntensity,
-                                        EditableDirectionalLightShadowFilter::setShadowIntensity));
-        result.add(new SimpleProperty<>(EditablePropertyType.INTEGER, "Edges thickness", this,
-                                        EditableDirectionalLightShadowFilter::getEdgesThickness,
-                                        EditableDirectionalLightShadowFilter::setEdgesThickness));
-        result.add(new SimpleProperty<>(EditablePropertyType.BOOLEAN, "Back faces shadows", this,
-                                        EditableDirectionalLightShadowFilter::isRenderBackFacesShadows,
-                                        EditableDirectionalLightShadowFilter::setRenderBackFacesShadows));
-        result.add(new SimpleProperty<>(EditablePropertyType.BOOLEAN, "Stabilization", this,
-                                        EditableDirectionalLightShadowFilter::isEnabledStabilization,
-                                        EditableDirectionalLightShadowFilter::setEnabledStabilization));
+        result.add(new SimpleProperty<>(EditablePropertyType.ENUM, "Edge filtering mode", this, EditableDirectionalLightShadowFilter::getEdgeFilteringMode, EditableDirectionalLightShadowFilter::setEdgeFilteringMode));
+        result.add(new SimpleProperty<>(EditablePropertyType.ENUM, "Shadow compare mode", this, EditableDirectionalLightShadowFilter::getShadowCompareMode, EditableDirectionalLightShadowFilter::setShadowCompareMode));
+        result.add(new SimpleProperty<>(EditablePropertyType.FLOAT, "Shadow z extend", this, EditableDirectionalLightShadowFilter::getShadowZExtend, EditableDirectionalLightShadowFilter::setShadowZExtend));
+        result.add(new SimpleProperty<>(EditablePropertyType.FLOAT, "Shadow z fade length", this, EditableDirectionalLightShadowFilter::getShadowZFadeLength, EditableDirectionalLightShadowFilter::setShadowZFadeLength));
+        result.add(new SimpleProperty<>(EditablePropertyType.FLOAT, "Lambda", this, EditableDirectionalLightShadowFilter::getLambda, EditableDirectionalLightShadowFilter::setLambda));
+        result.add(new SimpleProperty<>(EditablePropertyType.FLOAT, "Shadow intensity", this, EditableDirectionalLightShadowFilter::getShadowIntensity, EditableDirectionalLightShadowFilter::setShadowIntensity));
+        result.add(new SimpleProperty<>(EditablePropertyType.INTEGER, "Edges thickness", this, EditableDirectionalLightShadowFilter::getEdgesThickness, EditableDirectionalLightShadowFilter::setEdgesThickness));
+        result.add(new SimpleProperty<>(EditablePropertyType.BOOLEAN, "Back faces shadows", this, EditableDirectionalLightShadowFilter::isRenderBackFacesShadows, EditableDirectionalLightShadowFilter::setRenderBackFacesShadows));
+        result.add(new SimpleProperty<>(EditablePropertyType.BOOLEAN, "Stabilization", this, EditableDirectionalLightShadowFilter::isEnabledStabilization, EditableDirectionalLightShadowFilter::setEnabledStabilization));
 
         return result;
     }

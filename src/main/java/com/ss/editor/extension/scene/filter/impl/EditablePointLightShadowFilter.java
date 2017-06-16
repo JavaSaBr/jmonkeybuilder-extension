@@ -2,15 +2,14 @@ package com.ss.editor.extension.scene.filter.impl;
 
 import com.jme3.shadow.AbstractShadowFilter;
 import com.jme3.shadow.PointLightShadowFilter;
-import com.jme3.util.clone.Cloner;
 import com.ss.editor.extension.loader.SceneLoader;
 import com.ss.editor.extension.property.EditableProperty;
 import com.ss.editor.extension.property.EditablePropertyType;
 import com.ss.editor.extension.property.SimpleProperty;
 import com.ss.editor.extension.scene.filter.EditableSceneFilter;
-import org.jetbrains.annotations.NotNull;
 import com.ss.rlib.util.array.Array;
 import com.ss.rlib.util.array.ArrayFactory;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * The editable implementation of a {@link PointLightShadowFilter}.

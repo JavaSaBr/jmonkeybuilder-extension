@@ -16,7 +16,7 @@ allprojects {
 }
 
 dependencies {
-    compile 'com.github.JavaSaBr:RLib:6.0.0-SNAPSHOT'
+    compile 'com.github.JavaSaBr:jme3-spaceshift-extension:1.0.0'
 }
 ```
 
@@ -36,7 +36,7 @@ dependencies {
 
     <dependency>
         <groupId>com.github.JavaSaBr</groupId>
-        <artifactId>RLib</artifactId>
-        <version>6.0.0-SNAPSHOT</version>
+        <artifactId>jme3-spaceshift-extension</artifactId>
+        <version>1.0.0</version>
     </dependency>
 ```

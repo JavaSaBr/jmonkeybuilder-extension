@@ -41,8 +41,14 @@ import java.util.concurrent.*;
 public class EditableBulletSceneAppState extends AbstractAppState implements EditableSceneAppState,
         PhysicsTickListener {
 
+    /**
+     * The constant LOGGER.
+     */
     protected static final Logger LOGGER = LoggerManager.getLogger(EditableBulletSceneAppState.class);
 
+    /**
+     * The Physics update task.
+     */
     protected final Callable<Boolean> physicsUpdateTask = () -> {
         final PhysicsSpace physicsSpace = getPhysicsSpace();
         if (physicsSpace == null) return false;
@@ -136,6 +142,9 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
      */
     protected boolean debugEnabled;
 
+    /**
+     * Instantiates a new Editable bullet scene app state.
+     */
     public EditableBulletSceneAppState() {
         this.threadingType = ThreadingType.SEQUENTIAL;
         this.broadphaseType = BroadphaseType.DBVT;
@@ -150,6 +159,8 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
     }
 
     /**
+     * Gets scene node.
+     *
      * @return the scene node.
      */
     @Nullable
@@ -158,6 +169,8 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
     }
 
     /**
+     * Sets debug enabled.
+     *
      * @param debugEnabled the flag to enable debug.
      */
     public void setDebugEnabled(final boolean debugEnabled) {
@@ -166,6 +179,8 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
     }
 
     /**
+     * Is debug enabled boolean.
+     *
      * @return true if debug is enabled.
      */
     public boolean isDebugEnabled() {
@@ -173,6 +188,8 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
     }
 
     /**
+     * Gets physics space.
+     *
      * @return the physics space.
      */
     @Nullable
@@ -181,6 +198,8 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
     }
 
     /**
+     * Gets speed.
+     *
      * @return the speed.
      */
     public float getSpeed() {
@@ -188,6 +207,8 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
     }
 
     /**
+     * Sets speed.
+     *
      * @param speed the speed.
      */
     public void setSpeed(final float speed) {
@@ -195,6 +216,8 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
     }
 
     /**
+     * Gets tpf.
+     *
      * @return the time per frame.
      */
     public float getTpf() {
@@ -207,42 +230,82 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
         return "Bullet state";
     }
 
+    /**
+     * Sets threading type.
+     *
+     * @param threadingType the threading type
+     */
     public void setThreadingType(@NotNull final ThreadingType threadingType) {
         this.prevThreadingType = getPhysicsSpace() != null ? getThreadingType() : null;
         this.threadingType = threadingType;
         rebuildState();
     }
 
+    /**
+     * Gets threading type.
+     *
+     * @return the threading type
+     */
     @NotNull
     public ThreadingType getThreadingType() {
         return threadingType;
     }
 
+    /**
+     * Sets broadphase type.
+     *
+     * @param broadphaseType the broadphase type
+     */
     public void setBroadphaseType(@NotNull final BroadphaseType broadphaseType) {
         this.broadphaseType = broadphaseType;
         rebuildState();
     }
 
+    /**
+     * Gets broadphase type.
+     *
+     * @return the broadphase type
+     */
     @NotNull
     public BroadphaseType getBroadphaseType() {
         return broadphaseType;
     }
 
+    /**
+     * Gets world max.
+     *
+     * @return the world max
+     */
     @NotNull
     public Vector3f getWorldMax() {
         return worldMax;
     }
 
+    /**
+     * Sets world max.
+     *
+     * @param worldMax the world max
+     */
     public void setWorldMax(@NotNull final Vector3f worldMax) {
         this.worldMax.set(worldMax);
         rebuildState();
     }
 
+    /**
+     * Gets world min.
+     *
+     * @return the world min
+     */
     @NotNull
     public Vector3f getWorldMin() {
         return worldMin;
     }
 
+    /**
+     * Sets world min.
+     *
+     * @param worldMin the world min
+     */
     public void setWorldMin(@NotNull final Vector3f worldMin) {
         this.worldMin.set(worldMin);
         rebuildState();
@@ -327,6 +390,8 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
 
     /**
      * Start background physics.
+     *
+     * @return the boolean
      */
     protected boolean startBackgroundPhysics() {
 

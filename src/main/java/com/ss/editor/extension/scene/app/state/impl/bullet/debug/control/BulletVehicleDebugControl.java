@@ -43,8 +43,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.debug.Arrow;
 import com.ss.editor.extension.scene.app.state.impl.bullet.debug.BulletDebugAppState;
 import org.jetbrains.annotations.NotNull;
-
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author normenhansen, JavaSaBr
