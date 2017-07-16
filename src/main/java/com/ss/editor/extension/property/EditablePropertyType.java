@@ -16,7 +16,11 @@ public enum EditablePropertyType {
     ENUM,
     STRING,
     DIRECTION_LIGHT_FROM_SCENE,
-    POINT_LIGHT_FROM_SCENE;
+    POINT_LIGHT_FROM_SCENE,
+    SPATIAL_FROM_ASSET_FOLDER,
+    SPATIAL_FROM_SCENE,
+    GEOMETRY_FROM_ASSET_FOLDER,
+    GEOMETRY_FROM_SCENE;
 
     private static final EditablePropertyType[] TYPES = values();
 

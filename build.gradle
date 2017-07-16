@@ -2,7 +2,7 @@ apply plugin: 'java'
 apply plugin: 'maven'
 
 group = 'com.spaceshift'
-version = '1.0.0'
+version = '1.1.0'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -18,7 +18,7 @@ repositories {
 dependencies {
     // https://mvnrepository.com/artifact/org.jetbrains/annotations
     compile group: 'org.jetbrains', name: 'annotations', version: '15.0'
-    compile 'com.github.JavaSaBr:RLib:6.0.0'
+    compile 'com.github.JavaSaBr:RLib:6.1.2'
     compile 'com.github.JavaSaBr:SimFX:1.0.3'
     compile "com.github.JavaSaBr.jmonkeyengine:jme3-core:$jmeVersion"
     compile "com.github.JavaSaBr.jmonkeyengine:jme3-effects:$jmeVersion"
@@ -45,7 +45,7 @@ defaultTasks 'clean', 'install'
 // To specify a license in the pom:
 install {
     repositories.mavenInstaller {
-        pom.version = '1.0.0'
+        pom.version = version
         pom.artifactId = 'jme3-spaceshift-extension'
         pom.project {
             licenses {
