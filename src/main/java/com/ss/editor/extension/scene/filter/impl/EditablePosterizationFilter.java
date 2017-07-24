@@ -1,5 +1,7 @@
 package com.ss.editor.extension.scene.filter.impl;
 
+import static com.ss.editor.extension.property.EditablePropertyType.FLOAT;
+import static com.ss.editor.extension.property.EditablePropertyType.INTEGER;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
@@ -7,12 +9,11 @@ import com.jme3.export.OutputCapsule;
 import com.jme3.post.filters.PosterizationFilter;
 import com.jme3.util.clone.Cloner;
 import com.ss.editor.extension.property.EditableProperty;
-import com.ss.editor.extension.property.EditablePropertyType;
 import com.ss.editor.extension.property.SimpleProperty;
 import com.ss.editor.extension.scene.filter.EditableSceneFilter;
-import org.jetbrains.annotations.NotNull;
 import com.ss.rlib.util.array.Array;
 import com.ss.rlib.util.array.ArrayFactory;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
@@ -50,13 +51,13 @@ public class EditablePosterizationFilter extends PosterizationFilter implements
 
         final Array<EditableProperty<?, ?>> result = ArrayFactory.newArray(EditableProperty.class);
 
-        result.add(new SimpleProperty<>(EditablePropertyType.FLOAT, "Gamma", 0.005F, 0F, 10F, this,
+        result.add(new SimpleProperty<>(FLOAT, "Gamma", 0.005F, 0F, 10F, this,
                                         EditablePosterizationFilter::getGamma,
                                         EditablePosterizationFilter::setGamma));
-        result.add(new SimpleProperty<>(EditablePropertyType.INTEGER, "Num colors", 1F, 0F, 100F, this,
+        result.add(new SimpleProperty<>(INTEGER, "Num colors", 1F, 0F, 100F, this,
                                         EditablePosterizationFilter::getNumColors,
                                         EditablePosterizationFilter::setNumColors));
-        result.add(new SimpleProperty<>(EditablePropertyType.FLOAT, "Strength", 0.1F, 0F, 100F, this,
+        result.add(new SimpleProperty<>(FLOAT, "Strength", 0.1F, 0F, 100F, this,
                                         EditablePosterizationFilter::getStrength,
                                         EditablePosterizationFilter::setStrength));
 

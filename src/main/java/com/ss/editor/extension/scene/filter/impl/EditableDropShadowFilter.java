@@ -1,13 +1,13 @@
 package com.ss.editor.extension.scene.filter.impl;
 
+import static com.ss.editor.extension.property.EditablePropertyType.*;
 import com.simsilica.fx.shadow.DropShadowFilter;
 import com.ss.editor.extension.property.EditableProperty;
-import com.ss.editor.extension.property.EditablePropertyType;
-import com.ss.editor.extension.scene.filter.EditableSceneFilter;
 import com.ss.editor.extension.property.SimpleProperty;
-import org.jetbrains.annotations.NotNull;
+import com.ss.editor.extension.scene.filter.EditableSceneFilter;
 import com.ss.rlib.util.array.Array;
 import com.ss.rlib.util.array.ArrayFactory;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * The editable implementation of the {@link DropShadowFilter}.
@@ -37,13 +37,13 @@ public class EditableDropShadowFilter extends DropShadowFilter implements Editab
 
         final Array<EditableProperty<?, ?>> result = ArrayFactory.newArray(EditableProperty.class);
 
-        result.add(new SimpleProperty<>(EditablePropertyType.COLOR, "Shadow color", this,
+        result.add(new SimpleProperty<>(COLOR, "Shadow color", this,
                                         EditableDropShadowFilter::getShadowColor,
                                         EditableDropShadowFilter::setShadowColor));
-        result.add(new SimpleProperty<>(EditablePropertyType.INTEGER, "Max shadows", this,
+        result.add(new SimpleProperty<>(INTEGER, "Max shadows", this,
                                         EditableDropShadowFilter::getMaxShadows,
                                         EditableDropShadowFilter::setMaxShadows));
-        result.add(new SimpleProperty<>(EditablePropertyType.FLOAT, "Shadow intensity", 0.005F, 0F, 1F, this,
+        result.add(new SimpleProperty<>(FLOAT, "Shadow intensity", 0.005F, 0F, 1F, this,
                                         EditableDropShadowFilter::getShadowIntensity,
                                         EditableDropShadowFilter::setShadowIntensity));
 

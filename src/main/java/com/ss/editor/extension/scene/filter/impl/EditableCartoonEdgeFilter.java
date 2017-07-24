@@ -1,5 +1,7 @@
 package com.ss.editor.extension.scene.filter.impl;
 
+import static com.ss.editor.extension.property.EditablePropertyType.COLOR;
+import static com.ss.editor.extension.property.EditablePropertyType.FLOAT;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
@@ -8,12 +10,11 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.post.filters.CartoonEdgeFilter;
 import com.jme3.util.clone.Cloner;
 import com.ss.editor.extension.property.EditableProperty;
-import com.ss.editor.extension.property.EditablePropertyType;
 import com.ss.editor.extension.property.SimpleProperty;
 import com.ss.editor.extension.scene.filter.EditableSceneFilter;
-import org.jetbrains.annotations.NotNull;
 import com.ss.rlib.util.array.Array;
 import com.ss.rlib.util.array.ArrayFactory;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
@@ -50,25 +51,25 @@ public class EditableCartoonEdgeFilter extends CartoonEdgeFilter implements Edit
 
         final Array<EditableProperty<?, ?>> result = ArrayFactory.newArray(EditableProperty.class);
 
-        result.add(new SimpleProperty<>(EditablePropertyType.COLOR, "Edge color", this,
+        result.add(new SimpleProperty<>(COLOR, "Edge color", this,
                                         EditableCartoonEdgeFilter::getEdgeColor,
                                         EditableCartoonEdgeFilter::setEdgeColor));
-        result.add(new SimpleProperty<>(EditablePropertyType.FLOAT, "Edge width", this,
+        result.add(new SimpleProperty<>(FLOAT, "Edge width", this,
                                         EditableCartoonEdgeFilter::getEdgeWidth,
                                         EditableCartoonEdgeFilter::setEdgeWidth));
-        result.add(new SimpleProperty<>(EditablePropertyType.FLOAT, "Edge intensity", this,
+        result.add(new SimpleProperty<>(FLOAT, "Edge intensity", this,
                                         EditableCartoonEdgeFilter::getEdgeIntensity,
                                         EditableCartoonEdgeFilter::setEdgeIntensity));
-        result.add(new SimpleProperty<>(EditablePropertyType.FLOAT, "Normal threshold", this,
+        result.add(new SimpleProperty<>(FLOAT, "Normal threshold", this,
                                         EditableCartoonEdgeFilter::getNormalThreshold,
                                         EditableCartoonEdgeFilter::setNormalThreshold));
-        result.add(new SimpleProperty<>(EditablePropertyType.FLOAT, "Depth threshold", this,
+        result.add(new SimpleProperty<>(FLOAT, "Depth threshold", this,
                                         EditableCartoonEdgeFilter::getDepthThreshold,
                                         EditableCartoonEdgeFilter::setDepthThreshold));
-        result.add(new SimpleProperty<>(EditablePropertyType.FLOAT, "Normal sensitivity", this,
+        result.add(new SimpleProperty<>(FLOAT, "Normal sensitivity", this,
                                         EditableCartoonEdgeFilter::getNormalSensitivity,
                                         EditableCartoonEdgeFilter::setNormalSensitivity));
-        result.add(new SimpleProperty<>(EditablePropertyType.FLOAT, "Depth sensitivity", this,
+        result.add(new SimpleProperty<>(FLOAT, "Depth sensitivity", this,
                                         EditableCartoonEdgeFilter::getDepthSensitivity,
                                         EditableCartoonEdgeFilter::setDepthSensitivity));
 

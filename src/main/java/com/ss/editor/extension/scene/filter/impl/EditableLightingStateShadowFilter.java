@@ -34,7 +34,7 @@ public class EditableLightingStateShadowFilter extends EditableDirectionalLightS
     @Override
     public String checkStates(@NotNull final Array<SceneAppState> exists) {
 
-        if (exists.search(appState -> appState instanceof LightingState) == null) {
+        if (exists.search(LightingState.class::isInstance) == null) {
             return "The Shadows from Lighting State requires the Lighting State";
         }
 

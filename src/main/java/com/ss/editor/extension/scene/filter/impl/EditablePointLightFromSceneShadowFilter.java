@@ -1,11 +1,11 @@
 package com.ss.editor.extension.scene.filter.impl;
 
+import static com.ss.editor.extension.property.EditablePropertyType.POINT_LIGHT_FROM_SCENE;
 import com.jme3.shadow.AbstractShadowRenderer;
-import com.ss.editor.extension.property.EditablePropertyType;
 import com.ss.editor.extension.property.EditableProperty;
 import com.ss.editor.extension.property.SimpleProperty;
-import org.jetbrains.annotations.NotNull;
 import com.ss.rlib.util.array.Array;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.logging.Level;
 
@@ -35,7 +35,7 @@ public class EditablePointLightFromSceneShadowFilter extends EditablePointLightS
     public Array<EditableProperty<?, ?>> getEditableProperties() {
 
         final Array<EditableProperty<?, ?>> result = super.getEditableProperties();
-        result.add(new SimpleProperty<>(EditablePropertyType.POINT_LIGHT_FROM_SCENE, "Point light", this,
+        result.add(new SimpleProperty<>(POINT_LIGHT_FROM_SCENE, "Point light", this,
                                         EditablePointLightShadowFilter::getLight,
                                         EditablePointLightShadowFilter::setLight));
 

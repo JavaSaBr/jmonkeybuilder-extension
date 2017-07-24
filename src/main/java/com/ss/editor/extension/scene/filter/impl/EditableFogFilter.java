@@ -1,14 +1,15 @@
 package com.ss.editor.extension.scene.filter.impl;
 
+import static com.ss.editor.extension.property.EditablePropertyType.COLOR;
+import static com.ss.editor.extension.property.EditablePropertyType.FLOAT;
 import com.jme3.post.filters.FogFilter;
 import com.jme3.util.clone.Cloner;
-import com.ss.editor.extension.property.EditablePropertyType;
 import com.ss.editor.extension.property.EditableProperty;
 import com.ss.editor.extension.property.SimpleProperty;
 import com.ss.editor.extension.scene.filter.EditableSceneFilter;
-import org.jetbrains.annotations.NotNull;
 import com.ss.rlib.util.array.Array;
 import com.ss.rlib.util.array.ArrayFactory;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * The editable implementation of fog filter.
@@ -43,13 +44,13 @@ public class EditableFogFilter extends FogFilter implements EditableSceneFilter<
 
         final Array<EditableProperty<?, ?>> result = ArrayFactory.newArray(EditableProperty.class);
 
-        result.add(new SimpleProperty<>(EditablePropertyType.COLOR, "Fog color", this,
+        result.add(new SimpleProperty<>(COLOR, "Fog color", this,
                                         EditableFogFilter::getFogColor,
                                         EditableFogFilter::setFogColor));
-        result.add(new SimpleProperty<>(EditablePropertyType.FLOAT, "Fog density", 0.01F, 0F, 100F, this,
+        result.add(new SimpleProperty<>(FLOAT, "Fog density", 0.01F, 0F, 100F, this,
                                         EditableFogFilter::getFogDensity,
                                         EditableFogFilter::setFogDensity));
-        result.add(new SimpleProperty<>(EditablePropertyType.FLOAT, "Fog distance", 1F, 0F, Integer.MAX_VALUE, this,
+        result.add(new SimpleProperty<>(FLOAT, "Fog distance", 1F, 0F, Integer.MAX_VALUE, this,
                                         EditableFogFilter::getFogDistance,
                                         EditableFogFilter::setFogDistance));
 

@@ -1,18 +1,18 @@
 package com.ss.editor.extension.scene.filter.impl;
 
+import static com.ss.editor.extension.property.EditablePropertyType.FLOAT;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
 import com.jme3.post.filters.FXAAFilter;
 import com.jme3.util.clone.Cloner;
-import com.ss.editor.extension.property.EditablePropertyType;
 import com.ss.editor.extension.property.EditableProperty;
 import com.ss.editor.extension.property.SimpleProperty;
 import com.ss.editor.extension.scene.filter.EditableSceneFilter;
-import org.jetbrains.annotations.NotNull;
 import com.ss.rlib.util.array.Array;
 import com.ss.rlib.util.array.ArrayFactory;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
@@ -49,16 +49,16 @@ public class EditableFXAAFilter extends FXAAFilter implements EditableSceneFilte
 
         final Array<EditableProperty<?, ?>> result = ArrayFactory.newArray(EditableProperty.class);
 
-        result.add(new SimpleProperty<>(EditablePropertyType.FLOAT, "Sub pixel shift", 0.005F, 0F, 10F, this,
+        result.add(new SimpleProperty<>(FLOAT, "Sub pixel shift", 0.005F, 0F, 10F, this,
                                         EditableFXAAFilter::getSubPixelShift,
                                         EditableFXAAFilter::setSubPixelShift));
-        result.add(new SimpleProperty<>(EditablePropertyType.FLOAT, "VX offset", 0.005F, 0F, 10F, this,
+        result.add(new SimpleProperty<>(FLOAT, "VX offset", 0.005F, 0F, 10F, this,
                                         EditableFXAAFilter::getVxOffset,
                                         EditableFXAAFilter::setVxOffset));
-        result.add(new SimpleProperty<>(EditablePropertyType.FLOAT, "Span max", 1F, 0F, 100F, this,
+        result.add(new SimpleProperty<>(FLOAT, "Span max", 1F, 0F, 100F, this,
                                         EditableFXAAFilter::getSpanMax,
                                         EditableFXAAFilter::setSpanMax));
-        result.add(new SimpleProperty<>(EditablePropertyType.FLOAT, "Reduce mul", 0.1F, 0F, 100F, this,
+        result.add(new SimpleProperty<>(FLOAT, "Reduce mul", 0.1F, 0F, 100F, this,
                                         EditableFXAAFilter::getReduceMul,
                                         EditableFXAAFilter::setReduceMul));
 

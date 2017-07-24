@@ -1,14 +1,14 @@
 package com.ss.editor.extension.scene.filter.impl;
 
+import static com.ss.editor.extension.property.EditablePropertyType.FLOAT;
 import com.jme3.post.filters.RadialBlurFilter;
 import com.jme3.util.clone.Cloner;
 import com.ss.editor.extension.property.EditableProperty;
-import com.ss.editor.extension.property.EditablePropertyType;
 import com.ss.editor.extension.property.SimpleProperty;
 import com.ss.editor.extension.scene.filter.EditableSceneFilter;
-import org.jetbrains.annotations.NotNull;
 import com.ss.rlib.util.array.Array;
 import com.ss.rlib.util.array.ArrayFactory;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * The editable implementation of radial blur filter.
@@ -43,10 +43,10 @@ public class EditableRadialBlurFilter extends RadialBlurFilter implements Editab
 
         final Array<EditableProperty<?, ?>> result = ArrayFactory.newArray(EditableProperty.class);
 
-        result.add(new SimpleProperty<>(EditablePropertyType.FLOAT, "Sample distance", 0.1F, 0F, 100F, this,
+        result.add(new SimpleProperty<>(FLOAT, "Sample distance", 0.1F, 0F, 100F, this,
                                         EditableRadialBlurFilter::getSampleDistance,
                                         EditableRadialBlurFilter::setSampleDistance));
-        result.add(new SimpleProperty<>(EditablePropertyType.FLOAT, "Sample strength", 0.1F, 0F, 100F, this,
+        result.add(new SimpleProperty<>(FLOAT, "Sample strength", 0.1F, 0F, 100F, this,
                                         EditableRadialBlurFilter::getSampleStrength,
                                         EditableRadialBlurFilter::setSampleStrength));
 

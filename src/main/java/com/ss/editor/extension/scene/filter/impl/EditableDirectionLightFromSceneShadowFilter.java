@@ -1,12 +1,12 @@
 package com.ss.editor.extension.scene.filter.impl;
 
+import static com.ss.editor.extension.property.EditablePropertyType.DIRECTION_LIGHT_FROM_SCENE;
 import com.jme3.shadow.AbstractShadowRenderer;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.ss.editor.extension.property.EditableProperty;
-import com.ss.editor.extension.property.EditablePropertyType;
 import com.ss.editor.extension.property.SimpleProperty;
-import org.jetbrains.annotations.NotNull;
 import com.ss.rlib.util.array.Array;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.logging.Level;
 
@@ -36,7 +36,7 @@ public class EditableDirectionLightFromSceneShadowFilter extends EditableDirecti
     public Array<EditableProperty<?, ?>> getEditableProperties() {
 
         final Array<EditableProperty<?, ?>> result = super.getEditableProperties();
-        result.add(new SimpleProperty<>(EditablePropertyType.DIRECTION_LIGHT_FROM_SCENE, "Direction light", this,
+        result.add(new SimpleProperty<>(DIRECTION_LIGHT_FROM_SCENE, "Direction light", this,
                                         EditableDirectionalLightShadowFilter::getLight,
                                         EditableDirectionalLightShadowFilter::setLight));
 

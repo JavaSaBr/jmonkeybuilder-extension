@@ -1,14 +1,14 @@
 package com.ss.editor.extension.scene.filter.impl;
 
+import static com.ss.editor.extension.property.EditablePropertyType.FLOAT;
 import com.jme3.post.filters.DepthOfFieldFilter;
 import com.jme3.util.clone.Cloner;
-import com.ss.editor.extension.property.EditablePropertyType;
 import com.ss.editor.extension.property.EditableProperty;
 import com.ss.editor.extension.property.SimpleProperty;
 import com.ss.editor.extension.scene.filter.EditableSceneFilter;
-import org.jetbrains.annotations.NotNull;
 import com.ss.rlib.util.array.Array;
 import com.ss.rlib.util.array.ArrayFactory;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * The editable implementation of depth of field filter.
@@ -43,13 +43,13 @@ public class EditableDepthOfFieldFilter extends DepthOfFieldFilter implements Ed
 
         final Array<EditableProperty<?, ?>> result = ArrayFactory.newArray(EditableProperty.class);
 
-        result.add(new SimpleProperty<>(EditablePropertyType.FLOAT, "Blur scale", 0.01F, 0F, 100F, this,
+        result.add(new SimpleProperty<>(FLOAT, "Blur scale", 0.01F, 0F, 100F, this,
                                         DepthOfFieldFilter::getBlurScale,
                                         DepthOfFieldFilter::setBlurScale));
-        result.add(new SimpleProperty<>(EditablePropertyType.FLOAT, "Focus distance", 1F, 0F, Integer.MAX_VALUE, this,
+        result.add(new SimpleProperty<>(FLOAT, "Focus distance", 1F, 0F, Integer.MAX_VALUE, this,
                                         DepthOfFieldFilter::getFocusDistance,
                                         DepthOfFieldFilter::setFocusDistance));
-        result.add(new SimpleProperty<>(EditablePropertyType.FLOAT, "Focus range", 1F, 0F, Integer.MAX_VALUE, this,
+        result.add(new SimpleProperty<>(FLOAT, "Focus range", 1F, 0F, Integer.MAX_VALUE, this,
                                         DepthOfFieldFilter::getFocusRange,
                                         DepthOfFieldFilter::setFocusRange));
 

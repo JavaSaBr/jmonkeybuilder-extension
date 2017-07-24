@@ -1,14 +1,14 @@
 package com.ss.editor.extension.scene.filter.impl;
 
+import static com.ss.editor.extension.property.EditablePropertyType.VECTOR_3F;
 import com.jme3.post.filters.ToneMapFilter;
 import com.jme3.util.clone.Cloner;
-import com.ss.editor.extension.property.EditablePropertyType;
 import com.ss.editor.extension.property.EditableProperty;
 import com.ss.editor.extension.property.SimpleProperty;
 import com.ss.editor.extension.scene.filter.EditableSceneFilter;
-import org.jetbrains.annotations.NotNull;
 import com.ss.rlib.util.array.Array;
 import com.ss.rlib.util.array.ArrayFactory;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * The editable implementation of Tone-mapping filter.
@@ -43,7 +43,7 @@ public class EditableToneMapFilter extends ToneMapFilter implements EditableScen
 
         final Array<EditableProperty<?, ?>> result = ArrayFactory.newArray(EditableProperty.class);
 
-        result.add(new SimpleProperty<>(EditablePropertyType.VECTOR_3F, "White point", this,
+        result.add(new SimpleProperty<>(VECTOR_3F, "White point", this,
                                         ToneMapFilter::getWhitePoint,
                                         ToneMapFilter::setWhitePoint));
 

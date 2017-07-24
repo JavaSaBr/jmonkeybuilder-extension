@@ -1,14 +1,14 @@
 package com.ss.editor.extension.scene.filter.impl;
 
+import static com.ss.editor.extension.property.EditablePropertyType.COLOR;
 import com.jme3.post.filters.ColorOverlayFilter;
 import com.jme3.util.clone.Cloner;
-import com.ss.editor.extension.property.EditablePropertyType;
 import com.ss.editor.extension.property.EditableProperty;
 import com.ss.editor.extension.property.SimpleProperty;
 import com.ss.editor.extension.scene.filter.EditableSceneFilter;
-import org.jetbrains.annotations.NotNull;
 import com.ss.rlib.util.array.Array;
 import com.ss.rlib.util.array.ArrayFactory;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * The editable implementation of color overlay filter.
@@ -43,7 +43,7 @@ public class EditableColorOverlayFilter extends ColorOverlayFilter implements Ed
 
         final Array<EditableProperty<?, ?>> result = ArrayFactory.newArray(EditableProperty.class);
 
-        result.add(new SimpleProperty<>(EditablePropertyType.COLOR, "Color", this,
+        result.add(new SimpleProperty<>(COLOR, "Color", this,
                                         ColorOverlayFilter::getColor,
                                         ColorOverlayFilter::setColor));
 
