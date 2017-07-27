@@ -44,14 +44,14 @@ public class EditableDepthOfFieldFilter extends DepthOfFieldFilter implements Ed
         final Array<EditableProperty<?, ?>> result = ArrayFactory.newArray(EditableProperty.class);
 
         result.add(new SimpleProperty<>(FLOAT, "Blur scale", 0.01F, 0F, 100F, this,
-                                        DepthOfFieldFilter::getBlurScale,
-                                        DepthOfFieldFilter::setBlurScale));
+                DepthOfFieldFilter::getBlurScale,
+                DepthOfFieldFilter::setBlurScale));
         result.add(new SimpleProperty<>(FLOAT, "Focus distance", 1F, 0F, Integer.MAX_VALUE, this,
-                                        DepthOfFieldFilter::getFocusDistance,
-                                        DepthOfFieldFilter::setFocusDistance));
+                DepthOfFieldFilter::getFocusDistance,
+                DepthOfFieldFilter::setFocusDistance));
         result.add(new SimpleProperty<>(FLOAT, "Focus range", 1F, 0F, Integer.MAX_VALUE, this,
-                                        DepthOfFieldFilter::getFocusRange,
-                                        DepthOfFieldFilter::setFocusRange));
+                DepthOfFieldFilter::getFocusRange,
+                DepthOfFieldFilter::setFocusRange));
 
         return result;
     }

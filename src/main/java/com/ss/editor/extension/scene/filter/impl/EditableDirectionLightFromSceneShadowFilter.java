@@ -37,8 +37,8 @@ public class EditableDirectionLightFromSceneShadowFilter extends EditableDirecti
 
         final Array<EditableProperty<?, ?>> result = super.getEditableProperties();
         result.add(new SimpleProperty<>(DIRECTION_LIGHT_FROM_SCENE, "Direction light", this,
-                                        EditableDirectionalLightShadowFilter::getLight,
-                                        EditableDirectionalLightShadowFilter::setLight));
+                EditableDirectionalLightShadowFilter::getLight,
+                EditableDirectionalLightShadowFilter::setLight));
 
         return result;
     }

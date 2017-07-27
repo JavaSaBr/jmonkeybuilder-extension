@@ -44,8 +44,8 @@ public class EditableColorOverlayFilter extends ColorOverlayFilter implements Ed
         final Array<EditableProperty<?, ?>> result = ArrayFactory.newArray(EditableProperty.class);
 
         result.add(new SimpleProperty<>(COLOR, "Color", this,
-                                        ColorOverlayFilter::getColor,
-                                        ColorOverlayFilter::setColor));
+                ColorOverlayFilter::getColor,
+                ColorOverlayFilter::setColor));
 
         return result;
     }

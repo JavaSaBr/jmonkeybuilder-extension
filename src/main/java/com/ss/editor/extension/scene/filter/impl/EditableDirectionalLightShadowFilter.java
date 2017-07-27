@@ -35,35 +35,27 @@ public class EditableDirectionalLightShadowFilter extends DirectionalLightShadow
         result.add(new SimpleProperty<>(ENUM, "Edge filtering mode", this,
                 EditableDirectionalLightShadowFilter::getEdgeFilteringMode,
                 EditableDirectionalLightShadowFilter::setEdgeFilteringMode));
-
         result.add(new SimpleProperty<>(ENUM, "Shadow compare mode", this,
                 EditableDirectionalLightShadowFilter::getShadowCompareMode,
                 EditableDirectionalLightShadowFilter::setShadowCompareMode));
-
         result.add(new SimpleProperty<>(FLOAT, "Shadow z extend", this,
                 EditableDirectionalLightShadowFilter::getShadowZExtend,
                 EditableDirectionalLightShadowFilter::setShadowZExtend));
-
         result.add(new SimpleProperty<>(FLOAT, "Shadow z fade length", this,
                 EditableDirectionalLightShadowFilter::getShadowZFadeLength,
                 EditableDirectionalLightShadowFilter::setShadowZFadeLength));
-
         result.add(new SimpleProperty<>(FLOAT, "Lambda", this,
                 EditableDirectionalLightShadowFilter::getLambda,
                 EditableDirectionalLightShadowFilter::setLambda));
-
         result.add(new SimpleProperty<>(FLOAT, "Shadow intensity", 0.1F, 0F, 1F, this,
                 EditableDirectionalLightShadowFilter::getShadowIntensity,
                 EditableDirectionalLightShadowFilter::setShadowIntensity));
-
         result.add(new SimpleProperty<>(INTEGER, "Edges thickness", 1F, 1, 10, this,
                 EditableDirectionalLightShadowFilter::getEdgesThickness,
                 EditableDirectionalLightShadowFilter::setEdgesThickness));
-
         result.add(new SimpleProperty<>(BOOLEAN, "Back faces shadows", this,
                 EditableDirectionalLightShadowFilter::isRenderBackFacesShadows,
                 EditableDirectionalLightShadowFilter::setRenderBackFacesShadows));
-
         result.add(new SimpleProperty<>(BOOLEAN, "Stabilization", this,
                 EditableDirectionalLightShadowFilter::isEnabledStabilization,
                 EditableDirectionalLightShadowFilter::setEnabledStabilization));

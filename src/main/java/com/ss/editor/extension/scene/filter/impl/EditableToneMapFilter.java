@@ -42,10 +42,9 @@ public class EditableToneMapFilter extends ToneMapFilter implements EditableScen
     public Array<EditableProperty<?, ?>> getEditableProperties() {
 
         final Array<EditableProperty<?, ?>> result = ArrayFactory.newArray(EditableProperty.class);
-
         result.add(new SimpleProperty<>(VECTOR_3F, "White point", this,
-                                        ToneMapFilter::getWhitePoint,
-                                        ToneMapFilter::setWhitePoint));
+                ToneMapFilter::getWhitePoint,
+                ToneMapFilter::setWhitePoint));
 
         return result;
     }

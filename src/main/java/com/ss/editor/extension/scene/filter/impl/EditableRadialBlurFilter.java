@@ -42,13 +42,12 @@ public class EditableRadialBlurFilter extends RadialBlurFilter implements Editab
     public Array<EditableProperty<?, ?>> getEditableProperties() {
 
         final Array<EditableProperty<?, ?>> result = ArrayFactory.newArray(EditableProperty.class);
-
         result.add(new SimpleProperty<>(FLOAT, "Sample distance", 0.1F, 0F, 100F, this,
-                                        EditableRadialBlurFilter::getSampleDistance,
-                                        EditableRadialBlurFilter::setSampleDistance));
+                EditableRadialBlurFilter::getSampleDistance,
+                EditableRadialBlurFilter::setSampleDistance));
         result.add(new SimpleProperty<>(FLOAT, "Sample strength", 0.1F, 0F, 100F, this,
-                                        EditableRadialBlurFilter::getSampleStrength,
-                                        EditableRadialBlurFilter::setSampleStrength));
+                EditableRadialBlurFilter::getSampleStrength,
+                EditableRadialBlurFilter::setSampleStrength));
 
         return result;
     }

@@ -50,16 +50,15 @@ public class EditablePosterizationFilter extends PosterizationFilter implements
     public Array<EditableProperty<?, ?>> getEditableProperties() {
 
         final Array<EditableProperty<?, ?>> result = ArrayFactory.newArray(EditableProperty.class);
-
         result.add(new SimpleProperty<>(FLOAT, "Gamma", 0.005F, 0F, 10F, this,
-                                        EditablePosterizationFilter::getGamma,
-                                        EditablePosterizationFilter::setGamma));
+                EditablePosterizationFilter::getGamma,
+                EditablePosterizationFilter::setGamma));
         result.add(new SimpleProperty<>(INTEGER, "Num colors", 1F, 0F, 100F, this,
-                                        EditablePosterizationFilter::getNumColors,
-                                        EditablePosterizationFilter::setNumColors));
+                EditablePosterizationFilter::getNumColors,
+                EditablePosterizationFilter::setNumColors));
         result.add(new SimpleProperty<>(FLOAT, "Strength", 0.1F, 0F, 100F, this,
-                                        EditablePosterizationFilter::getStrength,
-                                        EditablePosterizationFilter::setStrength));
+                EditablePosterizationFilter::getStrength,
+                EditablePosterizationFilter::setStrength));
 
         return result;
     }

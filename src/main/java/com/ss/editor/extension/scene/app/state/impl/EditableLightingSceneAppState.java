@@ -34,17 +34,17 @@ public class EditableLightingSceneAppState extends LightingState implements Edit
         final Array<EditableProperty<?, ?>> result = ArrayFactory.newArray(EditableProperty.class);
 
         result.add(new SimpleProperty<>(COLOR, "Ambient color", this,
-                                        LightingState::getAmbientColor,
-                                        LightingState::setAmbientColor));
+                LightingState::getAmbientColor,
+                LightingState::setAmbientColor));
         result.add(new SimpleProperty<>(COLOR, "Sun color", this,
-                                        LightingState::getSunColor,
-                                        LightingState::setSunColor));
+                LightingState::getSunColor,
+                LightingState::setSunColor));
         result.add(new SimpleProperty<>(FLOAT, "Time of day", 0.03F, -0.300F, 1.300F, this,
-                                        LightingState::getTimeOfDay,
-                                        LightingState::setTimeOfDay));
+                LightingState::getTimeOfDay,
+                LightingState::setTimeOfDay));
         result.add(new SimpleProperty<>(FLOAT, "Orientation", 0.1F, 0F, 6.283F, this,
-                                        LightingState::getOrientation,
-                                        LightingState::setOrientation));
+                LightingState::getOrientation,
+                LightingState::setOrientation));
 
         return result;
     }

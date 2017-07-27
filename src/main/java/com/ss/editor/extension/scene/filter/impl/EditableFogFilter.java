@@ -45,14 +45,14 @@ public class EditableFogFilter extends FogFilter implements EditableSceneFilter<
         final Array<EditableProperty<?, ?>> result = ArrayFactory.newArray(EditableProperty.class);
 
         result.add(new SimpleProperty<>(COLOR, "Fog color", this,
-                                        EditableFogFilter::getFogColor,
-                                        EditableFogFilter::setFogColor));
+                EditableFogFilter::getFogColor,
+                EditableFogFilter::setFogColor));
         result.add(new SimpleProperty<>(FLOAT, "Fog density", 0.01F, 0F, 100F, this,
-                                        EditableFogFilter::getFogDensity,
-                                        EditableFogFilter::setFogDensity));
+                EditableFogFilter::getFogDensity,
+                EditableFogFilter::setFogDensity));
         result.add(new SimpleProperty<>(FLOAT, "Fog distance", 1F, 0F, Integer.MAX_VALUE, this,
-                                        EditableFogFilter::getFogDistance,
-                                        EditableFogFilter::setFogDistance));
+                EditableFogFilter::getFogDistance,
+                EditableFogFilter::setFogDistance));
 
         return result;
     }

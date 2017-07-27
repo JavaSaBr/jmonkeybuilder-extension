@@ -38,14 +38,14 @@ public class EditableDropShadowFilter extends DropShadowFilter implements Editab
         final Array<EditableProperty<?, ?>> result = ArrayFactory.newArray(EditableProperty.class);
 
         result.add(new SimpleProperty<>(COLOR, "Shadow color", this,
-                                        EditableDropShadowFilter::getShadowColor,
-                                        EditableDropShadowFilter::setShadowColor));
+                EditableDropShadowFilter::getShadowColor,
+                EditableDropShadowFilter::setShadowColor));
         result.add(new SimpleProperty<>(INTEGER, "Max shadows", this,
-                                        EditableDropShadowFilter::getMaxShadows,
-                                        EditableDropShadowFilter::setMaxShadows));
+                EditableDropShadowFilter::getMaxShadows,
+                EditableDropShadowFilter::setMaxShadows));
         result.add(new SimpleProperty<>(FLOAT, "Shadow intensity", 0.005F, 0F, 1F, this,
-                                        EditableDropShadowFilter::getShadowIntensity,
-                                        EditableDropShadowFilter::setShadowIntensity));
+                EditableDropShadowFilter::getShadowIntensity,
+                EditableDropShadowFilter::setShadowIntensity));
 
         return result;
     }

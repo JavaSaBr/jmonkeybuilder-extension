@@ -36,8 +36,8 @@ public class EditablePointLightFromSceneShadowFilter extends EditablePointLightS
 
         final Array<EditableProperty<?, ?>> result = super.getEditableProperties();
         result.add(new SimpleProperty<>(POINT_LIGHT_FROM_SCENE, "Point light", this,
-                                        EditablePointLightShadowFilter::getLight,
-                                        EditablePointLightShadowFilter::setLight));
+                EditablePointLightShadowFilter::getLight,
+                EditablePointLightShadowFilter::setLight));
 
         return result;
     }

@@ -17,6 +17,7 @@ public enum EditablePropertyType {
     COLOR,
     ENUM,
     STRING,
+    TEXTURE_2D,
     DIRECTION_LIGHT_FROM_SCENE,
     POINT_LIGHT_FROM_SCENE,
     SPATIAL_FROM_ASSET_FOLDER,

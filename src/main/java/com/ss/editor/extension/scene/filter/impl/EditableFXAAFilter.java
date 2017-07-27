@@ -50,17 +50,17 @@ public class EditableFXAAFilter extends FXAAFilter implements EditableSceneFilte
         final Array<EditableProperty<?, ?>> result = ArrayFactory.newArray(EditableProperty.class);
 
         result.add(new SimpleProperty<>(FLOAT, "Sub pixel shift", 0.005F, 0F, 10F, this,
-                                        EditableFXAAFilter::getSubPixelShift,
-                                        EditableFXAAFilter::setSubPixelShift));
+                EditableFXAAFilter::getSubPixelShift,
+                EditableFXAAFilter::setSubPixelShift));
         result.add(new SimpleProperty<>(FLOAT, "VX offset", 0.005F, 0F, 10F, this,
-                                        EditableFXAAFilter::getVxOffset,
-                                        EditableFXAAFilter::setVxOffset));
+                EditableFXAAFilter::getVxOffset,
+                EditableFXAAFilter::setVxOffset));
         result.add(new SimpleProperty<>(FLOAT, "Span max", 1F, 0F, 100F, this,
-                                        EditableFXAAFilter::getSpanMax,
-                                        EditableFXAAFilter::setSpanMax));
+                EditableFXAAFilter::getSpanMax,
+                EditableFXAAFilter::setSpanMax));
         result.add(new SimpleProperty<>(FLOAT, "Reduce mul", 0.1F, 0F, 100F, this,
-                                        EditableFXAAFilter::getReduceMul,
-                                        EditableFXAAFilter::setReduceMul));
+                EditableFXAAFilter::getReduceMul,
+                EditableFXAAFilter::setReduceMul));
 
         return result;
     }

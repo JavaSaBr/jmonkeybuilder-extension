@@ -1,5 +1,6 @@
 package com.ss.editor.extension.scene.app.state.impl.bullet;
 
+import static com.ss.editor.extension.property.EditablePropertyType.*;
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
@@ -17,18 +18,17 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.Control;
 import com.jme3.util.clone.Cloner;
-import com.ss.editor.extension.property.EditablePropertyType;
-import com.ss.editor.extension.scene.app.state.EditableSceneAppState;
 import com.ss.editor.extension.property.EditableProperty;
 import com.ss.editor.extension.property.SimpleProperty;
 import com.ss.editor.extension.scene.SceneNode;
+import com.ss.editor.extension.scene.app.state.EditableSceneAppState;
 import com.ss.editor.extension.scene.app.state.impl.bullet.debug.BulletDebugAppState;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import com.ss.rlib.logging.Logger;
 import com.ss.rlib.logging.LoggerManager;
 import com.ss.rlib.util.array.Array;
 import com.ss.rlib.util.array.ArrayFactory;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.util.concurrent.*;
@@ -537,24 +537,24 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
 
         final Array<EditableProperty<?, ?>> result = ArrayFactory.newArray(EditableProperty.class);
 
-        result.add(new SimpleProperty<>(EditablePropertyType.BOOLEAN, "Debug enabled", this,
-                                        EditableBulletSceneAppState::isDebugEnabled,
-                                        EditableBulletSceneAppState::setDebugEnabled));
-        result.add(new SimpleProperty<>(EditablePropertyType.FLOAT, "Speed", this,
-                                        EditableBulletSceneAppState::getSpeed,
-                                        EditableBulletSceneAppState::setSpeed));
-        result.add(new SimpleProperty<>(EditablePropertyType.ENUM, "Broadphase type", this,
-                                        EditableBulletSceneAppState::getBroadphaseType,
-                                        EditableBulletSceneAppState::setBroadphaseType));
-        result.add(new SimpleProperty<>(EditablePropertyType.ENUM, "Threading type", this,
-                                        EditableBulletSceneAppState::getThreadingType,
-                                        EditableBulletSceneAppState::setThreadingType));
-        result.add(new SimpleProperty<>(EditablePropertyType.VECTOR_3F, "World max", this,
-                                        EditableBulletSceneAppState::getWorldMax,
-                                        EditableBulletSceneAppState::setWorldMax));
-        result.add(new SimpleProperty<>(EditablePropertyType.VECTOR_3F, "World min", this,
-                                        EditableBulletSceneAppState::getWorldMin,
-                                        EditableBulletSceneAppState::setWorldMin));
+        result.add(new SimpleProperty<>(BOOLEAN, "Debug enabled", this,
+                EditableBulletSceneAppState::isDebugEnabled,
+                EditableBulletSceneAppState::setDebugEnabled));
+        result.add(new SimpleProperty<>(FLOAT, "Speed", this,
+                EditableBulletSceneAppState::getSpeed,
+                EditableBulletSceneAppState::setSpeed));
+        result.add(new SimpleProperty<>(ENUM, "Broadphase type", this,
+                EditableBulletSceneAppState::getBroadphaseType,
+                EditableBulletSceneAppState::setBroadphaseType));
+        result.add(new SimpleProperty<>(ENUM, "Threading type", this,
+                EditableBulletSceneAppState::getThreadingType,
+                EditableBulletSceneAppState::setThreadingType));
+        result.add(new SimpleProperty<>(VECTOR_3F, "World max", this,
+                EditableBulletSceneAppState::getWorldMax,
+                EditableBulletSceneAppState::setWorldMax));
+        result.add(new SimpleProperty<>(VECTOR_3F, "World min", this,
+                EditableBulletSceneAppState::getWorldMin,
+                EditableBulletSceneAppState::setWorldMin));
 
         return result;
     }
