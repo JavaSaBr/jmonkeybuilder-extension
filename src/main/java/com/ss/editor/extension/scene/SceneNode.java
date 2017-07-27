@@ -1,13 +1,18 @@
 package com.ss.editor.extension.scene;
 
+import static com.ss.editor.extension.loader.SceneLoader.tryToGetPostProcessor;
+import static com.ss.editor.extension.loader.SceneLoader.tryToGetStateManager;
+import com.jme3.app.state.AppStateManager;
 import com.jme3.export.*;
+import com.jme3.post.FilterPostProcessor;
 import com.jme3.scene.Node;
 import com.jme3.util.clone.Cloner;
 import com.ss.editor.extension.scene.app.state.SceneAppState;
 import com.ss.editor.extension.scene.filter.SceneFilter;
-import org.jetbrains.annotations.NotNull;
 import com.ss.rlib.util.array.Array;
 import com.ss.rlib.util.array.ArrayFactory;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 
@@ -19,9 +24,26 @@ import java.io.IOException;
 @SuppressWarnings("WeakerAccess")
 public class SceneNode extends Node {
 
+    @NotNull
     public static final SceneLayer[] EMPTY_LAYERS = new SceneLayer[0];
+
+    @NotNull
     public static final SceneAppState[] EMPTY_STATES = new SceneAppState[0];
+
+    @NotNull
     public static final SceneFilter<?>[] EMPTY_FILTERS = new SceneFilter[0];
+
+    /**
+     * The override the app state manager from {@link com.ss.editor.extension.loader.SceneLoader}.
+     */
+    @Nullable
+    private AppStateManager stateManager;
+
+    /**
+     * The override the post filter processor from {@link com.ss.editor.extension.loader.SceneLoader}.
+     */
+    @Nullable
+    private FilterPostProcessor postProcessor;
 
     /**
      * The scene layers.
@@ -46,6 +68,57 @@ public class SceneNode extends Node {
         this.layers = ArrayFactory.newArray(SceneLayer.class);
         this.appStates = ArrayFactory.newArray(SceneAppState.class);
         this.filters = ArrayFactory.newArray(SceneFilter.class);
+    }
+
+    /**
+     * Set the override reference to a state manager.
+     *
+     * @param stateManager the override state manager.
+     */
+    private void setStateManager(@Nullable final AppStateManager stateManager) {
+        this.stateManager = stateManager;
+    }
+
+    /**
+     * Set the override reference to a post processor.
+     *
+     * @param postProcessor the override post processor.
+     */
+    private void setPostProcessor(@Nullable final FilterPostProcessor postProcessor) {
+        this.postProcessor = postProcessor;
+    }
+
+    @Nullable
+    private AppStateManager getStateManager() {
+        return stateManager;
+    }
+
+    @Nullable
+    private FilterPostProcessor getPostProcessor() {
+        return postProcessor;
+    }
+
+    @Override
+    protected void setParent(@Nullable final Node parent) {
+        super.setParent(parent);
+
+        final AppStateManager stateManager = getStateManager() == null ? tryToGetStateManager() : getStateManager();
+        final FilterPostProcessor postProcessor = getPostProcessor() == null ? tryToGetPostProcessor() : getPostProcessor();
+
+        final Array<SceneAppState> appStates = getAppStates();
+        final Array<SceneFilter<?>> filters = getFilters();
+
+        if (!filters.isEmpty() && postProcessor == null) {
+            throw new IllegalArgumentException("Not found a FilterPostProcessor to attach scene filters.");
+        }
+
+        if (parent == null) {
+            appStates.forEach(stateManager, (appState, manager) -> manager.detach(appState));
+            filters.forEach(postProcessor, (filter, processor) -> processor.removeFilter(filter.get()));
+        } else {
+            appStates.forEach(stateManager, (appState, manager) -> manager.attach(appState));
+            filters.forEach(postProcessor, (filter, processor) -> processor.addFilter(filter.get()));
+        }
     }
 
     /**

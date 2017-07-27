@@ -1,5 +1,7 @@
 package com.ss.editor.extension.property;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * The enum with list editable property types.
  *
@@ -22,8 +24,10 @@ public enum EditablePropertyType {
     GEOMETRY_FROM_ASSET_FOLDER,
     GEOMETRY_FROM_SCENE;
 
+    @NotNull
     private static final EditablePropertyType[] TYPES = values();
 
+    @NotNull
     public static EditablePropertyType valueOf(final int index) {
         return TYPES[index];
     }
