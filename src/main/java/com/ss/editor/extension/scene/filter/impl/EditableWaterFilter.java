@@ -1,6 +1,7 @@
 package com.ss.editor.extension.scene.filter.impl;
 
 import static com.ss.editor.extension.property.EditablePropertyType.*;
+import com.jme3.scene.Spatial;
 import com.jme3.water.WaterFilter;
 import com.ss.editor.extension.property.EditableProperty;
 import com.ss.editor.extension.property.SimpleProperty;
@@ -8,6 +9,9 @@ import com.ss.editor.extension.scene.filter.EditableSceneFilter;
 import com.ss.rlib.util.array.Array;
 import com.ss.rlib.util.array.ArrayFactory;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 /**
  * The editable implementation of water filter.
@@ -17,6 +21,11 @@ import org.jetbrains.annotations.NotNull;
 public class EditableWaterFilter extends WaterFilter implements EditableSceneFilter<WaterFilter> {
 
     public EditableWaterFilter() {
+    }
+
+    @Override
+    public String getName() {
+        return "Global water filter";
     }
 
     @NotNull
@@ -45,7 +54,7 @@ public class EditableWaterFilter extends WaterFilter implements EditableSceneFil
         result.add(new SimpleProperty<>(FLOAT, "Water height", this,
                 WaterFilter::getWaterHeight,
                 WaterFilter::setWaterHeight));
-        result.add(new SimpleProperty<>(FLOAT, "Water transparency", 0.001F, 0.05F, 1F, this,
+        result.add(new SimpleProperty<>(FLOAT, "Water transparency", 0.05F, 0.05F, 1F, this,
                 WaterFilter::getWaterTransparency,
                 WaterFilter::setWaterTransparency));
         result.add(new SimpleProperty<>(FLOAT, "Under water fog distance", this,
@@ -108,8 +117,30 @@ public class EditableWaterFilter extends WaterFilter implements EditableSceneFil
         result.add(new SimpleProperty<>(TEXTURE_2D, "Normal texture", this,
                 WaterFilter::getNormalTexture,
                 WaterFilter::setNormalTexture));
+        result.add(new SimpleProperty<>(SPATIAL_FROM_SCENE, "Reflection node", this,
+                makeReflectionSceneGetter(),
+                makeReflectionSceneSetter()));
 
         return result;
+    }
+
+    @NotNull
+    private BiConsumer<EditableWaterFilter, Spatial> makeReflectionSceneSetter() {
+        return (filter, spatial) -> {
+            filter.setReflectionScene(spatial);
+            filter.setNeedSaveReflectionScene(spatial != null);
+        };
+    }
+
+    @NotNull
+    private Function<EditableWaterFilter, Spatial> makeReflectionSceneGetter() {
+        return filter -> {
+            if (filter.isNeedSaveReflectionScene()) {
+                return filter.getReflectionScene();
+            } else {
+                return null;
+            }
+        };
     }
 
     @Override
