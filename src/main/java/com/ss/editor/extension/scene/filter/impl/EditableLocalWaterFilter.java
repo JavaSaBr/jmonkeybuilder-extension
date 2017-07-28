@@ -38,6 +38,7 @@ public class EditableLocalWaterFilter extends EditableWaterFilter implements Sce
     @Override
     public void setLocation(@NotNull final Vector3f location) {
         setCenter(location.clone());
+        setWaterHeight(location.getY());
     }
 
     @Override
