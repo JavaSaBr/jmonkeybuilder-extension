@@ -54,25 +54,25 @@ public class EditableWaterFilter extends WaterFilter implements EditableSceneFil
         result.add(new SimpleProperty<>(FLOAT, "Water height", this,
                 WaterFilter::getWaterHeight,
                 WaterFilter::setWaterHeight));
-        result.add(new SimpleProperty<>(FLOAT, "Water transparency", 0.05F, 0.05F, 1F, this,
+        result.add(new SimpleProperty<>(FLOAT, "Water transparency", 0.01F, 0.001F, 1F, this,
                 WaterFilter::getWaterTransparency,
                 WaterFilter::setWaterTransparency));
         result.add(new SimpleProperty<>(FLOAT, "Under water fog distance", this,
                 WaterFilter::getUnderWaterFogDistance,
                 WaterFilter::setUnderWaterFogDistance));
-        result.add(new SimpleProperty<>(FLOAT, "Refraction strength", this,
+        result.add(new SimpleProperty<>(FLOAT, "Refraction strength", 0.01F, -2F, 2F, this,
                 WaterFilter::getRefractionStrength,
                 WaterFilter::setRefractionStrength));
         result.add(new SimpleProperty<>(FLOAT, "Refraction constant", 0.01F, 0F, 1F, this,
                 WaterFilter::getRefractionConstant,
                 WaterFilter::setRefractionConstant));
-        result.add(new SimpleProperty<>(FLOAT, "Reflection displace", this,
+        result.add(new SimpleProperty<>(FLOAT, "Reflection displace", 10F, -10000F, 10000F, this,
                 WaterFilter::getReflectionDisplace,
                 WaterFilter::setReflectionDisplace));
-        result.add(new SimpleProperty<>(FLOAT, "Max aplitude", this,
+        result.add(new SimpleProperty<>(FLOAT, "Max aplitude", 0.1F, 0F, 10F, this,
                 WaterFilter::getMaxAmplitude,
                 WaterFilter::setMaxAmplitude));
-        result.add(new SimpleProperty<>(FLOAT, "Wave scale", 0.01F, 0F, 1F, this,
+        result.add(new SimpleProperty<>(FLOAT, "Wave scale", 0.003F, 0.001F,    1F, this,
                 WaterFilter::getWaveScale,
                 WaterFilter::setWaveScale));
         result.add(new SimpleProperty<>(FLOAT, "Caustics intensity", 0.01F, 0F, 1F, this,
