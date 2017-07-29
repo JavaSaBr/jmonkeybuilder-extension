@@ -20,6 +20,7 @@ public class EditableLocalWaterFilter extends EditableWaterFilter implements Sce
 
     public EditableLocalWaterFilter() {
         setCenter(new Vector3f());
+        setRadius(10F);
         setShapeType(AreaShape.Circular);
     }
 
