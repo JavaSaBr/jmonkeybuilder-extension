@@ -60,8 +60,8 @@ public class EditableDirectionalLightShadowFilter extends DirectionalLightShadow
                 makeGetter(this, int.class, "getEdgesThickness"),
                 makeSetter(this, int.class, "setEdgesThickness")));
         result.add(new SimpleProperty<>(BOOLEAN, "Back faces shadows", this,
-                makeGetter(this, boolean.class, "isRenderBackFacesShadows"),
-                makeSetter(this, boolean.class, "setRenderBackFacesShadows")));
+                makeGetter(this, Boolean.class, "isRenderBackFacesShadows"),
+                makeSetter(this, Boolean.class, "setRenderBackFacesShadows")));
         result.add(new SimpleProperty<>(BOOLEAN, "Stabilization", this,
                 makeGetter(this, boolean.class, "isEnabledStabilization"),
                 makeSetter(this, boolean.class, "setEnabledStabilization")));

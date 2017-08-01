@@ -56,8 +56,8 @@ public class EditablePointLightShadowFilter extends PointLightShadowFilter imple
                 makeGetter(this, int.class, "getEdgesThickness"),
                 makeSetter(this, int.class, "setEdgesThickness")));
         result.add(new SimpleProperty<>(BOOLEAN, "Back faces shadows", this,
-                makeGetter(this, boolean.class, "isRenderBackFacesShadows"),
-                makeSetter(this, boolean.class, "setRenderBackFacesShadows")));
+                makeGetter(this, Boolean.class, "isRenderBackFacesShadows"),
+                makeSetter(this, Boolean.class, "setRenderBackFacesShadows")));
 
         return result;
     }

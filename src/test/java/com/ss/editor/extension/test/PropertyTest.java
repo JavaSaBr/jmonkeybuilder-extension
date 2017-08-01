@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class PropertyTest {
+public class PropertyTest extends SetUpTest {
 
     protected void testProperties(@NotNull final List<EditableProperty<?, ?>> properties) {
         properties.forEach(editableProperty -> {
