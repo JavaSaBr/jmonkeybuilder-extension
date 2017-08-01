@@ -16,7 +16,7 @@ allprojects {
 }
 
 dependencies {
-    compile 'com.github.JavaSaBr:jme3-spaceshift-extension:1.4.1'
+    compile 'com.github.JavaSaBr:jme3-spaceshift-extension:1.4.2'
 }
 ```
 

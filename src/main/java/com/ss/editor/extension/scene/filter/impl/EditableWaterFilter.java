@@ -8,7 +8,10 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import com.jme3.texture.Texture2D;
 import com.jme3.water.WaterFilter;
-import com.ss.editor.extension.property.*;
+import com.ss.editor.extension.property.EditableProperty;
+import com.ss.editor.extension.property.Getter;
+import com.ss.editor.extension.property.Setter;
+import com.ss.editor.extension.property.SimpleProperty;
 import com.ss.editor.extension.scene.app.state.SceneAppState;
 import com.ss.editor.extension.scene.filter.EditableSceneFilter;
 import com.ss.editor.extension.scene.filter.SceneFilter;
@@ -95,9 +98,13 @@ public class EditableWaterFilter extends WaterFilter implements EditableSceneFil
         result.add(new SimpleProperty<>(COLOR, "Deep water color", this,
                 makeGetter(this, ColorRGBA.class, "getDeepWaterColor"),
                 makeSetter(this, ColorRGBA.class, "setDeepWaterColor")));
-        result.add(new SimpleProperty<>(COLOR, "Light color", this,
-                makeGetter(this, ColorRGBA.class, "getLightColor"),
-                makeSetter(this, ColorRGBA.class, "setLightColor")));
+
+        if (needLightColor()) {
+            result.add(new SimpleProperty<>(COLOR, "Light color", this,
+                    makeGetter(this, ColorRGBA.class, "getLightColor"),
+                    makeSetter(this, ColorRGBA.class, "setLightColor")));
+        }
+
         result.add(new SimpleProperty<>(ENUM, "Shape type", this,
                 makeGetter(this, AreaShape.class, "getShapeType"),
                 makeSetter(this, AreaShape.class, "setShapeType")));
@@ -107,9 +114,13 @@ public class EditableWaterFilter extends WaterFilter implements EditableSceneFil
         result.add(new SimpleProperty<>(VECTOR_3F, "Foam existence", this,
                 makeGetter(this, Vector3f.class, "getFoamExistence"),
                 makeSetter(this, Vector3f.class, "setFoamExistence")));
-        result.add(new SimpleProperty<>(VECTOR_3F, "Light direction", this,
-                makeGetter(this, Vector3f.class, "getLightDirection"),
-                makeSetter(this, Vector3f.class, "setLightDirection")));
+
+        if (needLightDirection()) {
+            result.add(new SimpleProperty<>(VECTOR_3F, "Light direction", this,
+                    makeGetter(this, Vector3f.class, "getLightDirection"),
+                    makeSetter(this, Vector3f.class, "setLightDirection")));
+        }
+
         result.add(new SimpleProperty<>(TEXTURE_2D, "Foam texture", this,
                 makeGetter(this, Texture2D.class, "getFoamTexture"),
                 makeSetter(this, Texture2D.class, "setFoamTexture")));
@@ -127,6 +138,14 @@ public class EditableWaterFilter extends WaterFilter implements EditableSceneFil
                 makeReflectionSceneSetter()));
 
         return result;
+    }
+
+    protected boolean needLightColor() {
+        return true;
+    }
+
+    protected boolean needLightDirection() {
+        return true;
     }
 
     @NotNull

@@ -49,6 +49,16 @@ public class EditableLocalWaterWithLightingStateFilter extends EditableLocalWate
     }
 
     @Override
+    protected boolean needLightColor() {
+        return false;
+    }
+
+    @Override
+    protected boolean needLightDirection() {
+        return false;
+    }
+
+    @Override
     protected void initFilter(@NotNull final AssetManager manager, @NotNull final RenderManager renderManager,
                               @NotNull final ViewPort viewPort, final int width, final int height) {
 
@@ -57,6 +67,7 @@ public class EditableLocalWaterWithLightingStateFilter extends EditableLocalWate
         final DirectionalLight sunLight = state.getSunLight();
 
         setLightDirection(sunLight.getDirection());
+        setLightColor(sunLight.getColor());
 
         super.initFilter(manager, renderManager, viewPort, width, height);
     }
