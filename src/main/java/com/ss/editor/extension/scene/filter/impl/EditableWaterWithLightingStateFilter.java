@@ -14,18 +14,18 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 /**
- * The implementation of local water filter which uses the light direction from {@link LightingState}.
+ * The implementation of water filter which uses the light direction from {@link LightingState}.
  *
  * @author JavaSaBr
  */
-public class EditableLocalWaterWithLightingStateFilter extends EditableLocalWaterFilter {
+public class EditableWaterWithLightingStateFilter extends EditableWaterFilter {
 
-    public EditableLocalWaterWithLightingStateFilter() {
+    public EditableWaterWithLightingStateFilter() {
     }
 
     @Override
     public String getName() {
-        return "Local water with lighting state";
+        return "Global water with lighting state";
     }
 
     @Nullable

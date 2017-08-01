@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.util.List;
 
 /**
+ * The implementation of local water filter which uses the light direction from set {@link DirectionalLight}.
+ *
  * @author JavaSaBr
  */
 public class EditableLocalWaterWithDirectionLightFilter extends EditableLocalWaterFilter {

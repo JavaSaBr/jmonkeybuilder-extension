@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.util.List;
 
 /**
+ * The implementation of global water filter which uses the light direction from set {@link DirectionalLight}.
+ *
  * @author JavaSaBr
  */
 public class EditableWaterWithDirectionLightFilter extends EditableWaterFilter {
@@ -30,6 +32,11 @@ public class EditableWaterWithDirectionLightFilter extends EditableWaterFilter {
     private DirectionalLight directionalLight;
 
     public EditableWaterWithDirectionLightFilter() {
+    }
+
+    @Override
+    public String getName() {
+        return "Global water with direction light";
     }
 
     @NotNull

@@ -28,7 +28,7 @@ public class EditableLightingStateShadowFilter extends EditableDirectionalLightS
     @NotNull
     @Override
     public String getName() {
-        return "Shadows from Lighting State";
+        return "Lighting State Shadows";
     }
 
     @Nullable
@@ -45,7 +45,7 @@ public class EditableLightingStateShadowFilter extends EditableDirectionalLightS
         }
 
         if (lightingState == null) {
-            return "The Shadows from Lighting State requires the Lighting State";
+            return "Lighting State Shadows requires the Lighting State";
         }
 
         return null;

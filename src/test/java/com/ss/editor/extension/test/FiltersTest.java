@@ -109,4 +109,28 @@ class FiltersTest extends PropertyTest {
         final EditablePointLightFromSceneShadowFilter filter = new EditablePointLightFromSceneShadowFilter();
         testProperties(filter.getEditableProperties());
     }
+
+    @Test
+    void localWaterWithDirectionLightFilterTest() {
+        final EditableLocalWaterWithDirectionLightFilter filter = new EditableLocalWaterWithDirectionLightFilter();
+        testProperties(filter.getEditableProperties());
+    }
+
+    @Test
+    void localWaterWithLightingStateFilterTest() {
+        final EditableLocalWaterWithLightingStateFilter filter = new EditableLocalWaterWithLightingStateFilter();
+        testProperties(filter.getEditableProperties());
+    }
+
+    @Test
+    void waterWithDirectionLightFilterTest() {
+        final EditableWaterWithDirectionLightFilter filter = new EditableWaterWithDirectionLightFilter();
+        testProperties(filter.getEditableProperties());
+    }
+
+    @Test
+    void waterWithLightingStateFilterTest() {
+        final EditableWaterWithLightingStateFilter filter = new EditableWaterWithLightingStateFilter();
+        testProperties(filter.getEditableProperties());
+    }
 }
