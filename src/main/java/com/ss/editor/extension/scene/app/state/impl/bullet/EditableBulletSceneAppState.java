@@ -1,6 +1,8 @@
 package com.ss.editor.extension.scene.app.state.impl.bullet;
 
 import static com.ss.editor.extension.property.EditablePropertyType.*;
+import static com.ss.editor.extension.property.ReflectionGetterSetterFactory.makeGetter;
+import static com.ss.editor.extension.property.ReflectionGetterSetterFactory.makeSetter;
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
@@ -15,6 +17,7 @@ import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
+import com.jme3.scene.SceneGraphVisitor;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.Control;
 import com.jme3.util.clone.Cloner;
@@ -22,15 +25,15 @@ import com.ss.editor.extension.property.EditableProperty;
 import com.ss.editor.extension.property.SimpleProperty;
 import com.ss.editor.extension.scene.SceneNode;
 import com.ss.editor.extension.scene.app.state.EditableSceneAppState;
+import com.ss.editor.extension.scene.app.state.SceneAppState;
 import com.ss.editor.extension.scene.app.state.impl.bullet.debug.BulletDebugAppState;
-import com.ss.rlib.logging.Logger;
-import com.ss.rlib.logging.LoggerManager;
-import com.ss.rlib.util.array.Array;
-import com.ss.rlib.util.array.ArrayFactory;
+import com.ss.editor.extension.scene.filter.SceneFilter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.*;
 
 /**
@@ -42,18 +45,17 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
         PhysicsTickListener {
 
     /**
-     * The constant LOGGER.
-     */
-    protected static final Logger LOGGER = LoggerManager.getLogger(EditableBulletSceneAppState.class);
-
-    /**
      * The Physics update task.
      */
-    protected final Callable<Boolean> physicsUpdateTask = () -> {
-        final PhysicsSpace physicsSpace = getPhysicsSpace();
-        if (physicsSpace == null) return false;
-        physicsSpace.update(getTpf() * getSpeed());
-        return true;
+    protected final Callable<Boolean> physicsUpdateTask = new Callable<Boolean>() {
+
+        @Override
+        public Boolean call() throws Exception {
+            final PhysicsSpace physicsSpace = getPhysicsSpace();
+            if (physicsSpace == null) return false;
+            physicsSpace.update(getTpf() * getSpeed());
+            return true;
+        }
     };
 
     /***
@@ -337,14 +339,18 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
      * @param physicsSpace the new physical space or null.
      */
     private void updateNode(@NotNull final Spatial spatial, @Nullable final PhysicsSpace physicsSpace) {
-        spatial.depthFirstTraversal(sp -> {
+        spatial.depthFirstTraversal(new SceneGraphVisitor() {
 
-            final int numControls = sp.getNumControls();
+            @Override
+            public void visit(final Spatial spatial) {
 
-            for (int i = 0; i < numControls; i++) {
-                final Control control = sp.getControl(i);
-                if (control instanceof PhysicsControl) {
-                    ((PhysicsControl) control).setPhysicsSpace(physicsSpace);
+                final int numControls = spatial.getNumControls();
+
+                for (int i = 0; i < numControls; i++) {
+                    final Control control = spatial.getControl(i);
+                    if (control instanceof PhysicsControl) {
+                        ((PhysicsControl) control).setPhysicsSpace(physicsSpace);
+                    }
                 }
             }
         });
@@ -400,14 +406,22 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
         }
 
         try {
-            return executor.submit(() -> {
-                physicsSpace = new PhysicsSpace(worldMin, worldMax, broadphaseType);
-                physicsSpace.addTickListener(this);
-                return true;
-            })
-                           .get();
+
+            return executor.submit(new Callable<Boolean>() {
+
+                @Override
+                public Boolean call() throws Exception {
+
+                    physicsSpace = new PhysicsSpace(worldMin, worldMax, broadphaseType);
+                    physicsSpace.addTickListener(EditableBulletSceneAppState.this);
+
+                    return true;
+                }
+
+            }).get();
+
         } catch (final InterruptedException | ExecutionException e) {
-            LOGGER.warning(e);
+            e.printStackTrace();
             return false;
         }
     }
@@ -487,7 +501,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
             physicsFuture.get();
             physicsFuture = null;
         } catch (final InterruptedException | ExecutionException e) {
-            LOGGER.warning(e);
+            e.printStackTrace();
         }
     }
 
@@ -533,30 +547,42 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
 
     @NotNull
     @Override
-    public Array<EditableProperty<?, ?>> getEditableProperties() {
+    public List<EditableProperty<?, ?>> getEditableProperties() {
 
-        final Array<EditableProperty<?, ?>> result = ArrayFactory.newArray(EditableProperty.class);
+        final List<EditableProperty<?, ?>> result = new ArrayList<>(6);
 
         result.add(new SimpleProperty<>(BOOLEAN, "Debug enabled", this,
-                EditableBulletSceneAppState::isDebugEnabled,
-                EditableBulletSceneAppState::setDebugEnabled));
+                makeGetter(this, boolean.class, "isDebugEnabled"),
+                makeSetter(this, boolean.class, "setDebugEnabled")));
         result.add(new SimpleProperty<>(FLOAT, "Speed", this,
-                EditableBulletSceneAppState::getSpeed,
-                EditableBulletSceneAppState::setSpeed));
+                makeGetter(this, float.class, "getSpeed"),
+                makeSetter(this, float.class, "setSpeed")));
         result.add(new SimpleProperty<>(ENUM, "Broadphase type", this,
-                EditableBulletSceneAppState::getBroadphaseType,
-                EditableBulletSceneAppState::setBroadphaseType));
+                makeGetter(this, BroadphaseType.class, "getBroadphaseType"),
+                makeSetter(this, BroadphaseType.class, "setBroadphaseType")));
         result.add(new SimpleProperty<>(ENUM, "Threading type", this,
-                EditableBulletSceneAppState::getThreadingType,
-                EditableBulletSceneAppState::setThreadingType));
+                makeGetter(this, ThreadingType.class, "getThreadingType"),
+                makeSetter(this, ThreadingType.class, "setThreadingType")));
         result.add(new SimpleProperty<>(VECTOR_3F, "World max", this,
-                EditableBulletSceneAppState::getWorldMax,
-                EditableBulletSceneAppState::setWorldMax));
+                makeGetter(this, Vector3f.class, "getWorldMax"),
+                makeSetter(this, Vector3f.class, "setWorldMax")));
         result.add(new SimpleProperty<>(VECTOR_3F, "World min", this,
-                EditableBulletSceneAppState::getWorldMin,
-                EditableBulletSceneAppState::setWorldMin));
+                makeGetter(this, Vector3f.class, "getWorldMin"),
+                makeSetter(this, Vector3f.class, "setWorldMin")));
 
         return result;
+    }
+
+    @Nullable
+    @Override
+    public String checkStates(@NotNull final List<SceneAppState> exists) {
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public String checkFilters(@NotNull final List<SceneFilter> exists) {
+        return null;
     }
 
     @Override

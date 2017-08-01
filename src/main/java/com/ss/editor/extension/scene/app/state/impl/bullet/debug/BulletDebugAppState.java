@@ -48,73 +48,68 @@ import com.jme3.material.RenderState;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.ss.editor.extension.scene.app.state.impl.bullet.debug.control.BulletCharacterDebugControl;
 import com.ss.editor.extension.scene.app.state.impl.bullet.debug.control.BulletRigidBodyDebugControl;
 import com.ss.editor.extension.scene.app.state.impl.bullet.debug.control.BulletVehicleDebugControl;
-import com.ss.editor.extension.scene.app.state.impl.bullet.debug.control.BulletCharacterDebugControl;
-import com.ss.rlib.logging.Logger;
-import com.ss.rlib.logging.LoggerManager;
-import com.ss.rlib.util.dictionary.DictionaryFactory;
-import com.ss.rlib.util.dictionary.ObjectDictionary;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
-import java.util.function.Predicate;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author normenhansen, JavaSaBr
  */
 public class BulletDebugAppState extends AbstractAppState {
 
-    protected static final Logger LOGGER = LoggerManager.getLogger(BulletDebugAppState.class);
-
     /**
      * The current registered rigid bodies.
      */
     @NotNull
-    protected final ObjectDictionary<PhysicsRigidBody, Spatial> bodies;
+    protected final Map<PhysicsRigidBody, Spatial> bodies;
 
     /**
      * The previous registered rigid bodies.
      */
     @NotNull
-    protected final ObjectDictionary<PhysicsRigidBody, Spatial> prevBodies;
+    protected final Map<PhysicsRigidBody, Spatial> prevBodies;
 
     /**
      * The current registered characters.
      */
     @NotNull
-    protected final ObjectDictionary<PhysicsCharacter, Spatial> characters;
+    protected final Map<PhysicsCharacter, Spatial> characters;
 
     /**
      * The previous registered characters.
      */
     @NotNull
-    protected final ObjectDictionary<PhysicsCharacter, Spatial> prevCharacters;
+    protected final Map<PhysicsCharacter, Spatial> prevCharacters;
 
     /**
      * The current registered vehicles.
      */
     @NotNull
-    protected final ObjectDictionary<PhysicsVehicle, Spatial> vehicles;
+    protected final Map<PhysicsVehicle, Spatial> vehicles;
 
     /**
      * The previous registered vehicles.
      */
     @NotNull
-    protected final ObjectDictionary<PhysicsVehicle, Spatial> prevVehicles;
+    protected final Map<PhysicsVehicle, Spatial> prevVehicles;
 
     @NotNull
-    protected final ObjectDictionary<PhysicsJoint, Spatial> joints;
+    protected final Map<PhysicsJoint, Spatial> joints;
 
     @NotNull
-    protected final ObjectDictionary<PhysicsJoint, Spatial> prevJoints;
+    protected final Map<PhysicsJoint, Spatial> prevJoints;
 
     @NotNull
-    protected final ObjectDictionary<PhysicsGhostObject, Spatial> ghosts;
+    protected final Map<PhysicsGhostObject, Spatial> ghosts;
 
     @NotNull
-    protected final ObjectDictionary<PhysicsGhostObject, Spatial> prevGhosts;
+    protected final Map<PhysicsGhostObject, Spatial> prevGhosts;
 
     /**
      * The debug root node.
@@ -174,7 +169,7 @@ public class BulletDebugAppState extends AbstractAppState {
      * The display filter.
      */
     @Nullable
-    protected Predicate<Object> filter;
+    protected Filter filter;
 
     /**
      * The application.
@@ -192,22 +187,22 @@ public class BulletDebugAppState extends AbstractAppState {
         this.physicsSpace = physicsSpace;
         this.debugRootNode = new Node("Physics Debug Root Node");
         this.debugRootNode.setCullHint(Spatial.CullHint.Never);
-        this.bodies = DictionaryFactory.newObjectDictionary();
-        this.prevBodies = DictionaryFactory.newObjectDictionary();
-        this.joints = DictionaryFactory.newObjectDictionary();
-        this.prevJoints = DictionaryFactory.newObjectDictionary();
-        this.ghosts = DictionaryFactory.newObjectDictionary();
-        this.prevGhosts = DictionaryFactory.newObjectDictionary();
-        this.characters = DictionaryFactory.newObjectDictionary();
-        this.prevCharacters = DictionaryFactory.newObjectDictionary();
-        this.vehicles = DictionaryFactory.newObjectDictionary();
-        this.prevVehicles = DictionaryFactory.newObjectDictionary();
+        this.bodies = new HashMap<>();
+        this.prevBodies = new HashMap<>();
+        this.joints = new HashMap<>();
+        this.prevJoints = new HashMap<>();
+        this.ghosts = new HashMap<>();
+        this.prevGhosts = new HashMap<>();
+        this.characters = new HashMap<>();
+        this.prevCharacters = new HashMap<>();
+        this.vehicles = new HashMap<>();
+        this.prevVehicles = new HashMap<>();
     }
 
     /**
      * @param filter the display filter.
      */
-    public void setFilter(@Nullable final Predicate<Object> filter) {
+    public void setFilter(@Nullable final Filter filter) {
         this.filter = filter;
     }
 
@@ -215,7 +210,7 @@ public class BulletDebugAppState extends AbstractAppState {
      * @return the display filter.
      */
     @Nullable
-    public Predicate<Object> getFilter() {
+    public Filter getFilter() {
         return filter;
     }
 
@@ -342,59 +337,53 @@ public class BulletDebugAppState extends AbstractAppState {
     /**
      * @return the previous registered rigid bodies.
      */
-    @NotNull
-    protected ObjectDictionary<PhysicsRigidBody, Spatial> getPrevBodies() {
+    protected Map<PhysicsRigidBody, Spatial> getPrevBodies() {
         return prevBodies;
     }
 
     /**
      * @return the current registered rigid bodies.
      */
-    @NotNull
-    protected ObjectDictionary<PhysicsRigidBody, Spatial> getBodies() {
+    protected Map<PhysicsRigidBody, Spatial> getBodies() {
         return bodies;
     }
 
     /**
      * @return the previous registered characters.
      */
-    @NotNull
-    protected ObjectDictionary<PhysicsCharacter, Spatial> getPrevCharacters() {
+    protected Map<PhysicsCharacter, Spatial> getPrevCharacters() {
         return prevCharacters;
     }
 
     /**
      * @return the current registered characters.
      */
-    @NotNull
-    protected ObjectDictionary<PhysicsCharacter, Spatial> getCharacters() {
+    protected Map<PhysicsCharacter, Spatial> getCharacters() {
         return characters;
     }
 
     /**
      * @return the current registered vehicles.
      */
-    @NotNull
-    protected ObjectDictionary<PhysicsVehicle, Spatial> getVehicles() {
+    protected Map<PhysicsVehicle, Spatial> getVehicles() {
         return vehicles;
     }
 
     /**
      * @return the previous registered vehicles.
      */
-    @NotNull
-    protected ObjectDictionary<PhysicsVehicle, Spatial> getPrevVehicles() {
+    protected Map<PhysicsVehicle, Spatial> getPrevVehicles() {
         return prevVehicles;
     }
 
     private void updateRigidBodies() {
 
-        final Predicate<Object> filter = getFilter();
+        final Filter filter = getFilter();
 
-        final ObjectDictionary<PhysicsRigidBody, Spatial> prevBodies = getPrevBodies();
-        final ObjectDictionary<PhysicsRigidBody, Spatial> bodies = getBodies();
+        final Map<PhysicsRigidBody, Spatial> prevBodies = getPrevBodies();
+        final Map<PhysicsRigidBody, Spatial> bodies = getBodies();
 
-        prevBodies.put(bodies);
+        prevBodies.putAll(bodies);
         bodies.clear();
 
         final Collection<PhysicsRigidBody> current = physicsSpace.getRigidBodyList();
@@ -415,21 +404,23 @@ public class BulletDebugAppState extends AbstractAppState {
             }
         }
 
-        prevBodies.forEach(bodies, (actual, key, value) -> {
-            if (!actual.containsKey(key)) value.removeFromParent();
-        });
+        for (final Map.Entry<PhysicsRigidBody, Spatial> entry : prevBodies.entrySet()) {
+            if(!bodies.containsKey(entry.getKey())) {
+                entry.getValue().removeFromParent();
+            }
+        }
 
         prevBodies.clear();
     }
 
     private void updateCharacters() {
 
-        final Predicate<Object> filter = getFilter();
+        final Filter filter = getFilter();
 
-        final ObjectDictionary<PhysicsCharacter, Spatial> prevCharacters = getPrevCharacters();
-        final ObjectDictionary<PhysicsCharacter, Spatial> characters = getCharacters();
+        final Map<PhysicsCharacter, Spatial> prevCharacters = getPrevCharacters();
+        final Map<PhysicsCharacter, Spatial> characters = getCharacters();
 
-        prevCharacters.put(characters);
+        prevCharacters.putAll(characters);
         characters.clear();
 
         final Collection<PhysicsCharacter> current = physicsSpace.getCharacterList();
@@ -450,21 +441,23 @@ public class BulletDebugAppState extends AbstractAppState {
             }
         }
 
-        prevCharacters.forEach(characters, (actual, key, value) -> {
-            if (!actual.containsKey(key)) value.removeFromParent();
-        });
+        for (final Map.Entry<PhysicsCharacter, Spatial> entry : prevCharacters.entrySet()) {
+            if(!characters.containsKey(entry.getKey())) {
+                entry.getValue().removeFromParent();
+            }
+        }
 
         prevCharacters.clear();
     }
 
     private void updateVehicles() {
 
-        final Predicate<Object> filter = getFilter();
+        final Filter filter = getFilter();
 
-        final ObjectDictionary<PhysicsVehicle, Spatial> prevVehicles = getPrevVehicles();
-        final ObjectDictionary<PhysicsVehicle, Spatial> vehicles = getVehicles();
+        final Map<PhysicsVehicle, Spatial> prevVehicles = getPrevVehicles();
+        final Map<PhysicsVehicle, Spatial> vehicles = getVehicles();
 
-        prevVehicles.put(vehicles);
+        prevVehicles.putAll(vehicles);
         vehicles.clear();
 
         final Collection<PhysicsVehicle> current = physicsSpace.getVehicleList();
@@ -485,9 +478,11 @@ public class BulletDebugAppState extends AbstractAppState {
             }
         }
 
-        prevVehicles.forEach(vehicles, (actual, key, value) -> {
-            if (!actual.containsKey(key)) value.removeFromParent();
-        });
+        for (final Map.Entry<PhysicsVehicle, Spatial> entry : prevVehicles.entrySet()) {
+            if(!vehicles.containsKey(entry.getKey())) {
+                entry.getValue().removeFromParent();
+            }
+        }
 
         prevVehicles.clear();
     }

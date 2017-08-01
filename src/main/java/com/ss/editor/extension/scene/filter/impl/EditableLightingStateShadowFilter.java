@@ -11,7 +11,8 @@ import com.ss.editor.extension.loader.SceneLoader;
 import com.ss.editor.extension.scene.app.state.SceneAppState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import com.ss.rlib.util.array.Array;
+
+import java.util.List;
 
 /**
  * The editable implementation of a {@link DirectionalLightShadowFilter} which uses the light from {@link
@@ -32,9 +33,18 @@ public class EditableLightingStateShadowFilter extends EditableDirectionalLightS
 
     @Nullable
     @Override
-    public String checkStates(@NotNull final Array<SceneAppState> exists) {
+    public String checkStates(@NotNull final List<SceneAppState> exists) {
 
-        if (exists.search(LightingState.class::isInstance) == null) {
+        SceneAppState lightingState = null;
+
+        for (final SceneAppState state : exists) {
+            if (state instanceof LightingState) {
+                lightingState = state;
+                break;
+            }
+        }
+
+        if (lightingState == null) {
             return "The Shadows from Lighting State requires the Lighting State";
         }
 

@@ -1,13 +1,16 @@
 package com.ss.editor.extension.scene.control.impl;
 
 import static com.ss.editor.extension.property.EditablePropertyType.ENUM;
+import static com.ss.editor.extension.property.ReflectionGetterSetterFactory.makeGetter;
+import static com.ss.editor.extension.property.ReflectionGetterSetterFactory.makeSetter;
 import com.jme3.scene.control.BillboardControl;
 import com.ss.editor.extension.property.EditableProperty;
 import com.ss.editor.extension.property.SimpleProperty;
 import com.ss.editor.extension.scene.control.EditableControl;
-import com.ss.rlib.util.array.Array;
-import com.ss.rlib.util.array.ArrayFactory;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The editable implementation of the {@link BillboardControl}.
@@ -24,13 +27,13 @@ public class EditableBillboardControl extends BillboardControl implements Editab
 
     @NotNull
     @Override
-    public Array<EditableProperty<?, ?>> getEditableProperties() {
+    public List<EditableProperty<?, ?>> getEditableProperties() {
 
-        final Array<EditableProperty<?, ?>> result = ArrayFactory.newArray(EditableProperty.class);
+        final List<EditableProperty<?, ?>> result = new ArrayList<>(1);
 
         result.add(new SimpleProperty<>(ENUM, "Alignment", this,
-                                        BillboardControl::getAlignment,
-                                        BillboardControl::setAlignment));
+                makeGetter(this, Alignment.class, "getAlignment"),
+                makeSetter(this, Alignment.class, "setAlignment")));
 
         return result;
     }

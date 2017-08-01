@@ -19,8 +19,10 @@ import java.io.IOException;
 @SuppressWarnings("WeakerAccess")
 public class SceneLayer extends Node {
 
+    @NotNull
     public static final String KEY = SceneLayer.class.getName();
 
+    @NotNull
     public static final SceneLayer NO_LAYER = new SceneLayer();
 
     /**

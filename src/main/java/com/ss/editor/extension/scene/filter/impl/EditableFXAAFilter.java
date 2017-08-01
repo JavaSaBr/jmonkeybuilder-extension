@@ -1,6 +1,8 @@
 package com.ss.editor.extension.scene.filter.impl;
 
 import static com.ss.editor.extension.property.EditablePropertyType.FLOAT;
+import static com.ss.editor.extension.property.ReflectionGetterSetterFactory.makeGetter;
+import static com.ss.editor.extension.property.ReflectionGetterSetterFactory.makeSetter;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
@@ -9,19 +11,22 @@ import com.jme3.post.filters.FXAAFilter;
 import com.jme3.util.clone.Cloner;
 import com.ss.editor.extension.property.EditableProperty;
 import com.ss.editor.extension.property.SimpleProperty;
+import com.ss.editor.extension.scene.app.state.SceneAppState;
 import com.ss.editor.extension.scene.filter.EditableSceneFilter;
-import com.ss.rlib.util.array.Array;
-import com.ss.rlib.util.array.ArrayFactory;
+import com.ss.editor.extension.scene.filter.SceneFilter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The editable implementation of FXAA filter.
  *
  * @author JavaSaBr
  */
-public class EditableFXAAFilter extends FXAAFilter implements EditableSceneFilter<FXAAFilter> {
+public class EditableFXAAFilter extends FXAAFilter implements EditableSceneFilter {
 
     @Override
     public FXAAFilter get() {
@@ -45,22 +50,22 @@ public class EditableFXAAFilter extends FXAAFilter implements EditableSceneFilte
 
     @NotNull
     @Override
-    public Array<EditableProperty<?, ?>> getEditableProperties() {
+    public List<EditableProperty<?, ?>> getEditableProperties() {
 
-        final Array<EditableProperty<?, ?>> result = ArrayFactory.newArray(EditableProperty.class);
+        final List<EditableProperty<?, ?>> result = new ArrayList<>(4);
 
         result.add(new SimpleProperty<>(FLOAT, "Sub pixel shift", 0.005F, 0F, 10F, this,
-                EditableFXAAFilter::getSubPixelShift,
-                EditableFXAAFilter::setSubPixelShift));
+                makeGetter(this, float.class, "getSubPixelShift"),
+                makeSetter(this, float.class, "setSubPixelShift")));
         result.add(new SimpleProperty<>(FLOAT, "VX offset", 0.005F, 0F, 10F, this,
-                EditableFXAAFilter::getVxOffset,
-                EditableFXAAFilter::setVxOffset));
+                makeGetter(this, float.class, "getVxOffset"),
+                makeSetter(this, float.class, "setVxOffset")));
         result.add(new SimpleProperty<>(FLOAT, "Span max", 1F, 0F, 100F, this,
-                EditableFXAAFilter::getSpanMax,
-                EditableFXAAFilter::setSpanMax));
+                makeGetter(this, float.class, "getSpanMax"),
+                makeSetter(this, float.class, "setSpanMax")));
         result.add(new SimpleProperty<>(FLOAT, "Reduce mul", 0.1F, 0F, 100F, this,
-                EditableFXAAFilter::getReduceMul,
-                EditableFXAAFilter::setReduceMul));
+                makeGetter(this, float.class, "getReduceMul"),
+                makeSetter(this, float.class, "setReduceMul")));
 
         return result;
     }
@@ -87,5 +92,17 @@ public class EditableFXAAFilter extends FXAAFilter implements EditableSceneFilte
         capsule.write(getVxOffset(), "vxOffset", 0.0f);
         capsule.write(getSpanMax(), "spanMax", 8.0f);
         capsule.write(getReduceMul(), "reduceMul", 1.0f / 8.0f);
+    }
+
+    @Nullable
+    @Override
+    public String checkStates(@NotNull final List<SceneAppState> exists) {
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public String checkFilters(@NotNull final List<SceneFilter> exists) {
+        return null;
     }
 }

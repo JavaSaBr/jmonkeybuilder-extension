@@ -1,6 +1,6 @@
 package com.ss.editor.extension.loader;
 
-import static com.ss.rlib.util.ObjectUtils.notNull;
+import static java.util.Objects.requireNonNull;
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetInfo;
@@ -59,12 +59,12 @@ public class SceneLoader implements JmeImporter {
 
     @NotNull
     public static AssetManager tryToGetAssetManager() {
-        return notNull(application).getAssetManager();
+        return requireNonNull(application).getAssetManager();
     }
 
     @NotNull
     public static AppStateManager tryToGetStateManager() {
-        return notNull(application).getStateManager();
+        return requireNonNull(application).getStateManager();
     }
 
     @Nullable

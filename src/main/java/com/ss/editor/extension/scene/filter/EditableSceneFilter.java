@@ -1,20 +1,20 @@
 package com.ss.editor.extension.scene.filter;
 
-import com.jme3.post.Filter;
 import com.ss.editor.extension.property.EditableProperty;
 import org.jetbrains.annotations.NotNull;
-import com.ss.rlib.util.array.Array;
-import com.ss.rlib.util.array.ArrayFactory;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * The interface to implement editing support.
  *
  * @author JavaSaBr
  */
-public interface EditableSceneFilter<T extends Filter> extends SceneFilter<T> {
+public interface EditableSceneFilter extends SceneFilter {
 
     @NotNull
-    Array<EditableProperty<?, ?>> EMPTY_PROPERTIES = ArrayFactory.newArray(EditableProperty.class);
+    List<EditableProperty<?, ?>> EMPTY_PROPERTIES = Collections.emptyList();
 
     /**
      * Get list of editable properties.
@@ -22,7 +22,5 @@ public interface EditableSceneFilter<T extends Filter> extends SceneFilter<T> {
      * @return the list of editable properties.
      */
     @NotNull
-    default Array<EditableProperty<?, ?>> getEditableProperties() {
-        return EMPTY_PROPERTIES;
-    }
+    List<EditableProperty<?, ?>> getEditableProperties();
 }

@@ -2,21 +2,28 @@ package com.ss.editor.extension.scene.filter.impl;
 
 import static com.ss.editor.extension.property.EditablePropertyType.COLOR;
 import static com.ss.editor.extension.property.EditablePropertyType.FLOAT;
+import static com.ss.editor.extension.property.ReflectionGetterSetterFactory.makeGetter;
+import static com.ss.editor.extension.property.ReflectionGetterSetterFactory.makeSetter;
+import com.jme3.math.ColorRGBA;
 import com.jme3.post.filters.FogFilter;
 import com.jme3.util.clone.Cloner;
 import com.ss.editor.extension.property.EditableProperty;
 import com.ss.editor.extension.property.SimpleProperty;
+import com.ss.editor.extension.scene.app.state.SceneAppState;
 import com.ss.editor.extension.scene.filter.EditableSceneFilter;
-import com.ss.rlib.util.array.Array;
-import com.ss.rlib.util.array.ArrayFactory;
+import com.ss.editor.extension.scene.filter.SceneFilter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The editable implementation of fog filter.
  *
  * @author JavaSaBr
  */
-public class EditableFogFilter extends FogFilter implements EditableSceneFilter<FogFilter> {
+public class EditableFogFilter extends FogFilter implements EditableSceneFilter {
 
     @Override
     public FogFilter get() {
@@ -40,19 +47,19 @@ public class EditableFogFilter extends FogFilter implements EditableSceneFilter<
 
     @NotNull
     @Override
-    public Array<EditableProperty<?, ?>> getEditableProperties() {
+    public List<EditableProperty<?, ?>> getEditableProperties() {
 
-        final Array<EditableProperty<?, ?>> result = ArrayFactory.newArray(EditableProperty.class);
+        final List<EditableProperty<?, ?>> result = new ArrayList<>(3);
 
         result.add(new SimpleProperty<>(COLOR, "Fog color", this,
-                EditableFogFilter::getFogColor,
-                EditableFogFilter::setFogColor));
+                makeGetter(this, ColorRGBA.class, "getFogColor"),
+                makeSetter(this, ColorRGBA.class, "setFogColor")));
         result.add(new SimpleProperty<>(FLOAT, "Fog density", 0.01F, 0F, 100F, this,
-                EditableFogFilter::getFogDensity,
-                EditableFogFilter::setFogDensity));
+                makeGetter(this, float.class, "getFogDensity"),
+                makeSetter(this, float.class, "setFogDensity")));
         result.add(new SimpleProperty<>(FLOAT, "Fog distance", 1F, 0F, Integer.MAX_VALUE, this,
-                EditableFogFilter::getFogDistance,
-                EditableFogFilter::setFogDistance));
+                makeGetter(this, float.class, "getFogDistance"),
+                makeSetter(this, float.class, "setFogDistance")));
 
         return result;
     }
@@ -60,5 +67,17 @@ public class EditableFogFilter extends FogFilter implements EditableSceneFilter<
     @Override
     public void cloneFields(@NotNull final Cloner cloner, @NotNull final Object original) {
         setFogColor(cloner.clone(getFogColor()));
+    }
+
+    @Nullable
+    @Override
+    public String checkStates(@NotNull final List<SceneAppState> exists) {
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public String checkFilters(@NotNull final List<SceneFilter> exists) {
+        return null;
     }
 }

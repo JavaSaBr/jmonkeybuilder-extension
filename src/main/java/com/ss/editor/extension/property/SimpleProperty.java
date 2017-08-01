@@ -3,12 +3,11 @@ package com.ss.editor.extension.property;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.function.BiConsumer;
-import java.util.function.Function;
-
 /**
- * The interface for implementing editable property of generic object.
+ * The simple implementation of editable property to a generic object.
  *
+ * @param <T> the property type.
+ * @param <O> the edited object type.
  * @author JavaSabr
  */
 public class SimpleProperty<T, O> implements EditableProperty<T, O> {
@@ -29,13 +28,13 @@ public class SimpleProperty<T, O> implements EditableProperty<T, O> {
      * The getter of this property.
      */
     @NotNull
-    private final Function<O, T> getter;
+    private final Getter<O, T> getter;
 
     /**
      * The setter of this property.
      */
     @NotNull
-    private final BiConsumer<O, T> setter;
+    private final Setter<O, T> setter;
 
     /**
      * The edited object.
@@ -59,19 +58,19 @@ public class SimpleProperty<T, O> implements EditableProperty<T, O> {
     private float maxValue;
 
     public SimpleProperty(@NotNull final EditablePropertyType type, @NotNull final String name, @NotNull final O object,
-                          @NotNull final Function<O, T> getter, @NotNull final BiConsumer<O, T> setter) {
+                          @NotNull final Getter<O, T> getter, @NotNull final Setter<O, T> setter) {
         this(type, name, 1F, Integer.MIN_VALUE, Integer.MAX_VALUE, object, getter, setter);
     }
 
     public SimpleProperty(@NotNull final EditablePropertyType type, @NotNull final String name, final float scrollPower,
-                          @NotNull final O object, @NotNull final Function<O, T> getter,
-                          @NotNull final BiConsumer<O, T> setter) {
+                          @NotNull final O object, @NotNull final Getter<O, T> getter,
+                          @NotNull final Setter<O, T> setter) {
         this(type, name, scrollPower, Integer.MIN_VALUE, Integer.MAX_VALUE, object, getter, setter);
     }
 
     public SimpleProperty(@NotNull final EditablePropertyType type, @NotNull final String name, final float scrollPower,
                           final float minValue, final float maxValue, @NotNull final O object,
-                          @NotNull final Function<O, T> getter, @NotNull final BiConsumer<O, T> setter) {
+                          @NotNull final Getter<O, T> getter, @NotNull final Setter<O, T> setter) {
         this.type = type;
         this.name = name;
         this.object = object;
@@ -118,12 +117,12 @@ public class SimpleProperty<T, O> implements EditableProperty<T, O> {
     @Override
     @Nullable
     public T getValue() {
-        return getter.apply(object);
+        return getter.get(object);
     }
 
     @Override
     public void setValue(@Nullable final T value) {
-        setter.accept(object, value);
+        setter.set(object, value);
     }
 
     @Override

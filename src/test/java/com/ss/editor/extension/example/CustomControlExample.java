@@ -5,12 +5,11 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.control.AbstractControl;
 import com.ss.editor.extension.property.EditableProperty;
-import com.ss.editor.extension.property.EditablePropertyType;
-import com.ss.editor.extension.property.SimpleProperty;
 import com.ss.editor.extension.scene.control.EditableControl;
-import com.ss.rlib.util.array.Array;
-import com.ss.rlib.util.array.ArrayFactory;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The example of a editable custom control.
@@ -25,25 +24,17 @@ public class CustomControlExample extends AbstractControl implements EditableCon
 
     private float floatProperty;
 
+    @NotNull
     @Override
-    public @NotNull Array<EditableProperty<?, ?>> getEditableProperties() {
+    public String getName() {
+        return null;
+    }
 
-        final Array<EditableProperty<?, ?>> result = ArrayFactory.newArray(EditableProperty.class);
+    @NotNull
+    @Override
+    public List<EditableProperty<?, ?>> getEditableProperties() {
 
-        result.add(new SimpleProperty<>(EditablePropertyType.STRING, "Property #1", this,
-                CustomControlExample::getStringProperty,
-                CustomControlExample::setStringProperty));
-
-        result.add(new SimpleProperty<>(EditablePropertyType.VECTOR_3F, "Property #2", this,
-                CustomControlExample::getVectorProperty,
-                (control, vector3f) -> {
-                // you can handle this setter
-                control.setVectorProperty(vector3f);
-        }));
-
-        result.add(new SimpleProperty<>(EditablePropertyType.FLOAT, "Property #3", this,
-                CustomControlExample::getFloatProperty,
-                CustomControlExample::setFloatProperty));
+        final List<EditableProperty<?, ?>> result = new ArrayList<>(3);
 
         return result;
     }

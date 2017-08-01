@@ -1,12 +1,15 @@
 package com.ss.editor.extension.scene.filter.impl;
 
 import static com.ss.editor.extension.property.EditablePropertyType.POINT_LIGHT_FROM_SCENE;
+import static com.ss.editor.extension.property.ReflectionGetterSetterFactory.makeGetter;
+import static com.ss.editor.extension.property.ReflectionGetterSetterFactory.makeSetter;
+import com.jme3.light.PointLight;
 import com.jme3.shadow.AbstractShadowRenderer;
 import com.ss.editor.extension.property.EditableProperty;
 import com.ss.editor.extension.property.SimpleProperty;
-import com.ss.rlib.util.array.Array;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.logging.Level;
 
 /**
@@ -32,12 +35,12 @@ public class EditablePointLightFromSceneShadowFilter extends EditablePointLightS
 
     @NotNull
     @Override
-    public Array<EditableProperty<?, ?>> getEditableProperties() {
+    public List<EditableProperty<?, ?>> getEditableProperties() {
 
-        final Array<EditableProperty<?, ?>> result = super.getEditableProperties();
+        final List<EditableProperty<?, ?>> result = super.getEditableProperties();
         result.add(new SimpleProperty<>(POINT_LIGHT_FROM_SCENE, "Point light", this,
-                EditablePointLightShadowFilter::getLight,
-                EditablePointLightShadowFilter::setLight));
+                makeGetter(this, PointLight.class, "getLight"),
+                makeSetter(this, PointLight.class, "setLight")));
 
         return result;
     }

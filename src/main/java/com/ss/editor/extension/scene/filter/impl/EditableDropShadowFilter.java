@@ -1,20 +1,27 @@
 package com.ss.editor.extension.scene.filter.impl;
 
 import static com.ss.editor.extension.property.EditablePropertyType.*;
+import static com.ss.editor.extension.property.ReflectionGetterSetterFactory.makeGetter;
+import static com.ss.editor.extension.property.ReflectionGetterSetterFactory.makeSetter;
+import com.jme3.math.ColorRGBA;
 import com.simsilica.fx.shadow.DropShadowFilter;
 import com.ss.editor.extension.property.EditableProperty;
 import com.ss.editor.extension.property.SimpleProperty;
+import com.ss.editor.extension.scene.app.state.SceneAppState;
 import com.ss.editor.extension.scene.filter.EditableSceneFilter;
-import com.ss.rlib.util.array.Array;
-import com.ss.rlib.util.array.ArrayFactory;
+import com.ss.editor.extension.scene.filter.SceneFilter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The editable implementation of the {@link DropShadowFilter}.
  *
  * @author JavaSaBr
  */
-public class EditableDropShadowFilter extends DropShadowFilter implements EditableSceneFilter<DropShadowFilter> {
+public class EditableDropShadowFilter extends DropShadowFilter implements EditableSceneFilter {
 
     public EditableDropShadowFilter() {
         super();
@@ -33,20 +40,32 @@ public class EditableDropShadowFilter extends DropShadowFilter implements Editab
 
     @NotNull
     @Override
-    public Array<EditableProperty<?, ?>> getEditableProperties() {
+    public List<EditableProperty<?, ?>> getEditableProperties() {
 
-        final Array<EditableProperty<?, ?>> result = ArrayFactory.newArray(EditableProperty.class);
+        final List<EditableProperty<?, ?>> result = new ArrayList<>(3);
 
         result.add(new SimpleProperty<>(COLOR, "Shadow color", this,
-                EditableDropShadowFilter::getShadowColor,
-                EditableDropShadowFilter::setShadowColor));
+                makeGetter(this, ColorRGBA.class, "getShadowColor"),
+                makeSetter(this, ColorRGBA.class, "setShadowColor")));
         result.add(new SimpleProperty<>(INTEGER, "Max shadows", this,
-                EditableDropShadowFilter::getMaxShadows,
-                EditableDropShadowFilter::setMaxShadows));
+                makeGetter(this, int.class, "getMaxShadows"),
+                makeSetter(this, int.class, "setMaxShadows")));
         result.add(new SimpleProperty<>(FLOAT, "Shadow intensity", 0.005F, 0F, 1F, this,
-                EditableDropShadowFilter::getShadowIntensity,
-                EditableDropShadowFilter::setShadowIntensity));
+                makeGetter(this, float.class, "getShadowIntensity"),
+                makeSetter(this, float.class, "setShadowIntensity")));
 
         return result;
+    }
+
+    @Nullable
+    @Override
+    public String checkStates(@NotNull final List<SceneAppState> exists) {
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public String checkFilters(@NotNull final List<SceneFilter> exists) {
+        return null;
     }
 }

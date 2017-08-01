@@ -1,29 +1,28 @@
 package com.ss.editor.extension.scene.control;
 
 import com.jme3.scene.control.Control;
+import com.ss.editor.extension.Named;
 import com.ss.editor.extension.property.EditableProperty;
 import org.jetbrains.annotations.NotNull;
-import com.ss.rlib.util.HasName;
-import com.ss.rlib.util.array.Array;
-import com.ss.rlib.util.array.ArrayFactory;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * The interface to implement an editable control.
  *
  * @author JavaSaBr
  */
-public interface EditableControl extends Control, HasName {
+public interface EditableControl extends Control, Named {
 
     @NotNull
-    Array<EditableProperty<?, ?>> EMPTY_PROPERTIES = ArrayFactory.newArray(EditableProperty.class);
+    List<EditableProperty<?, ?>> EMPTY_PROPERTIES = Collections.emptyList();
 
     /**
      * @return the control's name.
      */
     @NotNull
-    default String getName() {
-        return getClass().getSimpleName();
-    }
+    String getName() ;
 
     /**
      * Get list of editable properties.
@@ -31,7 +30,5 @@ public interface EditableControl extends Control, HasName {
      * @return the list of editable properties.
      */
     @NotNull
-    default Array<EditableProperty<?, ?>> getEditableProperties() {
-        return EMPTY_PROPERTIES;
-    }
+    List<EditableProperty<?, ?>> getEditableProperties();
 }

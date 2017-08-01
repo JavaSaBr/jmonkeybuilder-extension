@@ -1,15 +1,15 @@
 package com.ss.editor.extension.property;
 
+import com.ss.editor.extension.Named;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import com.ss.rlib.util.HasName;
 
 /**
  * The interface for implementing editable property of generic object.
  *
  * @author JavaSabr
  */
-public interface EditableProperty<T, O> extends HasName {
+public interface EditableProperty<T, O> extends Named {
 
     /**
      * Get the current value.
@@ -30,23 +30,17 @@ public interface EditableProperty<T, O> extends HasName {
     /**
      * @return scroll power.
      */
-    default float getScrollPower() {
-        return 1F;
-    }
+    float getScrollPower();
 
     /**
      * @return the min value.
      */
-    default float getMinValue() {
-        return Integer.MIN_VALUE;
-    }
+    float getMinValue();
 
     /**
      * @return the max value.
      */
-    default float getMaxValue() {
-        return Integer.MAX_VALUE;
-    }
+    float getMaxValue();
 
     /**
      * Get an edited object.

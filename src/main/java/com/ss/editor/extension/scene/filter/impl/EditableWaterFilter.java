@@ -1,24 +1,29 @@
 package com.ss.editor.extension.scene.filter.impl;
 
 import static com.ss.editor.extension.property.EditablePropertyType.*;
+import static com.ss.editor.extension.property.ReflectionGetterSetterFactory.makeGetter;
+import static com.ss.editor.extension.property.ReflectionGetterSetterFactory.makeSetter;
+import com.jme3.math.ColorRGBA;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
+import com.jme3.texture.Texture2D;
 import com.jme3.water.WaterFilter;
-import com.ss.editor.extension.property.EditableProperty;
-import com.ss.editor.extension.property.SimpleProperty;
+import com.ss.editor.extension.property.*;
+import com.ss.editor.extension.scene.app.state.SceneAppState;
 import com.ss.editor.extension.scene.filter.EditableSceneFilter;
-import com.ss.rlib.util.array.Array;
-import com.ss.rlib.util.array.ArrayFactory;
+import com.ss.editor.extension.scene.filter.SceneFilter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.function.BiConsumer;
-import java.util.function.Function;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The editable implementation of water filter.
  *
  * @author JavaSaBr
  */
-public class EditableWaterFilter extends WaterFilter implements EditableSceneFilter<WaterFilter> {
+public class EditableWaterFilter extends WaterFilter implements EditableSceneFilter {
 
     public EditableWaterFilter() {
     }
@@ -30,93 +35,93 @@ public class EditableWaterFilter extends WaterFilter implements EditableSceneFil
 
     @NotNull
     @Override
-    public Array<EditableProperty<?, ?>> getEditableProperties() {
+    public List<EditableProperty<?, ?>> getEditableProperties() {
 
-        final Array<EditableProperty<?, ?>> result = ArrayFactory.newArray(EditableProperty.class);
+        final List<EditableProperty<?, ?>> result = new ArrayList<>(35);
         result.add(new SimpleProperty<>(BOOLEAN, "Use foam", this,
-                WaterFilter::isUseFoam,
-                WaterFilter::setUseFoam));
+                makeGetter(this, boolean.class, "isUseFoam"),
+                makeSetter(this, boolean.class, "setUseFoam")));
         result.add(new SimpleProperty<>(BOOLEAN, "Use caustics", this,
-                WaterFilter::isUseCaustics,
-                WaterFilter::setUseCaustics));
+                makeGetter(this, boolean.class, "isUseCaustics"),
+                makeSetter(this, boolean.class, "setUseCaustics")));
         result.add(new SimpleProperty<>(BOOLEAN, "Use HQ shoreline", this,
-                WaterFilter::isUseHQShoreline,
-                WaterFilter::setUseHQShoreline));
+                makeGetter(this, boolean.class, "isUseHQShoreline"),
+                makeSetter(this, boolean.class, "setUseHQShoreline")));
         result.add(new SimpleProperty<>(BOOLEAN, "Use refraction", this,
-                WaterFilter::isUseRefraction,
-                WaterFilter::setUseRefraction));
+                makeGetter(this, boolean.class, "isUseRefraction"),
+                makeSetter(this, boolean.class, "setUseRefraction")));
         result.add(new SimpleProperty<>(BOOLEAN, "Use ripples", this,
-                WaterFilter::isUseRipples,
-                WaterFilter::setUseRipples));
+                makeGetter(this, boolean.class, "isUseRipples"),
+                makeSetter(this, boolean.class, "setUseRipples")));
         result.add(new SimpleProperty<>(BOOLEAN, "Use specular", this,
-                WaterFilter::isUseSpecular,
-                WaterFilter::setUseSpecular));
+                makeGetter(this, boolean.class, "isUseSpecular"),
+                makeSetter(this, boolean.class, "setUseSpecular")));
         result.add(new SimpleProperty<>(FLOAT, "Water height", this,
-                WaterFilter::getWaterHeight,
-                WaterFilter::setWaterHeight));
+                makeGetter(this, float.class, "getWaterHeight"),
+                makeSetter(this, float.class, "setWaterHeight")));
         result.add(new SimpleProperty<>(FLOAT, "Water transparency", 0.01F, 0.001F, 1F, this,
-                WaterFilter::getWaterTransparency,
-                WaterFilter::setWaterTransparency));
+                makeGetter(this, float.class, "getWaterTransparency"),
+                makeSetter(this, float.class, "setWaterTransparency")));
         result.add(new SimpleProperty<>(FLOAT, "Under water fog distance", this,
-                WaterFilter::getUnderWaterFogDistance,
-                WaterFilter::setUnderWaterFogDistance));
+                makeGetter(this, float.class, "getUnderWaterFogDistance"),
+                makeSetter(this, float.class, "setUnderWaterFogDistance")));
         result.add(new SimpleProperty<>(FLOAT, "Refraction strength", 0.01F, -2F, 2F, this,
-                WaterFilter::getRefractionStrength,
-                WaterFilter::setRefractionStrength));
+                makeGetter(this, float.class, "getRefractionStrength"),
+                makeSetter(this, float.class, "setRefractionStrength")));
         result.add(new SimpleProperty<>(FLOAT, "Refraction constant", 0.01F, 0F, 1F, this,
-                WaterFilter::getRefractionConstant,
-                WaterFilter::setRefractionConstant));
+                makeGetter(this, float.class, "getRefractionConstant"),
+                makeSetter(this, float.class, "setRefractionConstant")));
         result.add(new SimpleProperty<>(FLOAT, "Reflection displace", 10F, -10000F, 10000F, this,
-                WaterFilter::getReflectionDisplace,
-                WaterFilter::setReflectionDisplace));
+                makeGetter(this, float.class, "getReflectionDisplace"),
+                makeSetter(this, float.class, "setReflectionDisplace")));
         result.add(new SimpleProperty<>(FLOAT, "Max aplitude", 0.1F, 0F, 10F, this,
-                WaterFilter::getMaxAmplitude,
-                WaterFilter::setMaxAmplitude));
+                makeGetter(this, float.class, "getMaxAmplitude"),
+                makeSetter(this, float.class, "setMaxAmplitude")));
         result.add(new SimpleProperty<>(FLOAT, "Wave scale", 0.003F, 0.001F,    1F, this,
-                WaterFilter::getWaveScale,
-                WaterFilter::setWaveScale));
+                makeGetter(this, float.class, "getWaveScale"),
+                makeSetter(this, float.class, "setWaveScale")));
         result.add(new SimpleProperty<>(FLOAT, "Caustics intensity", 0.01F, 0F, 1F, this,
-                WaterFilter::getCausticsIntensity,
-                WaterFilter::setCausticsIntensity));
+                makeGetter(this, float.class, "getCausticsIntensity"),
+                makeSetter(this, float.class, "setCausticsIntensity")));
         result.add(new SimpleProperty<>(FLOAT, "Foam intensity", 0.01F, -100F, 100F, this,
-                WaterFilter::getFoamIntensity,
-                WaterFilter::setFoamIntensity));
+                makeGetter(this, float.class, "getFoamIntensity"),
+                makeSetter(this, float.class, "setFoamIntensity")));
         result.add(new SimpleProperty<>(FLOAT, "Foam hardness", 0.01F, -100F, 100F, this,
-                WaterFilter::getFoamHardness,
-                WaterFilter::setFoamHardness));
+                makeGetter(this, float.class, "getFoamHardness"),
+                makeSetter(this, float.class, "setFoamHardness")));
         result.add(new SimpleProperty<>(COLOR, "Water color", this,
-                WaterFilter::getWaterColor,
-                WaterFilter::setWaterColor));
+                makeGetter(this, ColorRGBA.class, "getWaterColor"),
+                makeSetter(this, ColorRGBA.class, "setWaterColor")));
         result.add(new SimpleProperty<>(COLOR, "Deep water color", this,
-                WaterFilter::getDeepWaterColor,
-                WaterFilter::setDeepWaterColor));
+                makeGetter(this, ColorRGBA.class, "getDeepWaterColor"),
+                makeSetter(this, ColorRGBA.class, "setDeepWaterColor")));
         result.add(new SimpleProperty<>(COLOR, "Light color", this,
-                WaterFilter::getLightColor,
-                WaterFilter::setLightColor));
+                makeGetter(this, ColorRGBA.class, "getLightColor"),
+                makeSetter(this, ColorRGBA.class, "setLightColor")));
         result.add(new SimpleProperty<>(ENUM, "Shape type", this,
-                WaterFilter::getShapeType,
-                WaterFilter::setShapeType));
+                makeGetter(this, AreaShape.class, "getShapeType"),
+                makeSetter(this, AreaShape.class, "setShapeType")));
         result.add(new SimpleProperty<>(VECTOR_3F, "Color extinction", this,
-                WaterFilter::getColorExtinction,
-                WaterFilter::setColorExtinction));
+                makeGetter(this, Vector3f.class, "getColorExtinction"),
+                makeSetter(this, Vector3f.class, "setColorExtinction")));
         result.add(new SimpleProperty<>(VECTOR_3F, "Foam existence", this,
-                WaterFilter::getFoamExistence,
-                WaterFilter::setFoamExistence));
+                makeGetter(this, Vector3f.class, "getFoamExistence"),
+                makeSetter(this, Vector3f.class, "setFoamExistence")));
         result.add(new SimpleProperty<>(VECTOR_3F, "Light direction", this,
-                WaterFilter::getLightDirection,
-                WaterFilter::setLightDirection));
+                makeGetter(this, Vector3f.class, "getLightDirection"),
+                makeSetter(this, Vector3f.class, "setLightDirection")));
         result.add(new SimpleProperty<>(TEXTURE_2D, "Foam texture", this,
-                WaterFilter::getFoamTexture,
-                WaterFilter::setFoamTexture));
+                makeGetter(this, Texture2D.class, "getFoamTexture"),
+                makeSetter(this, Texture2D.class, "setFoamTexture")));
         result.add(new SimpleProperty<>(TEXTURE_2D, "Caustics texture", this,
-                WaterFilter::getCausticsTexture,
-                WaterFilter::setCausticsTexture));
+                makeGetter(this, Texture2D.class, "getCausticsTexture"),
+                makeSetter(this, Texture2D.class, "setCausticsTexture")));
         result.add(new SimpleProperty<>(TEXTURE_2D, "Height texture", this,
-                WaterFilter::getHeightTexture,
-                WaterFilter::setHeightTexture));
+                makeGetter(this, Texture2D.class, "getHeightTexture"),
+                makeSetter(this, Texture2D.class, "setHeightTexture")));
         result.add(new SimpleProperty<>(TEXTURE_2D, "Normal texture", this,
-                WaterFilter::getNormalTexture,
-                WaterFilter::setNormalTexture));
+                makeGetter(this, Texture2D.class, "getNormalTexture"),
+                makeSetter(this, Texture2D.class, "setNormalTexture")));
         result.add(new SimpleProperty<>(SPATIAL_FROM_SCENE, "Reflection node", this,
                 makeReflectionSceneGetter(),
                 makeReflectionSceneSetter()));
@@ -125,20 +130,29 @@ public class EditableWaterFilter extends WaterFilter implements EditableSceneFil
     }
 
     @NotNull
-    private BiConsumer<EditableWaterFilter, Spatial> makeReflectionSceneSetter() {
-        return (filter, spatial) -> {
-            filter.setReflectionScene(spatial);
-            filter.setNeedSaveReflectionScene(spatial != null);
+    private Setter<EditableWaterFilter, Spatial> makeReflectionSceneSetter() {
+        return new Setter<EditableWaterFilter, Spatial>() {
+
+            @Override
+            public void set(@NotNull final EditableWaterFilter filter, @Nullable final Spatial spatial) {
+                filter.setReflectionScene(spatial);
+                filter.setNeedSaveReflectionScene(spatial != null);
+            }
         };
     }
 
     @NotNull
-    private Function<EditableWaterFilter, Spatial> makeReflectionSceneGetter() {
-        return filter -> {
-            if (filter.isNeedSaveReflectionScene()) {
-                return filter.getReflectionScene();
-            } else {
-                return null;
+    private Getter<EditableWaterFilter, Spatial> makeReflectionSceneGetter() {
+        return new Getter<EditableWaterFilter, Spatial>() {
+
+            @Nullable
+            @Override
+            public Spatial get(@NotNull final EditableWaterFilter filter) {
+                if (filter.isNeedSaveReflectionScene()) {
+                    return filter.getReflectionScene();
+                } else {
+                    return null;
+                }
             }
         };
     }
@@ -146,5 +160,17 @@ public class EditableWaterFilter extends WaterFilter implements EditableSceneFil
     @Override
     public WaterFilter get() {
         return this;
+    }
+
+    @Nullable
+    @Override
+    public String checkStates(final @NotNull List<SceneAppState> exists) {
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public String checkFilters(final @NotNull List<SceneFilter> exists) {
+        return null;
     }
 }

@@ -1,21 +1,27 @@
 package com.ss.editor.extension.scene.filter.impl;
 
 import static com.ss.editor.extension.property.EditablePropertyType.FLOAT;
+import static com.ss.editor.extension.property.ReflectionGetterSetterFactory.makeGetter;
+import static com.ss.editor.extension.property.ReflectionGetterSetterFactory.makeSetter;
 import com.jme3.post.filters.DepthOfFieldFilter;
 import com.jme3.util.clone.Cloner;
 import com.ss.editor.extension.property.EditableProperty;
 import com.ss.editor.extension.property.SimpleProperty;
+import com.ss.editor.extension.scene.app.state.SceneAppState;
 import com.ss.editor.extension.scene.filter.EditableSceneFilter;
-import com.ss.rlib.util.array.Array;
-import com.ss.rlib.util.array.ArrayFactory;
+import com.ss.editor.extension.scene.filter.SceneFilter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The editable implementation of depth of field filter.
  *
  * @author JavaSaBr
  */
-public class EditableDepthOfFieldFilter extends DepthOfFieldFilter implements EditableSceneFilter<DepthOfFieldFilter> {
+public class EditableDepthOfFieldFilter extends DepthOfFieldFilter implements EditableSceneFilter {
 
     @Override
     public DepthOfFieldFilter get() {
@@ -39,24 +45,36 @@ public class EditableDepthOfFieldFilter extends DepthOfFieldFilter implements Ed
 
     @NotNull
     @Override
-    public Array<EditableProperty<?, ?>> getEditableProperties() {
+    public List<EditableProperty<?, ?>> getEditableProperties() {
 
-        final Array<EditableProperty<?, ?>> result = ArrayFactory.newArray(EditableProperty.class);
+        final List<EditableProperty<?, ?>> result = new ArrayList<>(3);
 
         result.add(new SimpleProperty<>(FLOAT, "Blur scale", 0.01F, 0F, 100F, this,
-                DepthOfFieldFilter::getBlurScale,
-                DepthOfFieldFilter::setBlurScale));
+                makeGetter(this, float.class, "getBlurScale"),
+                makeSetter(this, float.class, "setBlurScale")));
         result.add(new SimpleProperty<>(FLOAT, "Focus distance", 1F, 0F, Integer.MAX_VALUE, this,
-                DepthOfFieldFilter::getFocusDistance,
-                DepthOfFieldFilter::setFocusDistance));
+                makeGetter(this, float.class, "getFocusDistance"),
+                makeSetter(this, float.class, "setFocusDistance")));
         result.add(new SimpleProperty<>(FLOAT, "Focus range", 1F, 0F, Integer.MAX_VALUE, this,
-                DepthOfFieldFilter::getFocusRange,
-                DepthOfFieldFilter::setFocusRange));
+                makeGetter(this, float.class, "getFocusRange"),
+                makeSetter(this, float.class, "setFocusRange")));
 
         return result;
     }
 
     @Override
     public void cloneFields(@NotNull final Cloner cloner, @NotNull final Object original) {
+    }
+
+    @Nullable
+    @Override
+    public String checkStates(@NotNull final List<SceneAppState> exists) {
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public String checkFilters(@NotNull final List<SceneFilter> exists) {
+        return null;
     }
 }

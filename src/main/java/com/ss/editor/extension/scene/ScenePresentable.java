@@ -21,9 +21,7 @@ public interface ScenePresentable {
      * @return the current location.
      */
     @NotNull
-    default Vector3f getLocation() {
-        return Vector3f.ZERO;
-    }
+    Vector3f getLocation();
 
     /**
      * Get the current rotation of this object.
@@ -31,9 +29,7 @@ public interface ScenePresentable {
      * @return the current rotation.
      */
     @NotNull
-    default Quaternion getRotation() {
-        return Quaternion.IDENTITY;
-    }
+    Quaternion getRotation();
 
     /**
      * Get the current scale of this object.
@@ -41,33 +37,28 @@ public interface ScenePresentable {
      * @return the current scale.
      */
     @NotNull
-    default Vector3f getScale() {
-        return Vector3f.UNIT_XYZ;
-    }
+    Vector3f getScale();
 
     /**
      * Set the new location of this object.
      *
      * @param location the new location.
      */
-    default void setLocation(@NotNull Vector3f location) {
-    }
+    void setLocation(@NotNull Vector3f location);
 
     /**
      * Set the new scale of this object.
      *
      * @param scale the new scale.
      */
-    default void setScale(@NotNull Vector3f scale) {
-    }
+    void setScale(@NotNull Vector3f scale);
 
     /**
      * Set the new rotation of this object.
      *
      * @param rotation the new rotation.
      */
-    default void setRotation(@NotNull Quaternion rotation) {
-    }
+    void setRotation(@NotNull Quaternion rotation);
 
     /**
      * Get the type of presentation of this object.
@@ -75,7 +66,5 @@ public interface ScenePresentable {
      * @return the type of presentation.
      */
     @NotNull
-    default PresentationType getPresentationType() {
-        return PresentationType.SPHERE;
-    }
+    PresentationType getPresentationType();
 }

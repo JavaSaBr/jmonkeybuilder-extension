@@ -4,8 +4,9 @@ import com.ss.editor.extension.property.EditableProperty;
 import com.ss.editor.extension.scene.filter.SceneFilter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import com.ss.rlib.util.array.Array;
-import com.ss.rlib.util.array.ArrayFactory;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * The interface to implement am editable scene app state.
@@ -15,7 +16,7 @@ import com.ss.rlib.util.array.ArrayFactory;
 public interface EditableSceneAppState extends SceneAppState {
 
     @NotNull
-    Array<EditableProperty<?, ?>> EMPTY_PROPERTIES = ArrayFactory.newArray(EditableProperty.class);
+    List<EditableProperty<?, ?>> EMPTY_PROPERTIES = Collections.emptyList();
 
     /**
      * Get list of editable properties.
@@ -23,9 +24,7 @@ public interface EditableSceneAppState extends SceneAppState {
      * @return the list of editable properties.
      */
     @NotNull
-    default Array<EditableProperty<?, ?>> getEditableProperties() {
-        return EMPTY_PROPERTIES;
-    }
+    List<EditableProperty<?, ?>> getEditableProperties();
 
     /**
      * Check state dependencies.
@@ -34,9 +33,7 @@ public interface EditableSceneAppState extends SceneAppState {
      * @return null of can create or message with description.
      */
     @Nullable
-    default String checkStates(@NotNull final Array<SceneAppState> exists) {
-        return null;
-    }
+    String checkStates(@NotNull final List<SceneAppState> exists);
 
     /**
      * Check filter dependencies.
@@ -45,8 +42,6 @@ public interface EditableSceneAppState extends SceneAppState {
      * @return null of can create or message with description.
      */
     @Nullable
-    default String checkFilters(@NotNull final Array<SceneFilter<?>> exists) {
-        return null;
-    }
+    String checkFilters(@NotNull final List<SceneFilter> exists);
 }
 

@@ -1,16 +1,24 @@
 package com.ss.editor.extension.scene.app.state.impl;
 
 import static com.ss.editor.extension.property.EditablePropertyType.*;
+import static com.ss.editor.extension.property.ReflectionGetterSetterFactory.makeGetter;
+import static com.ss.editor.extension.property.ReflectionGetterSetterFactory.makeSetter;
+import com.jme3.math.ColorRGBA;
 import com.simsilica.fx.LightingState;
 import com.simsilica.fx.sky.SkyState;
 import com.ss.editor.extension.property.EditableProperty;
+import com.ss.editor.extension.property.Getter;
+import com.ss.editor.extension.property.Setter;
 import com.ss.editor.extension.property.SimpleProperty;
+import com.ss.editor.extension.scene.SceneNode;
 import com.ss.editor.extension.scene.app.state.EditableSceneAppState;
 import com.ss.editor.extension.scene.app.state.SceneAppState;
-import com.ss.rlib.util.array.Array;
-import com.ss.rlib.util.array.ArrayFactory;
+import com.ss.editor.extension.scene.filter.SceneFilter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The editable version of sky state.
@@ -31,111 +39,267 @@ public class EditableSkySceneAppState extends SkyState implements EditableSceneA
 
     @Nullable
     @Override
-    public String checkStates(@NotNull final Array<SceneAppState> exists) {
-        final SceneAppState state = exists.search(LightingState.class::isInstance);
-        return state == null ? "The Sky State requires the Lighting State" : null;
+    public String checkStates(@NotNull final List<SceneAppState> exists) {
+
+        SceneAppState lightingState = null;
+
+        for (final SceneAppState state : exists) {
+            if (state instanceof LightingState) {
+                lightingState = state;
+                break;
+            }
+        }
+
+        return lightingState == null ? "The Sky State requires the Lighting State" : null;
+    }
+
+    @Nullable
+    @Override
+    public String checkFilters(@NotNull final List<SceneFilter> exists) {
+        return null;
     }
 
     @NotNull
     @Override
-    public Array<EditableProperty<?, ?>> getEditableProperties() {
+    public List<EditableProperty<?, ?>> getEditableProperties() {
 
-        final Array<EditableProperty<?, ?>> result = ArrayFactory.newArray(EditableProperty.class);
+        final List<EditableProperty<?, ?>> result = new ArrayList<>(18);
 
         result.add(new SimpleProperty<>(BOOLEAN, "Flat shaded", this,
-                                        SkyState::isFlatShaded,
-                                        SkyState::setFlatShaded));
+                makeGetter(this, boolean.class, "isFlatShaded"),
+                makeSetter(this, boolean.class, "setFlatShaded")));
 
         result.add(new SimpleProperty<>(BOOLEAN, "Show ground", this,
-                                        SkyState::isShowGroundGeometry,
-                                        SkyState::setShowGroundGeometry));
+                makeGetter(this, boolean.class, "isShowGroundGeometry"),
+                makeSetter(this, boolean.class, "setShowGroundGeometry")));
 
         result.add(new SimpleProperty<>(COLOR, "Ground color", this,
-                                        SkyState::getGroundColor,
-                                        SkyState::setGroundColor));
+                makeGetter(this, ColorRGBA.class, "getGroundColor"),
+                makeSetter(this, ColorRGBA.class, "setGroundColor")));
 
         result.add(new SimpleProperty<>(COLOR, "Flat color", this,
-                                        SkyState::getFlatColor,
-                                        SkyState::setFlatColor));
+                makeGetter(this, ColorRGBA.class, "getFlatColor"),
+                makeSetter(this, ColorRGBA.class, "setFlatColor")));
 
-        result.add(new SimpleProperty<>(FLOAT, "Rayleigh constant", 0.005F, 0, 1, this,
-                                        state -> state.getAtmosphericParameters()
-                                                      .getRayleighConstant(),
-                                        (state, value) -> state.getAtmosphericParameters()
-                                                               .setRayleighConstant(value)));
+        result.add(new SimpleProperty<>(FLOAT, "Rayleigh constant", 0.005F, 0, 1, this, new Getter<EditableSkySceneAppState, Float>() {
 
-        result.add(new SimpleProperty<>(FLOAT, "Mie constant", 0.001F, 0.0001F, 1, this,
-                                        state -> state.getAtmosphericParameters()
-                                                      .getMieConstant(),
-                                        (state, value) -> state.getAtmosphericParameters()
-                                                               .setMieConstant(value)));
+            @Nullable
+            @Override
+            public Float get(@NotNull final EditableSkySceneAppState object) {
+                return object.getAtmosphericParameters().getRayleighConstant();
+            }
 
-        result.add(new SimpleProperty<>(FLOAT, "Blue wave length", 0.01F, 0, 1, this,
-                                        state -> state.getAtmosphericParameters()
-                                                      .getBlueWaveLength(),
-                                        (state, value) -> state.getAtmosphericParameters()
-                                                               .setBlueWaveLength(value)));
+        }, new Setter<EditableSkySceneAppState, Float>() {
 
-        result.add(new SimpleProperty<>(FLOAT, "Red wave length", 0.01F, 0, 1, this,
-                                        state -> state.getAtmosphericParameters()
-                                                      .getRedWaveLength(),
-                                        (state, value) -> state.getAtmosphericParameters()
-                                                               .setRedWaveLength(value)));
+            @Override
+            public void set(@NotNull final EditableSkySceneAppState object, @Nullable final Float property) {
+                object.getAtmosphericParameters().setRayleighConstant(property);
+            }
+        }));
 
-        result.add(new SimpleProperty<>(FLOAT, "Green wave length", 0.005F, 0, 1, this,
-                                        state -> state.getAtmosphericParameters()
-                                                      .getGreenWaveLength(),
-                                        (state, value) -> state.getAtmosphericParameters()
-                                                               .setGreenWaveLength(value)));
+        result.add(new SimpleProperty<>(FLOAT, "Mie constant", 0.001F, 0.0001F, 1, this, new Getter<EditableSkySceneAppState, Float>() {
 
-        result.add(new SimpleProperty<>(FLOAT, "Average density scale", 0.01F, -1, 8, this,
-                                        state -> state.getAtmosphericParameters()
-                                                      .getAverageDensityScale(),
-                                        (state, value) -> state.getAtmosphericParameters()
-                                                               .setAverageDensityScale(value)));
+            @Nullable
+            @Override
+            public Float get(@NotNull final EditableSkySceneAppState object) {
+                return object.getAtmosphericParameters().getMieConstant();
+            }
 
-        result.add(new SimpleProperty<>(FLOAT, "Ground exposure", this,
-                                        state -> state.getAtmosphericParameters()
-                                                      .getGroundExposure(),
-                                        (state, value) -> state.getAtmosphericParameters()
-                                                               .setGroundExposure(value)));
+        }, new Setter<EditableSkySceneAppState, Float>() {
 
-        result.add(new SimpleProperty<>(FLOAT, "Light intensity", this,
-                                        state -> state.getAtmosphericParameters()
-                                                      .getLightIntensity(),
-                                        (state, value) -> state.getAtmosphericParameters()
-                                                               .setLightIntensity(value)));
+            @Override
+            public void set(@NotNull final EditableSkySceneAppState object, @Nullable final Float property) {
+                object.getAtmosphericParameters().setMieConstant(property);
+            }
+        }));
 
-        result.add(new SimpleProperty<>(FLOAT, "MPA factor", 0.01F, -1.5F, 0.0F, this,
-                                        state -> state.getAtmosphericParameters()
-                                                      .getMiePhaseAsymmetryFactor(),
-                                        (state, value) -> state.getAtmosphericParameters()
-                                                               .setMiePhaseAsymmetryFactor(value)));
+        result.add(new SimpleProperty<>(FLOAT, "Blue wave length", 0.01F, 0, 1, this, new Getter<EditableSkySceneAppState, Float>() {
 
-        result.add(new SimpleProperty<>(FLOAT, "Sky exposure", 0.03F, 0, 10, this,
-                                        state -> state.getAtmosphericParameters()
-                                                      .getSkyExposure(),
-                                        (state, value) -> state.getAtmosphericParameters()
-                                                               .setSkyExposure(value)));
+            @Nullable
+            @Override
+            public Float get(@NotNull final EditableSkySceneAppState object) {
+                return object.getAtmosphericParameters().getBlueWaveLength();
+            }
 
-        result.add(new SimpleProperty<>(FLOAT, "Planet radius", this,
-                                        state -> state.getAtmosphericParameters()
-                                                      .getPlanetRadius(),
-                                        (state, value) -> state.getAtmosphericParameters()
-                                                               .setPlanetRadius(value)));
+        }, new Setter<EditableSkySceneAppState, Float>() {
 
-        result.add(new SimpleProperty<>(FLOAT, "Sky flattening", 0.01F, 0, 1, this,
-                                        state -> state.getAtmosphericParameters()
-                                                      .getSkyFlattening(),
-                                        (state, value) -> state.getAtmosphericParameters()
-                                                               .setSkyFlattening(value)));
+            @Override
+            public void set(@NotNull final EditableSkySceneAppState object, @Nullable final Float property) {
+                object.getAtmosphericParameters().setBlueWaveLength(property);
+            }
+        }));
 
-        result.add(new SimpleProperty<>(FLOAT, "Sky dome radius", this,
-                                        state -> state.getAtmosphericParameters()
-                                                      .getSkyDomeRadius(),
-                                        (state, value) -> state.getAtmosphericParameters()
-                                                               .setSkyDomeRadius(value)));
+        result.add(new SimpleProperty<>(FLOAT, "Red wave length", 0.01F, 0, 1, this, new Getter<EditableSkySceneAppState, Float>() {
+
+            @Nullable
+            @Override
+            public Float get(@NotNull final EditableSkySceneAppState object) {
+                return object.getAtmosphericParameters().getRedWaveLength();
+            }
+
+        }, new Setter<EditableSkySceneAppState, Float>() {
+
+            @Override
+            public void set(@NotNull final EditableSkySceneAppState object, @Nullable final Float property) {
+                object.getAtmosphericParameters().setRedWaveLength(property);
+            }
+        }));
+
+        result.add(new SimpleProperty<>(FLOAT, "Green wave length", 0.005F, 0, 1, this, new Getter<EditableSkySceneAppState, Float>() {
+
+            @Nullable
+            @Override
+            public Float get(@NotNull final EditableSkySceneAppState object) {
+                return object.getAtmosphericParameters().getGreenWaveLength();
+            }
+
+        }, new Setter<EditableSkySceneAppState, Float>() {
+
+            @Override
+            public void set(@NotNull final EditableSkySceneAppState object, @Nullable final Float property) {
+                object.getAtmosphericParameters().setGreenWaveLength(property);
+            }
+        }));
+
+        result.add(new SimpleProperty<>(FLOAT, "Average density scale", 0.01F, -1, 8, this, new Getter<EditableSkySceneAppState, Float>() {
+
+            @Nullable
+            @Override
+            public Float get(@NotNull final EditableSkySceneAppState object) {
+                return object.getAtmosphericParameters().getAverageDensityScale();
+            }
+
+        }, new Setter<EditableSkySceneAppState, Float>() {
+
+            @Override
+            public void set(@NotNull final EditableSkySceneAppState object, @Nullable final Float property) {
+                object.getAtmosphericParameters().setAverageDensityScale(property);
+            }
+        }));
+
+        result.add(new SimpleProperty<>(FLOAT, "Ground exposure", this, new Getter<EditableSkySceneAppState, Float>() {
+
+            @Nullable
+            @Override
+            public Float get(@NotNull final EditableSkySceneAppState object) {
+                return object.getAtmosphericParameters().getGroundExposure();
+            }
+
+        }, new Setter<EditableSkySceneAppState, Float>() {
+
+            @Override
+            public void set(@NotNull final EditableSkySceneAppState object, @Nullable final Float property) {
+                object.getAtmosphericParameters().setGroundExposure(property);
+            }
+        }));
+
+        result.add(new SimpleProperty<>(FLOAT, "Light intensity", this, new Getter<EditableSkySceneAppState, Float>() {
+
+            @Nullable
+            @Override
+            public Float get(@NotNull final EditableSkySceneAppState object) {
+                return object.getAtmosphericParameters().getLightIntensity();
+            }
+
+        }, new Setter<EditableSkySceneAppState, Float>() {
+
+            @Override
+            public void set(@NotNull final EditableSkySceneAppState object, @Nullable final Float property) {
+                object.getAtmosphericParameters().setLightIntensity(property);
+            }
+        }));
+
+        result.add(new SimpleProperty<>(FLOAT, "MPA factor", 0.01F, -1.5F, 0.0F, this, new Getter<EditableSkySceneAppState, Float>() {
+
+            @Nullable
+            @Override
+            public Float get(@NotNull final EditableSkySceneAppState object) {
+                return object.getAtmosphericParameters().getMiePhaseAsymmetryFactor();
+            }
+
+        }, new Setter<EditableSkySceneAppState, Float>() {
+
+            @Override
+            public void set(@NotNull final EditableSkySceneAppState object, @Nullable final Float property) {
+                object.getAtmosphericParameters().setMiePhaseAsymmetryFactor(property);
+            }
+        }));
+
+        result.add(new SimpleProperty<>(FLOAT, "Sky exposure", 0.03F, 0, 10, this, new Getter<EditableSkySceneAppState, Float>() {
+
+            @Nullable
+            @Override
+            public Float get(@NotNull final EditableSkySceneAppState object) {
+                return object.getAtmosphericParameters().getSkyExposure();
+            }
+
+        }, new Setter<EditableSkySceneAppState, Float>() {
+
+            @Override
+            public void set(@NotNull final EditableSkySceneAppState object, @Nullable final Float property) {
+                object.getAtmosphericParameters().setSkyExposure(property);
+            }
+        }));
+
+        result.add(new SimpleProperty<>(FLOAT, "Planet radius", this, new Getter<EditableSkySceneAppState, Float>() {
+
+            @Nullable
+            @Override
+            public Float get(@NotNull final EditableSkySceneAppState object) {
+                return object.getAtmosphericParameters().getPlanetRadius();
+            }
+
+        }, new Setter<EditableSkySceneAppState, Float>() {
+
+            @Override
+            public void set(@NotNull final EditableSkySceneAppState object, @Nullable final Float property) {
+                object.getAtmosphericParameters().setPlanetRadius(property);
+            }
+        }));
+
+        result.add(new SimpleProperty<>(FLOAT, "Sky flattening", 0.01F, 0, 1, this, new Getter<EditableSkySceneAppState, Float>() {
+
+            @Nullable
+            @Override
+            public Float get(@NotNull final EditableSkySceneAppState object) {
+                return object.getAtmosphericParameters().getSkyFlattening();
+            }
+        }, new Setter<EditableSkySceneAppState, Float>() {
+
+            @Override
+            public void set(@NotNull final EditableSkySceneAppState object, @Nullable final Float property) {
+                object.getAtmosphericParameters().setSkyFlattening(property);
+            }
+        }));
+
+        result.add(new SimpleProperty<>(FLOAT, "Sky dome radius", this, new Getter<EditableSkySceneAppState, Float>() {
+
+            @Nullable
+            @Override
+            public Float get(@NotNull final EditableSkySceneAppState object) {
+                return object.getAtmosphericParameters().getSkyDomeRadius();
+            }
+
+        }, new Setter<EditableSkySceneAppState, Float>() {
+
+            @Override
+            public void set(@NotNull final EditableSkySceneAppState object, @Nullable final Float property) {
+                object.getAtmosphericParameters().setSkyDomeRadius(property);
+            }
+        }));
 
         return result;
+    }
+
+    @Override
+    public void setSceneNode(@Nullable final SceneNode sceneNode) {
+    }
+
+    @Override
+    public void notifyAdded(@NotNull final Object object) {
+    }
+
+    @Override
+    public void notifyRemoved(@NotNull final Object object) {
     }
 }

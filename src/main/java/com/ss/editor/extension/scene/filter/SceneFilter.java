@@ -3,11 +3,12 @@ package com.ss.editor.extension.scene.filter;
 import com.jme3.export.Savable;
 import com.jme3.post.Filter;
 import com.jme3.util.clone.JmeCloneable;
+import com.ss.editor.extension.Named;
 import com.ss.editor.extension.scene.app.state.SceneAppState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import com.ss.rlib.util.HasName;
-import com.ss.rlib.util.array.Array;
+
+import java.util.List;
 
 /**
  * The interface to implement a scene filter.
@@ -15,14 +16,14 @@ import com.ss.rlib.util.array.Array;
  * @author JavaSaBr
  */
 @SuppressWarnings("NullableProblems")
-public interface SceneFilter<T extends Filter> extends Savable, HasName, JmeCloneable, Cloneable {
+public interface SceneFilter extends Savable, Named, JmeCloneable, Cloneable {
 
     /**
      * Get a filter. It is usually return this.
      *
      * @return the filter.
      */
-    T get();
+    Filter get();
 
     /**
      * Enable or disable this filter
@@ -45,9 +46,7 @@ public interface SceneFilter<T extends Filter> extends Savable, HasName, JmeClon
      * @return null of can create or message with description.
      */
     @Nullable
-    default String checkStates(@NotNull final Array<SceneAppState> exists) {
-        return null;
-    }
+    String checkStates(@NotNull final List<SceneAppState> exists);
 
     /**
      * Check filter dependencies.
@@ -56,7 +55,5 @@ public interface SceneFilter<T extends Filter> extends Savable, HasName, JmeClon
      * @return null of can create or message with description.
      */
     @Nullable
-    default String checkFilters(@NotNull final Array<SceneFilter<?>> exists) {
-        return null;
-    }
+    String checkFilters(@NotNull final List<SceneFilter> exists);
 }

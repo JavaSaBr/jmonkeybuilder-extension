@@ -1,13 +1,15 @@
 package com.ss.editor.extension.scene.filter.impl;
 
 import static com.ss.editor.extension.property.EditablePropertyType.DIRECTION_LIGHT_FROM_SCENE;
+import com.jme3.light.DirectionalLight;
 import com.jme3.shadow.AbstractShadowRenderer;
 import com.jme3.shadow.DirectionalLightShadowFilter;
 import com.ss.editor.extension.property.EditableProperty;
+import com.ss.editor.extension.property.ReflectionGetterSetterFactory;
 import com.ss.editor.extension.property.SimpleProperty;
-import com.ss.rlib.util.array.Array;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.logging.Level;
 
 /**
@@ -33,12 +35,12 @@ public class EditableDirectionLightFromSceneShadowFilter extends EditableDirecti
 
     @NotNull
     @Override
-    public Array<EditableProperty<?, ?>> getEditableProperties() {
+    public List<EditableProperty<?, ?>> getEditableProperties() {
 
-        final Array<EditableProperty<?, ?>> result = super.getEditableProperties();
+        final List<EditableProperty<?, ?>> result = super.getEditableProperties();
         result.add(new SimpleProperty<>(DIRECTION_LIGHT_FROM_SCENE, "Direction light", this,
-                EditableDirectionalLightShadowFilter::getLight,
-                EditableDirectionalLightShadowFilter::setLight));
+                ReflectionGetterSetterFactory.makeGetter(this, DirectionalLight.class, "getLight"),
+                ReflectionGetterSetterFactory.makeSetter(this, DirectionalLight.class, "setLight")));
 
         return result;
     }
