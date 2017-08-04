@@ -41,14 +41,7 @@ import java.util.List;
 public class StaticPBRSceneAppState extends EnvironmentCamera implements EditableSceneAppState, ScenePresentable {
 
     @NotNull
-    private final JobProgressAdapter<LightProbe> probeHandler = new JobProgressAdapter<LightProbe>() {
-
-        @Override
-        public void done(@NotNull final LightProbe result) {
-            if (!isInitialized()) return;
-            notifyProbeComplete();
-        }
-    };
+    private JobProgressAdapter<LightProbe> probeHandler = makeProbeHandler();
 
     /**
      * The list of hide nodes.
@@ -123,6 +116,18 @@ public class StaticPBRSceneAppState extends EnvironmentCamera implements Editabl
     }
 
     @NotNull
+    protected JobProgressAdapter<LightProbe> makeProbeHandler() {
+        return new JobProgressAdapter<LightProbe>() {
+
+            @Override
+            public void done(@NotNull final LightProbe result) {
+                if (!isInitialized()) return;
+                notifyProbeComplete();
+            }
+        };
+    }
+
+    @NotNull
     protected List<Spatial> getHideNodes() {
         return hideNodes;
     }
@@ -194,6 +199,7 @@ public class StaticPBRSceneAppState extends EnvironmentCamera implements Editabl
     public void cloneFields(@NotNull final Cloner cloner, @NotNull final Object original) {
         this.lightProbe = cloner.clone(lightProbe);
         this.pbrScene = cloner.clone(pbrScene);
+        this.probeHandler = makeProbeHandler();
     }
 
     @Override
