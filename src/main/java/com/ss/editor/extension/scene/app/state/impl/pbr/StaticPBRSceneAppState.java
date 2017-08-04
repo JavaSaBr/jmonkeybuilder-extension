@@ -4,6 +4,7 @@ import static com.ss.editor.extension.property.EditablePropertyType.*;
 import static com.ss.editor.extension.property.ReflectionGetterSetterFactory.makeGetter;
 import static com.ss.editor.extension.property.ReflectionGetterSetterFactory.makeSetter;
 import static java.lang.Math.max;
+import com.jme3.app.Application;
 import com.jme3.bounding.BoundingSphere;
 import com.jme3.bounding.BoundingVolume;
 import com.jme3.environment.EnvironmentCamera;
@@ -106,6 +107,12 @@ public class StaticPBRSceneAppState extends EnvironmentCamera implements Editabl
     @Nullable
     public Node getPbrScene() {
         return pbrScene;
+    }
+
+    @Override
+    protected void initialize(final Application app) {
+        this.nextSize = size;
+        super.initialize(app);
     }
 
     @Override
