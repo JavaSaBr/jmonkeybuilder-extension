@@ -132,7 +132,7 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
             }
         }
 
-        lightList.add(lightProbe);
+        pbrScene.addLight(lightProbe);
     }
 
     @Override
@@ -178,6 +178,7 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
 
             if (environmentScene == null) {
                 environmentScene = EMPTY_SCENE;
+                EMPTY_SCENE.updateGeometricState();
             }
 
             LightProbeFactory.updateProbe(lightProbe, this, environmentScene, probeHandler);
@@ -213,9 +214,16 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
     protected void notifyProbeComplete() {
         preparing = false;
 
-        if (getSize() != nextSize) {
-            setSize(nextSize);
+        if (getSize() == nextSize) {
+            return;
         }
+
+        getApplication().enqueue(new Runnable() {
+            @Override
+            public void run() {
+                setSize(nextSize);
+            }
+        });
     }
 
     @NotNull
