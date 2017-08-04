@@ -240,18 +240,16 @@ public class SceneNode extends Node {
         final InputCapsule capsule = importer.getCapsule(this);
 
         final Savable[] importedLayers = capsule.readSavableArray("layers", EMPTY_LAYERS);
+        final Savable[] importedAppStates = capsule.readSavableArray("appStates", EMPTY_STATES);
+        final Savable[] importedFilters = capsule.readSavableArray("filters", EMPTY_FILTERS);
 
         for (final Savable savable : importedLayers) {
             layers.add((SceneLayer) savable);
         }
 
-        final Savable[] importedAppStates = capsule.readSavableArray("appStates", EMPTY_STATES);
-
         for (final Savable savable : importedAppStates) {
             appStates.add((SceneAppState) savable);
         }
-
-        final Savable[] importedFilters = capsule.readSavableArray("filters", EMPTY_FILTERS);
 
         for (final Savable savable : importedFilters) {
             filters.add((SceneFilter) savable);
@@ -267,7 +265,7 @@ public class SceneNode extends Node {
         layers = cloner.clone(layers);
         appStates = cloner.clone(appStates);
         filters = cloner.clone(filters);
-        
+
         for (final SceneAppState appState : appStates.getArray()) {
             appState.setSceneNode(this);
         }

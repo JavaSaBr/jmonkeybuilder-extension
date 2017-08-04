@@ -61,12 +61,20 @@ public class StaticPBRSceneAppState extends EnvironmentCamera implements Editabl
     @Nullable
     private Node pbrScene;
 
-    private SceneNode sceneNode;
-
     /**
      * The current frame.
      */
     private int frame;
+
+    /**
+     * The next quality size.
+     */
+    private int nextSize;
+
+    /**
+     * The flag of this state is preparing now.
+     */
+    private boolean preparing;
 
     public StaticPBRSceneAppState() {
         this.lightProbe = new InvisibleLightProbe();
@@ -108,7 +116,7 @@ public class StaticPBRSceneAppState extends EnvironmentCamera implements Editabl
             return;
         }
 
-        if (frame == 2) {
+        if (frame == 2 && !preparing) {
             prepareToMakeProbe();
             LightProbeFactory.updateProbe(lightProbe, this, pbrScene, probeHandler);
             frame++;
@@ -149,6 +157,8 @@ public class StaticPBRSceneAppState extends EnvironmentCamera implements Editabl
         hideNodes.addAll(pbrScene.getChildren());
 
         pbrScene.detachAllChildren();
+
+        preparing = true;
     }
 
     /**
@@ -165,6 +175,12 @@ public class StaticPBRSceneAppState extends EnvironmentCamera implements Editabl
         for (final Spatial spatial : hideNodes) {
             pbrScene.attachChild(spatial);
         }
+
+        preparing = false;
+
+        if (getSize() != nextSize) {
+            setSize(nextSize);
+        }
     }
 
     @NotNull
@@ -175,17 +191,14 @@ public class StaticPBRSceneAppState extends EnvironmentCamera implements Editabl
 
     @Override
     public void setSceneNode(@Nullable final SceneNode sceneNode) {
-        this.sceneNode = sceneNode;
     }
 
     @Override
     public void notifyAdded(@NotNull final Object object) {
-
     }
 
     @Override
     public void notifyRemoved(@NotNull final Object object) {
-
     }
 
     @Override
@@ -230,6 +243,17 @@ public class StaticPBRSceneAppState extends EnvironmentCamera implements Editabl
     @Override
     public String checkFilters(@NotNull final List<SceneFilter> exists) {
         return null;
+    }
+
+    @Override
+    public void setSize(final int size) {
+        nextSize = size;
+
+        if (!preparing) {
+            super.setSize(size);
+        }
+
+        frame = 0;
     }
 
     @NotNull
@@ -307,6 +331,9 @@ public class StaticPBRSceneAppState extends EnvironmentCamera implements Editabl
     public List<EditableProperty<?, ?>> getEditableProperties() {
 
         final List<EditableProperty<?, ?>> result = new ArrayList<>();
+        result.add(new SimpleProperty<>(INTEGER, "Quality size", this,
+                makeGetter(this, int.class, "getSize"),
+                makeSetter(this, int.class, "setSize")));
         result.add(new SimpleProperty<>(FLOAT, "Radius", this,
                 makeGetter(this, float.class, "getRadius"),
                 makeSetter(this, float.class, "setRadius")));
@@ -314,8 +341,8 @@ public class StaticPBRSceneAppState extends EnvironmentCamera implements Editabl
                 makeGetter(this, Node.class, "getPbrScene"),
                 makeSetter(this, Node.class, "setPbrScene")));
         result.add(new SimpleProperty<>(VECTOR_3F, "Position", this,
-                makeGetter(this, Vector3f.class, "getPosition"),
-                makeSetter(this, Vector3f.class, "setPosition")));
+                makeGetter(this, Vector3f.class, "getLocation"),
+                makeSetter(this, Vector3f.class, "setLocation")));
 
         return result;
     }
