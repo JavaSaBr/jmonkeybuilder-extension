@@ -281,6 +281,10 @@ public class SceneNode extends Node {
         for (int i = 0; i < filters.size(); i++) {
             filters.set(i, cloner.clone(filters.get(i)));
         }
+
+        for (final SceneAppState appState : appStates.getArray()) {
+            appState.setSceneNode(this);
+        }
     }
 
     /**
