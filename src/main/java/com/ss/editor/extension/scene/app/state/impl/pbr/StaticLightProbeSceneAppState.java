@@ -14,11 +14,11 @@ import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
+import com.jme3.light.LightList;
 import com.jme3.light.LightProbe;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
 import com.jme3.util.clone.Cloner;
 import com.ss.editor.extension.property.EditableProperty;
 import com.ss.editor.extension.property.SimpleProperty;
@@ -35,20 +35,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The implementation of static PBR app state.
+ * The implementation of static Light probe scene app state.
  *
  * @author JavaSaBr
  */
-public class StaticPBRSceneAppState extends EnvironmentCamera implements EditableSceneAppState, ScenePresentable {
+public class StaticLightProbeSceneAppState extends EnvironmentCamera implements EditableSceneAppState, ScenePresentable {
 
     @NotNull
     private JobProgressAdapter<LightProbe> probeHandler = makeProbeHandler();
 
-    /**
-     * The list of hide nodes.
-     */
     @NotNull
-    private List<Spatial> hideNodes;
+    private static final Node EMPTY_SCENE = new Node("Empty scene");
 
     /**
      * The PBR Light probe.
@@ -57,10 +54,16 @@ public class StaticPBRSceneAppState extends EnvironmentCamera implements Editabl
     private LightProbe lightProbe;
 
     /**
-     * The PBR scene
+     * The scene to put a light probe.
      */
     @Nullable
     private Node pbrScene;
+
+    /**
+     * The scene to make a light probe.
+     */
+    @Nullable
+    private Node environmentScene;
 
     /**
      * The current frame.
@@ -77,15 +80,14 @@ public class StaticPBRSceneAppState extends EnvironmentCamera implements Editabl
      */
     private boolean preparing;
 
-    public StaticPBRSceneAppState() {
+    public StaticLightProbeSceneAppState() {
         this.lightProbe = new InvisibleLightProbe();
-        this.hideNodes = new ArrayList<>();
     }
 
     /**
-     * Set the PBR scene.
+     * Set the scene to put a light probe.
      *
-     * @param scene the PBR scene.
+     * @param scene the scene to put a light probe.
      */
     public void setPbrScene(@Nullable final Node scene) {
 
@@ -100,13 +102,58 @@ public class StaticPBRSceneAppState extends EnvironmentCamera implements Editabl
         if (scene != null) {
             scene.addLight(lightProbe);
         }
+    }
 
+    /**
+     * Set the scene to make a light probe.
+     *
+     * @param environmentScene the scene to make a light probe.
+     */
+    public void setEnvironmentScene(final Node environmentScene) {
+        this.environmentScene = environmentScene;
         this.frame = 0;
+    }
+
+    @Override
+    protected void onEnable() {
+        super.onEnable();
+
+        final Node pbrScene = getPbrScene();
+
+        if (pbrScene == null) {
+            return;
+        }
+
+        final LightList lightList = pbrScene.getLocalLightList();
+
+        for (int i = 0; i < lightList.size(); i++) {
+            if (lightList.get(i) == lightProbe) {
+                return;
+            }
+        }
+
+        lightList.add(lightProbe);
+    }
+
+    @Override
+    protected void onDisable() {
+        super.onDisable();
+
+        final Node pbrScene = getPbrScene();
+
+        if (pbrScene != null) {
+            pbrScene.removeLight(lightProbe);
+        }
     }
 
     @Nullable
     public Node getPbrScene() {
         return pbrScene;
+    }
+
+    @Nullable
+    public Node getEnvironmentScene() {
+        return environmentScene;
     }
 
     @Override
@@ -124,8 +171,17 @@ public class StaticPBRSceneAppState extends EnvironmentCamera implements Editabl
         }
 
         if (frame == 2 && !preparing) {
+
             prepareToMakeProbe();
-            LightProbeFactory.updateProbe(lightProbe, this, pbrScene, probeHandler);
+
+            Node environmentScene = getEnvironmentScene();
+
+            if (environmentScene == null) {
+                environmentScene = EMPTY_SCENE;
+            }
+
+            LightProbeFactory.updateProbe(lightProbe, this, environmentScene, probeHandler);
+
             frame++;
         } else if (frame < 2) {
             frame++;
@@ -144,27 +200,10 @@ public class StaticPBRSceneAppState extends EnvironmentCamera implements Editabl
         };
     }
 
-    @NotNull
-    protected List<Spatial> getHideNodes() {
-        return hideNodes;
-    }
-
     /**
      * Prepare the PBR scene to make a light probe.
      */
     protected void prepareToMakeProbe() {
-
-        final Node pbrScene = getPbrScene();
-        if (pbrScene == null) {
-            throw new RuntimeException("The PBR scene shouldn't be not null.");
-        }
-
-        final List<Spatial> hideNodes = getHideNodes();
-        hideNodes.clear();
-        hideNodes.addAll(pbrScene.getChildren());
-
-        pbrScene.detachAllChildren();
-
         preparing = true;
     }
 
@@ -172,17 +211,6 @@ public class StaticPBRSceneAppState extends EnvironmentCamera implements Editabl
      * Handle finishing making a light probe.
      */
     protected void notifyProbeComplete() {
-
-        final Node pbrScene = getPbrScene();
-        if (pbrScene == null) {
-            throw new RuntimeException("The PBR scene shouldn't be not null.");
-        }
-
-        final List<Spatial> hideNodes = getHideNodes();
-        for (final Spatial spatial : hideNodes) {
-            pbrScene.attachChild(spatial);
-        }
-
         preparing = false;
 
         if (getSize() != nextSize) {
@@ -193,7 +221,7 @@ public class StaticPBRSceneAppState extends EnvironmentCamera implements Editabl
     @NotNull
     @Override
     public String getName() {
-        return "PBR static scene";
+        return "Static Light probe";
     }
 
     @Override
@@ -229,6 +257,7 @@ public class StaticPBRSceneAppState extends EnvironmentCamera implements Editabl
         final OutputCapsule out = ex.getCapsule(this);
         out.write(lightProbe, "lightProbe", null);
         out.write(pbrScene, "pbrScene", this);
+        out.write(environmentScene, "environmentScene", this);
         out.write(frame, "frame", 0);
     }
 
@@ -237,6 +266,7 @@ public class StaticPBRSceneAppState extends EnvironmentCamera implements Editabl
         final InputCapsule in = im.getCapsule(this);
         lightProbe = (LightProbe) in.readSavable("lightProbe", null);
         pbrScene = (Node) in.readSavable("pbrScene", null);
+        environmentScene = (Node) in.readSavable("environmentScene", null);
         frame = in.readInt("frame", 0);
     }
 
@@ -344,6 +374,9 @@ public class StaticPBRSceneAppState extends EnvironmentCamera implements Editabl
         result.add(new SimpleProperty<>(FLOAT, "Radius", this,
                 makeGetter(this, float.class, "getRadius"),
                 makeSetter(this, float.class, "setRadius")));
+        result.add(new SimpleProperty<>(NODE_FROM_SCENE, "Env scene", this,
+                makeGetter(this, Node.class, "getEnvironmentScene"),
+                makeSetter(this, Node.class, "setEnvironmentScene")));
         result.add(new SimpleProperty<>(NODE_FROM_SCENE, "PBR Scene", this,
                 makeGetter(this, Node.class, "getPbrScene"),
                 makeSetter(this, Node.class, "setPbrScene")));
@@ -353,5 +386,4 @@ public class StaticPBRSceneAppState extends EnvironmentCamera implements Editabl
 
         return result;
     }
-
 }
