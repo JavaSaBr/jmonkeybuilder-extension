@@ -265,23 +265,9 @@ public class SceneNode extends Node {
         super.cloneFields(cloner, original);
 
         layers = cloner.clone(layers);
-
-        for (int i = 0; i < layers.size(); i++) {
-            layers.set(i, cloner.clone(layers.get(i)));
-        }
-
         appStates = cloner.clone(appStates);
-
-        for (int i = 0; i < appStates.size(); i++) {
-            appStates.set(i, cloner.clone(appStates.get(i)));
-        }
-
         filters = cloner.clone(filters);
-
-        for (int i = 0; i < filters.size(); i++) {
-            filters.set(i, cloner.clone(filters.get(i)));
-        }
-
+        
         for (final SceneAppState appState : appStates.getArray()) {
             appState.setSceneNode(this);
         }
