@@ -61,6 +61,8 @@ public class StaticPBRSceneAppState extends EnvironmentCamera implements Editabl
     @Nullable
     private Node pbrScene;
 
+    private SceneNode sceneNode;
+
     /**
      * The current frame.
      */
@@ -173,7 +175,7 @@ public class StaticPBRSceneAppState extends EnvironmentCamera implements Editabl
 
     @Override
     public void setSceneNode(@Nullable final SceneNode sceneNode) {
-
+        this.sceneNode = sceneNode;
     }
 
     @Override
