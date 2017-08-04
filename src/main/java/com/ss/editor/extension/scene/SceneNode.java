@@ -228,11 +228,10 @@ public class SceneNode extends Node {
         final SceneFilter[] filters = getFilters().getArray();
 
         capsule.write(layers, "layers", EMPTY_LAYERS);
-
-        super.write(exporter);
-
         capsule.write(appStates, "appStates", EMPTY_STATES);
         capsule.write(filters, "filters", EMPTY_FILTERS);
+
+        super.write(exporter);
     }
 
     @Override
@@ -241,24 +240,22 @@ public class SceneNode extends Node {
         final InputCapsule capsule = importer.getCapsule(this);
 
         final Savable[] importedLayers = capsule.readSavableArray("layers", EMPTY_LAYERS);
+        final Savable[] importedAppStates = capsule.readSavableArray("appStates", EMPTY_STATES);
+        final Savable[] importedFilters = capsule.readSavableArray("filters", EMPTY_FILTERS);
 
         for (final Savable savable : importedLayers) {
             layers.add((SceneLayer) savable);
         }
 
-        super.read(importer);
-
-        final Savable[] importedAppStates = capsule.readSavableArray("appStates", EMPTY_STATES);
-
         for (final Savable savable : importedAppStates) {
             appStates.add((SceneAppState) savable);
         }
 
-        final Savable[] importedFilters = capsule.readSavableArray("filters", EMPTY_FILTERS);
-
         for (final Savable savable : importedFilters) {
             filters.add((SceneFilter) savable);
         }
+
+        super.read(importer);
     }
 
     @Override
@@ -266,21 +263,11 @@ public class SceneNode extends Node {
         super.cloneFields(cloner, original);
 
         layers = cloner.clone(layers);
-
-        for (int i = 0; i < layers.size(); i++) {
-            layers.set(i, cloner.clone(layers.get(i)));
-        }
-
         appStates = cloner.clone(appStates);
-
-        for (int i = 0; i < appStates.size(); i++) {
-            appStates.set(i, cloner.clone(appStates.get(i)));
-        }
-
         filters = cloner.clone(filters);
 
-        for (int i = 0; i < filters.size(); i++) {
-            filters.set(i, cloner.clone(filters.get(i)));
+        for (final SceneAppState appState : appStates.getArray()) {
+            appState.setSceneNode(this);
         }
     }
 
