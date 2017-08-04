@@ -228,11 +228,10 @@ public class SceneNode extends Node {
         final SceneFilter[] filters = getFilters().getArray();
 
         capsule.write(layers, "layers", EMPTY_LAYERS);
-
-        super.write(exporter);
-
         capsule.write(appStates, "appStates", EMPTY_STATES);
         capsule.write(filters, "filters", EMPTY_FILTERS);
+
+        super.write(exporter);
     }
 
     @Override
@@ -246,8 +245,6 @@ public class SceneNode extends Node {
             layers.add((SceneLayer) savable);
         }
 
-        super.read(importer);
-
         final Savable[] importedAppStates = capsule.readSavableArray("appStates", EMPTY_STATES);
 
         for (final Savable savable : importedAppStates) {
@@ -259,6 +256,8 @@ public class SceneNode extends Node {
         for (final Savable savable : importedFilters) {
             filters.add((SceneFilter) savable);
         }
+
+        super.read(importer);
     }
 
     @Override

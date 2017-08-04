@@ -213,8 +213,8 @@ public class StaticPBRSceneAppState extends EnvironmentCamera implements Editabl
     @Override
     public void read(@NotNull final JmeImporter im) throws IOException {
         final InputCapsule in = im.getCapsule(this);
-        pbrScene = (Node) in.readSavable("pbrScene", null);
         lightProbe = (LightProbe) in.readSavable("lightProbe", null);
+        pbrScene = (Node) in.readSavable("pbrScene", null);
         frame = in.readInt("frame", 0);
     }
 
