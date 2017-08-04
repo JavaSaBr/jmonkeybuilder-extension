@@ -1,4 +1,9 @@
 package com.ss.editor.extension.scene;
 
-public class InvisibleObject {
+/**
+ * THe interface to mark an object to be invisible.
+ *
+ * @author JavaSaBr
+ */
+public interface InvisibleObject {
 }

@@ -1,17 +1,28 @@
-package com.ss.editor.extension.scene.app.state.impl;
+package com.ss.editor.extension.scene.app.state.impl.pbr;
 
+import static com.ss.editor.extension.property.EditablePropertyType.*;
+import static com.ss.editor.extension.property.ReflectionGetterSetterFactory.makeGetter;
+import static com.ss.editor.extension.property.ReflectionGetterSetterFactory.makeSetter;
+import static java.lang.Math.max;
+import com.jme3.bounding.BoundingSphere;
+import com.jme3.bounding.BoundingVolume;
 import com.jme3.environment.EnvironmentCamera;
 import com.jme3.environment.LightProbeFactory;
 import com.jme3.environment.generation.JobProgressAdapter;
+import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
+import com.jme3.export.OutputCapsule;
 import com.jme3.light.LightProbe;
+import com.jme3.math.Quaternion;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.util.SafeArrayList;
 import com.jme3.util.clone.Cloner;
 import com.ss.editor.extension.property.EditableProperty;
+import com.ss.editor.extension.property.SimpleProperty;
 import com.ss.editor.extension.scene.SceneNode;
+import com.ss.editor.extension.scene.ScenePresentable;
 import com.ss.editor.extension.scene.app.state.EditableSceneAppState;
 import com.ss.editor.extension.scene.app.state.SceneAppState;
 import com.ss.editor.extension.scene.filter.SceneFilter;
@@ -19,6 +30,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,7 +38,7 @@ import java.util.List;
  *
  * @author JavaSaBr
  */
-public class StaticPBRSceneAppState extends EnvironmentCamera implements EditableSceneAppState {
+public class StaticPBRSceneAppState extends EnvironmentCamera implements EditableSceneAppState, ScenePresentable {
 
     @NotNull
     private final JobProgressAdapter<LightProbe> probeHandler = new JobProgressAdapter<LightProbe>() {
@@ -42,7 +54,7 @@ public class StaticPBRSceneAppState extends EnvironmentCamera implements Editabl
      * The list of hide nodes.
      */
     @NotNull
-    private SafeArrayList<Spatial> hideNodes;
+    private List<Spatial> hideNodes;
 
     /**
      * The PBR Light probe.
@@ -62,15 +74,33 @@ public class StaticPBRSceneAppState extends EnvironmentCamera implements Editabl
     private int frame;
 
     public StaticPBRSceneAppState() {
-        this.lightProbe = new LightProbe();
-        this.hideNodes = new SafeArrayList<>(Spatial.class);
+        this.lightProbe = new InvisibleLightProbe();
+        this.hideNodes = new ArrayList<>();
     }
 
-    public void setPbrScene(@NotNull final Node pbrScene) {
-        this.pbrScene = pbrScene;
+    /**
+     * Set the PBR scene.
+     *
+     * @param scene the PBR scene.
+     */
+    public void setPbrScene(@Nullable final Node scene) {
+
+        final Node prevScene = getPbrScene();
+
+        if (prevScene != null) {
+            prevScene.removeLight(lightProbe);
+        }
+
+        this.pbrScene = scene;
+
+        if (scene != null) {
+            scene.addLight(lightProbe);
+        }
+
         this.frame = 0;
     }
 
+    @Nullable
     public Node getPbrScene() {
         return pbrScene;
     }
@@ -86,36 +116,54 @@ public class StaticPBRSceneAppState extends EnvironmentCamera implements Editabl
         if (frame == 2) {
             prepareToMakeProbe();
             LightProbeFactory.updateProbe(lightProbe, this, pbrScene, probeHandler);
+            frame++;
         } else if (frame < 2) {
             frame++;
         }
     }
 
     @NotNull
-    protected SafeArrayList<Spatial> getHideNodes() {
+    protected List<Spatial> getHideNodes() {
         return hideNodes;
     }
 
-    private void prepareToMakeProbe() {
+    /**
+     * Prepare the PBR scene to make a light probe.
+     */
+    protected void prepareToMakeProbe() {
 
         final Node pbrScene = getPbrScene();
         if (pbrScene == null) {
             throw new RuntimeException("The PBR scene shouldn't be not null.");
         }
 
-        final SafeArrayList<Spatial> hideNodes = getHideNodes();
+        final List<Spatial> hideNodes = getHideNodes();
         hideNodes.clear();
+        hideNodes.addAll(pbrScene.getChildren());
 
-
+        pbrScene.detachAllChildren();
     }
 
-    private void notifyProbeComplete() {
+    /**
+     * Handle finishing making a light probe.
+     */
+    protected void notifyProbeComplete() {
+
+        final Node pbrScene = getPbrScene();
+        if (pbrScene == null) {
+            throw new RuntimeException("The PBR scene shouldn't be not null.");
+        }
+
+        final List<Spatial> hideNodes = getHideNodes();
+        for (final Spatial spatial : hideNodes) {
+            pbrScene.attachChild(spatial);
+        }
     }
 
     @NotNull
     @Override
     public String getName() {
-        return "PBR Scene App State";
+        return "PBR static scene";
     }
 
     @Override
@@ -144,23 +192,24 @@ public class StaticPBRSceneAppState extends EnvironmentCamera implements Editabl
 
     @Override
     public void cloneFields(@NotNull final Cloner cloner, @NotNull final Object original) {
-
+        this.lightProbe = cloner.clone(lightProbe);
+        this.pbrScene = cloner.clone(pbrScene);
     }
 
     @Override
     public void write(@NotNull final JmeExporter ex) throws IOException {
-
+        final OutputCapsule out = ex.getCapsule(this);
+        out.write(lightProbe, "lightProbe", null);
+        out.write(pbrScene, "pbrScene", this);
+        out.write(frame, "frame", 0);
     }
 
     @Override
     public void read(@NotNull final JmeImporter im) throws IOException {
-
-    }
-
-    @NotNull
-    @Override
-    public List<EditableProperty<?, ?>> getEditableProperties() {
-        return null;
+        final InputCapsule in = im.getCapsule(this);
+        pbrScene = (Node) in.readSavable("pbrScene", null);
+        lightProbe = (LightProbe) in.readSavable("lightProbe", null);
+        frame = in.readInt("frame", 0);
     }
 
     @Nullable
@@ -174,4 +223,93 @@ public class StaticPBRSceneAppState extends EnvironmentCamera implements Editabl
     public String checkFilters(@NotNull final List<SceneFilter> exists) {
         return null;
     }
+
+    @NotNull
+    @Override
+    public Vector3f getLocation() {
+        return lightProbe.getPosition();
+    }
+
+    @NotNull
+    @Override
+    public Quaternion getRotation() {
+        return Quaternion.IDENTITY;
+    }
+
+    @NotNull
+    @Override
+    public Vector3f getScale() {
+        final float radius = getRadius();
+        return new Vector3f(radius, radius, radius);
+    }
+
+    @Override
+    public void setLocation(@NotNull final Vector3f location) {
+        lightProbe.setPosition(location);
+    }
+
+    @Override
+    public void setScale(@NotNull final Vector3f scale) {
+        final float radius = max(max(scale.getX(), scale.getY()), scale.getZ());
+        setRadius(radius);
+    }
+
+    /**
+     * Set the radius of the light probe.
+     *
+     * @param radius the radius.
+     */
+    public void setRadius(final float radius) {
+
+        final BoundingVolume bounds = lightProbe.getBounds();
+
+        if (bounds instanceof BoundingSphere) {
+            ((BoundingSphere) bounds).setRadius(radius);
+        }
+    }
+
+    /**
+     * Get the radius of the light probe.
+     *
+     * @return the radius.
+     */
+    public float getRadius() {
+
+        final BoundingVolume bounds = lightProbe.getBounds();
+
+        if (bounds instanceof BoundingSphere) {
+            return ((BoundingSphere) bounds).getRadius();
+        }
+
+        return 1F;
+    }
+
+    @Override
+    public void setRotation(@NotNull final Quaternion rotation) {
+    }
+
+    @NotNull
+    @Override
+    public ScenePresentable.PresentationType getPresentationType() {
+        return PresentationType.SPHERE;
+    }
+
+    @NotNull
+    @Override
+    public List<EditableProperty<?, ?>> getEditableProperties() {
+
+        final List<EditableProperty<?, ?>> result = new ArrayList<>();
+        result.add(new SimpleProperty<>(FLOAT, "Radius", this,
+                makeGetter(this, float.class, "getRadius"),
+                makeSetter(this, float.class, "setRadius")));
+        result.add(new SimpleProperty<>(NODE_FROM_SCENE, "PBR Scene", this,
+                makeGetter(this, Node.class, "getPbrScene"),
+                makeSetter(this, Node.class, "setPbrScene")));
+        result.add(new SimpleProperty<>(VECTOR_3F, "Position", this,
+                makeGetter(this, Vector3f.class, "getPosition"),
+                makeSetter(this, Vector3f.class, "setPosition")));
+
+        return result;
+    }
+
 }
