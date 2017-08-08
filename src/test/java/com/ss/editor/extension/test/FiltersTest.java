@@ -4,6 +4,8 @@ import com.ss.editor.extension.scene.filter.impl.*;
 import org.junit.jupiter.api.Test;
 
 /**
+ * The test to test all editable filters.
+ *
  * @author JavaSaBr
  */
 class FiltersTest extends PropertyTest {
