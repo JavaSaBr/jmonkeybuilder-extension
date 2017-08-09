@@ -7,6 +7,8 @@ import com.ss.editor.extension.scene.app.state.impl.pbr.StaticLightProbeSceneApp
 import org.junit.jupiter.api.Test;
 
 /**
+ * The test ot test all editable app states.
+ *
  * @author JavaSaBr
  */
 class AppStatesTest extends PropertyTest {

@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 public interface Getter<O, P> {
 
     /**
-     * Get a current property.
+     * Get a current property value.
      *
      * @param object the object.
      * @return the current property value.

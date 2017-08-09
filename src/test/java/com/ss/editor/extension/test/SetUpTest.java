@@ -1,37 +1,41 @@
 package com.ss.editor.extension.test;
 
 import com.jme3.app.SimpleApplication;
-import com.simsilica.lemur.demo.BasicDemo;
 import com.ss.editor.extension.loader.SceneLoader;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeAll;
 
 import java.util.concurrent.CountDownLatch;
 
 /**
+ * The base test.
+ *
  * @author JavaSaBr
  */
 public class SetUpTest {
 
+    @NotNull
     private static final CountDownLatch COUNT_DOWN_LATCH = new CountDownLatch(1);
 
     private static SimpleApplication application = null;
 
+    @NotNull
     private static synchronized SimpleApplication getApplication() {
-
 
         if (application == null) {
 
-            application = new BasicDemo() {
+            application = new SimpleApplication() {
                 @Override
                 public void simpleInitApp() {
-                    super.simpleInitApp();
                     COUNT_DOWN_LATCH.countDown();
                 }
             };
 
             application.setShowSettings(false);
 
-            new Thread(() -> application.start()).start();
+            final Thread appThread = new Thread(() -> application.start());
+            appThread.setDaemon(true);
+            appThread.start();
 
             try {
                 COUNT_DOWN_LATCH.await();
@@ -44,7 +48,6 @@ public class SetUpTest {
 
         return application;
     }
-
 
     @BeforeAll
     public static void setUpLoaderTest() {
