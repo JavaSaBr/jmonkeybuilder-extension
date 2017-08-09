@@ -10,6 +10,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.texture.Texture2D;
+import javafx.scene.text.Font;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -35,7 +36,11 @@ public enum EditablePropertyType {
     NODE_FROM_ASSET_FOLDER(Node.class),
     NODE_FROM_SCENE(Node.class),
     GEOMETRY_FROM_ASSET_FOLDER(Geometry.class),
-    GEOMETRY_FROM_SCENE(Geometry.class);
+    GEOMETRY_FROM_SCENE(Geometry.class),
+    AWT_FONT(java.awt.Font.class),
+    FX_FONT(Font.class),
+    STRING_FROM_LIST(String.class),
+    OBJECT_FROM_LIST(Object.class);
 
     @NotNull
     private static final EditablePropertyType[] TYPES = values();
