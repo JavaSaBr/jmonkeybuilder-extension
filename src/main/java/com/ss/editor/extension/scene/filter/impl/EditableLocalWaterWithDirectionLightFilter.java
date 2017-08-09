@@ -8,6 +8,7 @@ import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
 import com.jme3.light.DirectionalLight;
+import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.util.clone.Cloner;
 import com.ss.editor.extension.property.EditableProperty;
@@ -58,9 +59,21 @@ public class EditableLocalWaterWithDirectionLightFilter extends EditableLocalWat
         this.directionalLight = directionalLight;
         if (directionalLight != null) {
             setLightDirection(directionalLight.getDirection());
+            setLightColor(directionalLight.getColor());
         } else {
             setLightDirection(Vector3f.UNIT_XYZ.clone());
+            setLightColor(ColorRGBA.White.clone());
         }
+    }
+
+    @Override
+    protected boolean needLightColor() {
+        return false;
+    }
+
+    @Override
+    protected boolean needLightDirection() {
+        return false;
     }
 
     /**
