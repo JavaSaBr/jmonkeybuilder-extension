@@ -87,13 +87,11 @@ public class SceneNode extends Node {
         this.postProcessor = postProcessor;
     }
 
-    @Nullable
-    private AppStateManager getStateManager() {
+    private @Nullable AppStateManager getStateManager() {
         return stateManager;
     }
 
-    @Nullable
-    private FilterPostProcessor getPostProcessor() {
+    private @Nullable FilterPostProcessor getPostProcessor() {
         return postProcessor;
     }
 
@@ -158,8 +156,7 @@ public class SceneNode extends Node {
     /**
      * @return the scene layers.
      */
-    @NotNull
-    public SafeArrayList<SceneLayer> getLayers() {
+    public @NotNull SafeArrayList<SceneLayer> getLayers() {
         return layers;
     }
 
@@ -186,8 +183,7 @@ public class SceneNode extends Node {
     /**
      * @return the scene app states.
      */
-    @NotNull
-    public SafeArrayList<SceneAppState> getAppStates() {
+    public @NotNull SafeArrayList<SceneAppState> getAppStates() {
         return appStates;
     }
 
@@ -214,8 +210,7 @@ public class SceneNode extends Node {
      *
      * @return the list of filters.
      */
-    @NotNull
-    public SafeArrayList<SceneFilter> getFilters() {
+    public @NotNull SafeArrayList<SceneFilter> getFilters() {
         return filters;
     }
 

@@ -27,15 +27,13 @@ public class EditableDirectionLightFromSceneShadowFilter extends EditableDirecti
     public EditableDirectionLightFromSceneShadowFilter() {
     }
 
-    @NotNull
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return "Shadows from direction light";
     }
 
-    @NotNull
     @Override
-    public List<EditableProperty<?, ?>> getEditableProperties() {
+    public @NotNull List<EditableProperty<?, ?>> getEditableProperties() {
 
         final List<EditableProperty<?, ?>> result = super.getEditableProperties();
         result.add(new SimpleProperty<>(DIRECTION_LIGHT_FROM_SCENE, "Direction light", this,

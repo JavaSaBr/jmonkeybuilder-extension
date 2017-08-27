@@ -19,15 +19,13 @@ import java.util.List;
  */
 public class EditableBillboardControl extends BillboardControl implements EditableControl {
 
-    @NotNull
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return "Billboard";
     }
 
-    @NotNull
     @Override
-    public List<EditableProperty<?, ?>> getEditableProperties() {
+    public @NotNull List<EditableProperty<?, ?>> getEditableProperties() {
 
         final List<EditableProperty<?, ?>> result = new ArrayList<>(1);
 

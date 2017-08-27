@@ -36,13 +36,12 @@ public class EditableWaterWithDirectionLightFilter extends EditableWaterFilter {
     }
 
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return "Global water with direction light";
     }
 
-    @NotNull
     @Override
-    public List<EditableProperty<?, ?>> getEditableProperties() {
+    public @NotNull List<EditableProperty<?, ?>> getEditableProperties() {
 
         final List<EditableProperty<?, ?>> result = super.getEditableProperties();
         result.add(new SimpleProperty<>(DIRECTION_LIGHT_FROM_SCENE, "Direction light", this,
@@ -79,8 +78,7 @@ public class EditableWaterWithDirectionLightFilter extends EditableWaterFilter {
     /**
      * @return the direction light to follow.
      */
-    @Nullable
-    public DirectionalLight getDirectionalLight() {
+    public @Nullable DirectionalLight getDirectionalLight() {
         return directionalLight;
     }
 

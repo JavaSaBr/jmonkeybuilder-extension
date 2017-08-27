@@ -25,15 +25,13 @@ public class EditableLightingStateShadowFilter extends EditableDirectionalLightS
     public EditableLightingStateShadowFilter() {
     }
 
-    @NotNull
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return "Lighting State Shadows";
     }
 
-    @Nullable
     @Override
-    public String checkStates(@NotNull final List<SceneAppState> exists) {
+    public @Nullable String checkStates(@NotNull final List<SceneAppState> exists) {
 
         SceneAppState lightingState = null;
 

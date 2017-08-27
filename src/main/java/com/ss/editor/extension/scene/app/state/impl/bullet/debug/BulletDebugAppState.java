@@ -209,8 +209,7 @@ public class BulletDebugAppState extends AbstractAppState {
     /**
      * @return the display filter.
      */
-    @Nullable
-    public Filter getFilter() {
+    public @Nullable Filter getFilter() {
         return filter;
     }
 
@@ -224,8 +223,7 @@ public class BulletDebugAppState extends AbstractAppState {
     /**
      * @return the node to attach debug nodes.
      */
-    @Nullable
-    public Node getRootNode() {
+    public @Nullable Node getRootNode() {
         return rootNode;
     }
 
@@ -298,8 +296,7 @@ public class BulletDebugAppState extends AbstractAppState {
         }
     }
 
-    @NotNull
-    private Material createDebugMaterial(@NotNull final AssetManager assetManager, @NotNull final ColorRGBA blue) {
+    private @NotNull Material createDebugMaterial(@NotNull final AssetManager assetManager, @NotNull final ColorRGBA blue) {
 
         final Material material = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         material.setColor("Color", blue);
@@ -313,66 +310,63 @@ public class BulletDebugAppState extends AbstractAppState {
     /**
      * @return the blue material.
      */
-    @Nullable
-    public Material getDebugBlue() {
+    public @Nullable Material getDebugBlue() {
         return debugBlue;
     }
 
     /**
      * @return the magenta material.
      */
-    @Nullable
-    public Material getDebugMagenta() {
+    public @Nullable Material getDebugMagenta() {
         return debugMagenta;
     }
 
     /**
      * @return the pink material.
      */
-    @Nullable
-    public Material getDebugPink() {
+    public @Nullable Material getDebugPink() {
         return debugPink;
     }
 
     /**
      * @return the previous registered rigid bodies.
      */
-    protected Map<PhysicsRigidBody, Spatial> getPrevBodies() {
+    protected @NotNull Map<PhysicsRigidBody, Spatial> getPrevBodies() {
         return prevBodies;
     }
 
     /**
      * @return the current registered rigid bodies.
      */
-    protected Map<PhysicsRigidBody, Spatial> getBodies() {
+    protected @NotNull Map<PhysicsRigidBody, Spatial> getBodies() {
         return bodies;
     }
 
     /**
      * @return the previous registered characters.
      */
-    protected Map<PhysicsCharacter, Spatial> getPrevCharacters() {
+    protected @NotNull Map<PhysicsCharacter, Spatial> getPrevCharacters() {
         return prevCharacters;
     }
 
     /**
      * @return the current registered characters.
      */
-    protected Map<PhysicsCharacter, Spatial> getCharacters() {
+    protected @NotNull Map<PhysicsCharacter, Spatial> getCharacters() {
         return characters;
     }
 
     /**
      * @return the current registered vehicles.
      */
-    protected Map<PhysicsVehicle, Spatial> getVehicles() {
+    protected @NotNull Map<PhysicsVehicle, Spatial> getVehicles() {
         return vehicles;
     }
 
     /**
      * @return the previous registered vehicles.
      */
-    protected Map<PhysicsVehicle, Spatial> getPrevVehicles() {
+    protected @NotNull Map<PhysicsVehicle, Spatial> getPrevVehicles() {
         return prevVehicles;
     }
 

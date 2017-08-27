@@ -21,10 +21,9 @@ public class ReflectionGetterSetterFactory {
     @NotNull
     private static final Map<String, Object> SETTERS = new HashMap<>();
 
-    @NotNull
-    public static synchronized <T, O> Getter<T, O> makeGetter(@NotNull final T object,
-                                                              @NotNull final Class<O> propertyType,
-                                                              @NotNull final String methodName) {
+    public static synchronized @NotNull <T, O> Getter<T, O> makeGetter(@NotNull final T object,
+                                                                       @NotNull final Class<O> propertyType,
+                                                                       @NotNull final String methodName) {
 
         final Class<?> objectType = object.getClass();
         final String key = objectType.getName() + "." + methodName;
@@ -60,9 +59,9 @@ public class ReflectionGetterSetterFactory {
         return getter;
     }
 
-    public static synchronized <T, O> Setter<T, O> makeSetter(@NotNull final T object,
-                                                              @NotNull final Class<O> propertyType,
-                                                              @NotNull final String methodName) {
+    public static synchronized @NotNull <T, O> Setter<T, O> makeSetter(@NotNull final T object,
+                                                                       @NotNull final Class<O> propertyType,
+                                                                       @NotNull final String methodName) {
 
         final Class<?> objectType = object.getClass();
         final String key = objectType.getName() + "." + methodName;

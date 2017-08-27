@@ -27,20 +27,18 @@ public class EditableDropShadowFilter extends DropShadowFilter implements Editab
         super();
     }
 
-    @NotNull
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return "Drop shadow filter";
     }
 
     @Override
-    public DropShadowFilter get() {
+    public @NotNull DropShadowFilter get() {
         return this;
     }
 
-    @NotNull
     @Override
-    public List<EditableProperty<?, ?>> getEditableProperties() {
+    public @NotNull List<EditableProperty<?, ?>> getEditableProperties() {
 
         final List<EditableProperty<?, ?>> result = new ArrayList<>(3);
 
@@ -57,15 +55,13 @@ public class EditableDropShadowFilter extends DropShadowFilter implements Editab
         return result;
     }
 
-    @Nullable
     @Override
-    public String checkStates(@NotNull final List<SceneAppState> exists) {
+    public @Nullable String checkStates(@NotNull final List<SceneAppState> exists) {
         return null;
     }
 
-    @Nullable
     @Override
-    public String checkFilters(@NotNull final List<SceneFilter> exists) {
+    public @Nullable String checkFilters(@NotNull final List<SceneFilter> exists) {
         return null;
     }
 }

@@ -96,8 +96,7 @@ public class BulletRigidBodyDebugControl extends AbstractPhysicsDebugControl {
     /**
      * @return the physics rigid body.
      */
-    @NotNull
-    protected PhysicsRigidBody getBody() {
+    protected @NotNull PhysicsRigidBody getBody() {
         return body;
     }
 

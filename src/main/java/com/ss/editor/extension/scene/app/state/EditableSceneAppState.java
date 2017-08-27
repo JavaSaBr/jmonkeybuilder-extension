@@ -15,16 +15,14 @@ import java.util.List;
  */
 public interface EditableSceneAppState extends SceneAppState {
 
-    @NotNull
-    List<EditableProperty<?, ?>> EMPTY_PROPERTIES = Collections.emptyList();
+    @NotNull List<EditableProperty<?, ?>> EMPTY_PROPERTIES = Collections.emptyList();
 
     /**
      * Get list of editable properties.
      *
      * @return the list of editable properties.
      */
-    @NotNull
-    List<EditableProperty<?, ?>> getEditableProperties();
+    @NotNull List<EditableProperty<?, ?>> getEditableProperties();
 
     /**
      * Check state dependencies.
@@ -32,8 +30,7 @@ public interface EditableSceneAppState extends SceneAppState {
      * @param exists the current exists states.
      * @return null of can create or message with description.
      */
-    @Nullable
-    String checkStates(@NotNull final List<SceneAppState> exists);
+    @Nullable String checkStates(@NotNull final List<SceneAppState> exists);
 
     /**
      * Check filter dependencies.
@@ -41,7 +38,6 @@ public interface EditableSceneAppState extends SceneAppState {
      * @param exists the current exists filters.
      * @return null of can create or message with description.
      */
-    @Nullable
-    String checkFilters(@NotNull final List<SceneFilter> exists);
+    @Nullable String checkFilters(@NotNull final List<SceneFilter> exists);
 }
 

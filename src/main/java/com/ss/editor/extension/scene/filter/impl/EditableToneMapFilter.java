@@ -25,13 +25,12 @@ import java.util.List;
 public class EditableToneMapFilter extends ToneMapFilter implements EditableSceneFilter {
 
     @Override
-    public ToneMapFilter get() {
+    public @NotNull ToneMapFilter get() {
         return this;
     }
 
-    @NotNull
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return "Tone-mapping filter";
     }
 
@@ -44,9 +43,8 @@ public class EditableToneMapFilter extends ToneMapFilter implements EditableScen
         }
     }
 
-    @NotNull
     @Override
-    public List<EditableProperty<?, ?>> getEditableProperties() {
+    public @NotNull List<EditableProperty<?, ?>> getEditableProperties() {
 
         final List<EditableProperty<?, ?>> result = new ArrayList<>(1);
         result.add(new SimpleProperty<>(VECTOR_3F, "White point", this,
@@ -60,15 +58,13 @@ public class EditableToneMapFilter extends ToneMapFilter implements EditableScen
     public void cloneFields(@NotNull final Cloner cloner, @NotNull final Object original) {
     }
 
-    @Nullable
     @Override
-    public String checkStates(final @NotNull List<SceneAppState> exists) {
+    public @Nullable String checkStates(@NotNull final List<SceneAppState> exists) {
         return null;
     }
 
-    @Nullable
     @Override
-    public String checkFilters(final @NotNull List<SceneFilter> exists) {
+    public @Nullable String checkFilters(@NotNull final List<SceneFilter> exists) {
         return null;
     }
 }

@@ -24,13 +24,12 @@ import java.util.List;
 public class EditableDepthOfFieldFilter extends DepthOfFieldFilter implements EditableSceneFilter {
 
     @Override
-    public DepthOfFieldFilter get() {
+    public @NotNull DepthOfFieldFilter get() {
         return this;
     }
 
-    @NotNull
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return "Depth of field filter";
     }
 
@@ -43,9 +42,8 @@ public class EditableDepthOfFieldFilter extends DepthOfFieldFilter implements Ed
         }
     }
 
-    @NotNull
     @Override
-    public List<EditableProperty<?, ?>> getEditableProperties() {
+    public @NotNull List<EditableProperty<?, ?>> getEditableProperties() {
 
         final List<EditableProperty<?, ?>> result = new ArrayList<>(3);
 
@@ -66,15 +64,13 @@ public class EditableDepthOfFieldFilter extends DepthOfFieldFilter implements Ed
     public void cloneFields(@NotNull final Cloner cloner, @NotNull final Object original) {
     }
 
-    @Nullable
     @Override
-    public String checkStates(@NotNull final List<SceneAppState> exists) {
+    public @Nullable String checkStates(@NotNull final List<SceneAppState> exists) {
         return null;
     }
 
-    @Nullable
     @Override
-    public String checkFilters(@NotNull final List<SceneFilter> exists) {
+    public @Nullable String checkFilters(@NotNull final List<SceneFilter> exists) {
         return null;
     }
 }

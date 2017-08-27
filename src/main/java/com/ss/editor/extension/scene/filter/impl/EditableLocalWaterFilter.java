@@ -27,21 +27,18 @@ public class EditableLocalWaterFilter extends EditableWaterFilter implements Sce
         setShapeType(AreaShape.Circular);
     }
 
-    @NotNull
     @Override
-    public Vector3f getLocation() {
+    public @NotNull Vector3f getLocation() {
         return getCenter();
     }
 
-    @NotNull
     @Override
-    public Quaternion getRotation() {
+    public @NotNull Quaternion getRotation() {
         return Quaternion.IDENTITY;
     }
 
-    @NotNull
     @Override
-    public Vector3f getScale() {
+    public @NotNull Vector3f getScale() {
         return new Vector3f(getRadius(), getRadius(), getRadius());
     }
 
@@ -61,20 +58,18 @@ public class EditableLocalWaterFilter extends EditableWaterFilter implements Sce
 
     }
 
-    @NotNull
     @Override
-    public ScenePresentable.PresentationType getPresentationType() {
+    public @NotNull ScenePresentable.PresentationType getPresentationType() {
         return PresentationType.SPHERE;
     }
 
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return "Local water filter";
     }
 
-    @NotNull
     @Override
-    public List<EditableProperty<?, ?>> getEditableProperties() {
+    public @NotNull List<EditableProperty<?, ?>> getEditableProperties() {
 
         final List<EditableProperty<?, ?>> properties = super.getEditableProperties();
         properties.add(new SimpleProperty<>(VECTOR_3F, "Center", this,

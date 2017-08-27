@@ -40,7 +40,8 @@ public enum EditablePropertyType {
     AWT_FONT(java.awt.Font.class),
     FX_FONT(Font.class),
     STRING_FROM_LIST(String.class),
-    OBJECT_FROM_LIST(Object.class);
+    OBJECT_FROM_LIST(Object.class),
+    SEPARATOR(Void.class),;
 
     @NotNull
     private static final EditablePropertyType[] TYPES = values();

@@ -32,9 +32,8 @@ public class EditableDirectionalLightShadowFilter extends DirectionalLightShadow
         super(tryToGetAssetManager(), SHADOW_MAP_SIZE, 3);
     }
 
-    @NotNull
     @Override
-    public List<EditableProperty<?, ?>> getEditableProperties() {
+    public @NotNull List<EditableProperty<?, ?>> getEditableProperties() {
 
         final List<EditableProperty<?, ?>> result = new ArrayList<>();
 
@@ -86,19 +85,17 @@ public class EditableDirectionalLightShadowFilter extends DirectionalLightShadow
     }
 
     @Override
-    public AbstractShadowFilter<?> get() {
+    public @NotNull AbstractShadowFilter<?> get() {
         return this;
     }
 
-    @Nullable
     @Override
-    public String checkStates(@NotNull final List<SceneAppState> exists) {
+    public @Nullable String checkStates(@NotNull final List<SceneAppState> exists) {
         return null;
     }
 
-    @Nullable
     @Override
-    public String checkFilters(@NotNull final List<SceneFilter> exists) {
+    public @Nullable String checkFilters(@NotNull final List<SceneFilter> exists) {
         return null;
     }
 }

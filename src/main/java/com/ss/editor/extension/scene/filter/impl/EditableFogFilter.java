@@ -26,13 +26,12 @@ import java.util.List;
 public class EditableFogFilter extends FogFilter implements EditableSceneFilter {
 
     @Override
-    public FogFilter get() {
+    public @NotNull FogFilter get() {
         return this;
     }
 
-    @NotNull
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return "Fog filter";
     }
 
@@ -45,9 +44,8 @@ public class EditableFogFilter extends FogFilter implements EditableSceneFilter 
         }
     }
 
-    @NotNull
     @Override
-    public List<EditableProperty<?, ?>> getEditableProperties() {
+    public @NotNull List<EditableProperty<?, ?>> getEditableProperties() {
 
         final List<EditableProperty<?, ?>> result = new ArrayList<>(3);
 
@@ -69,15 +67,13 @@ public class EditableFogFilter extends FogFilter implements EditableSceneFilter 
         setFogColor(cloner.clone(getFogColor()));
     }
 
-    @Nullable
     @Override
-    public String checkStates(@NotNull final List<SceneAppState> exists) {
+    public @Nullable String checkStates(@NotNull final List<SceneAppState> exists) {
         return null;
     }
 
-    @Nullable
     @Override
-    public String checkFilters(@NotNull final List<SceneFilter> exists) {
+    public @Nullable String checkFilters(@NotNull final List<SceneFilter> exists) {
         return null;
     }
 }
