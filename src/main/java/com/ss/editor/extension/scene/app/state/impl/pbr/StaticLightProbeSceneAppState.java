@@ -146,13 +146,11 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
         }
     }
 
-    @Nullable
-    public Node getPbrScene() {
+    public @Nullable Node getPbrScene() {
         return pbrScene;
     }
 
-    @Nullable
-    public Node getEnvironmentScene() {
+    public @Nullable Node getEnvironmentScene() {
         return environmentScene;
     }
 
@@ -189,8 +187,7 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
         }
     }
 
-    @NotNull
-    protected JobProgressAdapter<LightProbe> makeProbeHandler() {
+    protected @NotNull JobProgressAdapter<LightProbe> makeProbeHandler() {
         return new JobProgressAdapter<LightProbe>() {
 
             @Override
@@ -226,9 +223,8 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
         });
     }
 
-    @NotNull
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return "Static Light probe";
     }
 
@@ -278,15 +274,13 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
         frame = in.readInt("frame", 0);
     }
 
-    @Nullable
     @Override
-    public String checkStates(@NotNull final List<SceneAppState> exists) {
+    public @Nullable String checkStates(@NotNull final List<SceneAppState> exists) {
         return null;
     }
 
-    @Nullable
     @Override
-    public String checkFilters(@NotNull final List<SceneFilter> exists) {
+    public @Nullable String checkFilters(@NotNull final List<SceneFilter> exists) {
         return null;
     }
 
@@ -301,21 +295,18 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
         frame = 0;
     }
 
-    @NotNull
     @Override
-    public Vector3f getLocation() {
+    public @NotNull Vector3f getLocation() {
         return lightProbe.getPosition();
     }
 
-    @NotNull
     @Override
-    public Quaternion getRotation() {
+    public @NotNull Quaternion getRotation() {
         return Quaternion.IDENTITY;
     }
 
-    @NotNull
     @Override
-    public Vector3f getScale() {
+    public @NotNull Vector3f getScale() {
         final float radius = getRadius();
         return new Vector3f(radius, radius, radius);
     }
@@ -365,15 +356,13 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
     public void setRotation(@NotNull final Quaternion rotation) {
     }
 
-    @NotNull
     @Override
-    public ScenePresentable.PresentationType getPresentationType() {
+    public @NotNull ScenePresentable.PresentationType getPresentationType() {
         return PresentationType.SPHERE;
     }
 
-    @NotNull
     @Override
-    public List<EditableProperty<?, ?>> getEditableProperties() {
+    public @NotNull List<EditableProperty<?, ?>> getEditableProperties() {
 
         final List<EditableProperty<?, ?>> result = new ArrayList<>();
         result.add(new SimpleProperty<>(INTEGER, "Quality size", this,

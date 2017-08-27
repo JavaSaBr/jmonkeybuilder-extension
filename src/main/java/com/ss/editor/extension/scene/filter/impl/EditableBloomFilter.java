@@ -28,13 +28,12 @@ public class EditableBloomFilter extends BloomFilter implements EditableSceneFil
     }
 
     @Override
-    public BloomFilter get() {
+    public @NotNull BloomFilter get() {
         return this;
     }
 
-    @NotNull
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return "Bloom filter";
     }
 
@@ -47,9 +46,8 @@ public class EditableBloomFilter extends BloomFilter implements EditableSceneFil
         }
     }
 
-    @NotNull
     @Override
-    public List<EditableProperty<?, ?>> getEditableProperties() {
+    public @NotNull List<EditableProperty<?, ?>> getEditableProperties() {
 
         final List<EditableProperty<?, ?>> result = new ArrayList<>(5);
 
@@ -76,15 +74,13 @@ public class EditableBloomFilter extends BloomFilter implements EditableSceneFil
     public void cloneFields(@NotNull final Cloner cloner, @NotNull final Object original) {
     }
 
-    @Nullable
     @Override
-    public String checkStates(final @NotNull List<SceneAppState> exists) {
+    public @Nullable String checkStates(@NotNull final List<SceneAppState> exists) {
         return null;
     }
 
-    @Nullable
     @Override
-    public String checkFilters(final @NotNull List<SceneFilter> exists) {
+    public @Nullable String checkFilters(@NotNull final List<SceneFilter> exists) {
         return null;
     }
 }

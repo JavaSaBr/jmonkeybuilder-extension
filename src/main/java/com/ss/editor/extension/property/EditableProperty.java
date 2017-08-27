@@ -16,16 +16,14 @@ public interface EditableProperty<T, O> extends Named {
      *
      * @return the current value.
      */
-    @Nullable
-    T getValue();
+    @Nullable T getValue();
 
     /**
      * Get a type of this property.
      *
      * @return the property type.
      */
-    @NotNull
-    EditablePropertyType getType();
+    @NotNull EditablePropertyType getType();
 
     /**
      * @return scroll power.
@@ -47,8 +45,7 @@ public interface EditableProperty<T, O> extends Named {
      *
      * @return the edited object.
      */
-    @NotNull
-    O getObject();
+    @NotNull O getObject();
 
     /**
      * Set a new value.

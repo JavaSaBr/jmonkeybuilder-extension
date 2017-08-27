@@ -96,8 +96,7 @@ public class BulletCharacterDebugControl extends AbstractPhysicsDebugControl {
     /**
      * @return the physics character.
      */
-    @NotNull
-    public PhysicsCharacter getBody() {
+    public @NotNull PhysicsCharacter getBody() {
         return body;
     }
 

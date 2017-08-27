@@ -23,7 +23,7 @@ public interface SceneFilter extends Savable, Named, JmeCloneable, Cloneable {
      *
      * @return the filter.
      */
-    Filter get();
+    @NotNull Filter get();
 
     /**
      * Enable or disable this filter
@@ -45,8 +45,7 @@ public interface SceneFilter extends Savable, Named, JmeCloneable, Cloneable {
      * @param exists the current exists states.
      * @return null of can create or message with description.
      */
-    @Nullable
-    String checkStates(@NotNull final List<SceneAppState> exists);
+    @Nullable String checkStates(@NotNull final List<SceneAppState> exists);
 
     /**
      * Check filter dependencies.
@@ -54,6 +53,5 @@ public interface SceneFilter extends Savable, Named, JmeCloneable, Cloneable {
      * @param exists the current exists filters.
      * @return null of can create or message with description.
      */
-    @Nullable
-    String checkFilters(@NotNull final List<SceneFilter> exists);
+    @Nullable String checkFilters(@NotNull final List<SceneFilter> exists);
 }

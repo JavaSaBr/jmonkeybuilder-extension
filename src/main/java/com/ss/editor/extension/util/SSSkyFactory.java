@@ -40,9 +40,9 @@ public class SSSkyFactory {
      * @return a new spatial representing the sky, ready to be attached to the
      * scene graph
      */
-    public static Spatial createSky(@NotNull final AssetManager assetManager, @NotNull final Texture texture,
-                                    @NotNull final Vector3f normalScale,
-                                    @NotNull final SkyFactory.EnvMapType envMapType) {
+    public static @NotNull Spatial createSky(@NotNull final AssetManager assetManager, @NotNull final Texture texture,
+                                             @NotNull final Vector3f normalScale,
+                                             @NotNull final SkyFactory.EnvMapType envMapType) {
         return createSky(assetManager, texture, normalScale, envMapType, 10);
     }
 
@@ -61,9 +61,9 @@ public class SSSkyFactory {
      * @return a new spatial representing the sky, ready to be attached to the
      * scene graph
      */
-    public static Spatial createSky(@NotNull final AssetManager assetManager, @NotNull Texture texture,
-                                    @NotNull final Vector3f normalScale,
-                                    @NotNull final SkyFactory.EnvMapType envMapType, float sphereRadius) {
+    public static @NotNull Spatial createSky(@NotNull final AssetManager assetManager, @NotNull Texture texture,
+                                             @NotNull final Vector3f normalScale,
+                                             @NotNull final SkyFactory.EnvMapType envMapType, float sphereRadius) {
 
         final Sphere sphereMesh = new Sphere(10, 10, sphereRadius, false, true);
 
@@ -171,10 +171,10 @@ public class SSSkyFactory {
      * @return a new spatial representing the sky, ready to be attached to the
      * scene graph
      */
-    public static Spatial createSky(@NotNull final AssetManager assetManager, @NotNull final Texture west,
-                                    @NotNull final Texture east, @NotNull final Texture north,
-                                    @NotNull final Texture south, @NotNull final Texture up,
-                                    @NotNull final Texture down, @NotNull final Vector3f normalScale) {
+    public static @NotNull Spatial createSky(@NotNull final AssetManager assetManager, @NotNull final Texture west,
+                                             @NotNull final Texture east, @NotNull final Texture north,
+                                             @NotNull final Texture south, @NotNull final Texture up,
+                                             @NotNull final Texture down, @NotNull final Vector3f normalScale) {
         return createSky(assetManager, west, east, north, south, up, down, normalScale, 10);
     }
 
@@ -197,11 +197,11 @@ public class SSSkyFactory {
      * @return a new spatial representing the sky, ready to be attached to the
      * scene graph
      */
-    public static Spatial createSky(@NotNull final AssetManager assetManager, @NotNull final Texture west,
-                                    @NotNull final Texture east, @NotNull final Texture north,
-                                    @NotNull final Texture south, @NotNull final Texture up,
-                                    @NotNull final Texture down, @NotNull final Vector3f normalScale,
-                                    float sphereRadius) {
+    public static @NotNull Spatial createSky(@NotNull final AssetManager assetManager, @NotNull final Texture west,
+                                             @NotNull final Texture east, @NotNull final Texture north,
+                                             @NotNull final Texture south, @NotNull final Texture up,
+                                             @NotNull final Texture down, @NotNull final Vector3f normalScale,
+                                             float sphereRadius) {
 
         Image westImg = west.getImage();
         Image eastImg = east.getImage();

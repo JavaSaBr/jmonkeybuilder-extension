@@ -31,15 +31,13 @@ public class EditableSkySceneAppState extends SkyState implements EditableSceneA
         super();
     }
 
-    @NotNull
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return "Sky State";
     }
 
-    @Nullable
     @Override
-    public String checkStates(@NotNull final List<SceneAppState> exists) {
+    public @Nullable String checkStates(@NotNull final List<SceneAppState> exists) {
 
         SceneAppState lightingState = null;
 
@@ -53,15 +51,13 @@ public class EditableSkySceneAppState extends SkyState implements EditableSceneA
         return lightingState == null ? "The Sky State requires the Lighting State" : null;
     }
 
-    @Nullable
     @Override
-    public String checkFilters(@NotNull final List<SceneFilter> exists) {
+    public @Nullable String checkFilters(@NotNull final List<SceneFilter> exists) {
         return null;
     }
 
-    @NotNull
     @Override
-    public List<EditableProperty<?, ?>> getEditableProperties() {
+    public @NotNull List<EditableProperty<?, ?>> getEditableProperties() {
 
         final List<EditableProperty<?, ?>> result = new ArrayList<>(18);
 

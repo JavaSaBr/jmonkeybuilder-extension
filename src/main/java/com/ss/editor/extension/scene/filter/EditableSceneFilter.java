@@ -13,14 +13,12 @@ import java.util.List;
  */
 public interface EditableSceneFilter extends SceneFilter {
 
-    @NotNull
-    List<EditableProperty<?, ?>> EMPTY_PROPERTIES = Collections.emptyList();
+    @NotNull List<EditableProperty<?, ?>> EMPTY_PROPERTIES = Collections.emptyList();
 
     /**
      * Get list of editable properties.
      *
      * @return the list of editable properties.
      */
-    @NotNull
-    List<EditableProperty<?, ?>> getEditableProperties();
+    @NotNull List<EditableProperty<?, ?>> getEditableProperties();
 }

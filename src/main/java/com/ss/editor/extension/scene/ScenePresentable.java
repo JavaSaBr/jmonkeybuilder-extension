@@ -20,24 +20,21 @@ public interface ScenePresentable {
      *
      * @return the current location.
      */
-    @NotNull
-    Vector3f getLocation();
+    @NotNull Vector3f getLocation();
 
     /**
      * Get the current rotation of this object.
      *
      * @return the current rotation.
      */
-    @NotNull
-    Quaternion getRotation();
+    @NotNull Quaternion getRotation();
 
     /**
      * Get the current scale of this object.
      *
      * @return the current scale.
      */
-    @NotNull
-    Vector3f getScale();
+    @NotNull Vector3f getScale();
 
     /**
      * Set the new location of this object.
@@ -65,6 +62,5 @@ public interface ScenePresentable {
      *
      * @return the type of presentation.
      */
-    @NotNull
-    PresentationType getPresentationType();
+    @NotNull PresentationType getPresentationType();
 }

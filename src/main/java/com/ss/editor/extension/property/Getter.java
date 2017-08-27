@@ -18,6 +18,5 @@ public interface Getter<O, P> {
      * @param object the object.
      * @return the current property value.
      */
-    @Nullable
-    P get(@NotNull O object);
+    @Nullable P get(@NotNull O object);
 }

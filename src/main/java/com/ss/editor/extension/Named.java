@@ -9,6 +9,8 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface Named {
 
-    @NotNull
-    String getName();
+    /**
+     * @return the name.
+     */
+    @NotNull String getName();
 }

@@ -32,9 +32,8 @@ public class EditablePointLightShadowFilter extends PointLightShadowFilter imple
         super(SceneLoader.tryToGetAssetManager(), SHADOW_MAP_SIZE);
     }
 
-    @NotNull
     @Override
-    public List<EditableProperty<?, ?>> getEditableProperties() {
+    public @NotNull List<EditableProperty<?, ?>> getEditableProperties() {
 
         final List<EditableProperty<?, ?>> result = new ArrayList<>(8);
         result.add(new SimpleProperty<>(ENUM, "Edge filtering mode", this,
@@ -63,19 +62,17 @@ public class EditablePointLightShadowFilter extends PointLightShadowFilter imple
     }
 
     @Override
-    public AbstractShadowFilter<?> get() {
+    public @NotNull AbstractShadowFilter<?> get() {
         return this;
     }
 
-    @Nullable
     @Override
-    public String checkStates(@NotNull final List<SceneAppState> exists) {
+    public @Nullable String checkStates(@NotNull final List<SceneAppState> exists) {
         return null;
     }
 
-    @Nullable
     @Override
-    public String checkFilters(@NotNull final List<SceneFilter> exists) {
+    public @Nullable String checkFilters(@NotNull final List<SceneFilter> exists) {
         return null;
     }
 }

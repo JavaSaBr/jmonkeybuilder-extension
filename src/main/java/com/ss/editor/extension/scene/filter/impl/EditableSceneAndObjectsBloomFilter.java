@@ -13,9 +13,8 @@ public class EditableSceneAndObjectsBloomFilter extends EditableBloomFilter {
         super(GlowMode.SceneAndObjects);
     }
 
-    @NotNull
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return "Scene and objects bloom filter";
     }
 }

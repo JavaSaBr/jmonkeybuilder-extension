@@ -30,13 +30,12 @@ import java.util.List;
 public class EditablePosterizationFilter extends PosterizationFilter implements EditableSceneFilter {
 
     @Override
-    public PosterizationFilter get() {
+    public @NotNull PosterizationFilter get() {
         return this;
     }
 
-    @NotNull
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return "Posterization filter";
     }
 
@@ -49,9 +48,8 @@ public class EditablePosterizationFilter extends PosterizationFilter implements 
         }
     }
 
-    @NotNull
     @Override
-    public List<EditableProperty<?, ?>> getEditableProperties() {
+    public @NotNull List<EditableProperty<?, ?>> getEditableProperties() {
 
         final List<EditableProperty<?, ?>> result = new ArrayList<>(3);
         result.add(new SimpleProperty<>(FLOAT, "Gamma", 0.005F, 0F, 10F, this,
@@ -89,15 +87,13 @@ public class EditablePosterizationFilter extends PosterizationFilter implements 
         capsule.write(getStrength(), "strength", 1.0f);
     }
 
-    @Nullable
     @Override
-    public String checkStates(@NotNull final List<SceneAppState> exists) {
+    public @Nullable String checkStates(@NotNull final List<SceneAppState> exists) {
         return null;
     }
 
-    @Nullable
     @Override
-    public String checkFilters(@NotNull final List<SceneFilter> exists) {
+    public @Nullable String checkFilters(@NotNull final List<SceneFilter> exists) {
         return null;
     }
 }

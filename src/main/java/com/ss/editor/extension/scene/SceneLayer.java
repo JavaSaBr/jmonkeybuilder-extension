@@ -31,8 +31,7 @@ public class SceneLayer extends Node {
      * @param spatial the spatial.
      * @return the layer or null.
      */
-    @Nullable
-    public static SceneLayer getLayer(@NotNull final Spatial spatial) {
+    public static @Nullable SceneLayer getLayer(@NotNull final Spatial spatial) {
         return spatial.getUserData(KEY);
     }
 

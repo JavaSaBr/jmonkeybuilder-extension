@@ -165,8 +165,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
      *
      * @return the scene node.
      */
-    @Nullable
-    protected SceneNode getSceneNode() {
+    protected @Nullable SceneNode getSceneNode() {
         return sceneNode;
     }
 
@@ -194,8 +193,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
      *
      * @return the physics space.
      */
-    @Nullable
-    public PhysicsSpace getPhysicsSpace() {
+    public @Nullable PhysicsSpace getPhysicsSpace() {
         return physicsSpace;
     }
 
@@ -226,9 +224,8 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
         return tpf;
     }
 
-    @NotNull
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return "Bullet state";
     }
 
@@ -248,8 +245,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
      *
      * @return the threading type
      */
-    @NotNull
-    public ThreadingType getThreadingType() {
+    public @NotNull ThreadingType getThreadingType() {
         return threadingType;
     }
 
@@ -268,8 +264,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
      *
      * @return the broadphase type
      */
-    @NotNull
-    public BroadphaseType getBroadphaseType() {
+    public @NotNull BroadphaseType getBroadphaseType() {
         return broadphaseType;
     }
 
@@ -278,8 +273,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
      *
      * @return the world max
      */
-    @NotNull
-    public Vector3f getWorldMax() {
+    public @NotNull Vector3f getWorldMax() {
         return worldMax;
     }
 
@@ -298,8 +292,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
      *
      * @return the world min
      */
-    @NotNull
-    public Vector3f getWorldMin() {
+    public @NotNull Vector3f getWorldMin() {
         return worldMin;
     }
 
@@ -545,9 +538,8 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
         }
     }
 
-    @NotNull
     @Override
-    public List<EditableProperty<?, ?>> getEditableProperties() {
+    public @NotNull List<EditableProperty<?, ?>> getEditableProperties() {
 
         final List<EditableProperty<?, ?>> result = new ArrayList<>(6);
 
@@ -573,15 +565,13 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
         return result;
     }
 
-    @Nullable
     @Override
-    public String checkStates(@NotNull final List<SceneAppState> exists) {
+    public @Nullable String checkStates(@NotNull final List<SceneAppState> exists) {
         return null;
     }
 
-    @Nullable
     @Override
-    public String checkFilters(@NotNull final List<SceneFilter> exists) {
+    public @Nullable String checkFilters(@NotNull final List<SceneFilter> exists) {
         return null;
     }
 

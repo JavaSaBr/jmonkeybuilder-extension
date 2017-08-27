@@ -57,18 +57,15 @@ public class SceneLoader implements JmeImporter {
         SceneLoader.processor = processor;
     }
 
-    @NotNull
-    public static AssetManager tryToGetAssetManager() {
+    public static @NotNull AssetManager tryToGetAssetManager() {
         return requireNonNull(application).getAssetManager();
     }
 
-    @NotNull
-    public static AppStateManager tryToGetStateManager() {
+    public static @NotNull AppStateManager tryToGetStateManager() {
         return requireNonNull(application).getStateManager();
     }
 
-    @Nullable
-    public static FilterPostProcessor tryToGetPostProcessor() {
+    public static @Nullable FilterPostProcessor tryToGetPostProcessor() {
         return processor;
     }
 

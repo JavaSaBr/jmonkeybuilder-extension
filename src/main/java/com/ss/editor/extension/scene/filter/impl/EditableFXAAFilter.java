@@ -29,13 +29,12 @@ import java.util.List;
 public class EditableFXAAFilter extends FXAAFilter implements EditableSceneFilter {
 
     @Override
-    public FXAAFilter get() {
+    public @NotNull FXAAFilter get() {
         return this;
     }
 
-    @NotNull
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return "FXAA filter";
     }
 
@@ -48,9 +47,8 @@ public class EditableFXAAFilter extends FXAAFilter implements EditableSceneFilte
         }
     }
 
-    @NotNull
     @Override
-    public List<EditableProperty<?, ?>> getEditableProperties() {
+    public @NotNull List<EditableProperty<?, ?>> getEditableProperties() {
 
         final List<EditableProperty<?, ?>> result = new ArrayList<>(4);
 
@@ -94,15 +92,13 @@ public class EditableFXAAFilter extends FXAAFilter implements EditableSceneFilte
         capsule.write(getReduceMul(), "reduceMul", 1.0f / 8.0f);
     }
 
-    @Nullable
     @Override
-    public String checkStates(@NotNull final List<SceneAppState> exists) {
+    public @Nullable String checkStates(@NotNull final List<SceneAppState> exists) {
         return null;
     }
 
-    @Nullable
     @Override
-    public String checkFilters(@NotNull final List<SceneFilter> exists) {
+    public @Nullable String checkFilters(@NotNull final List<SceneFilter> exists) {
         return null;
     }
 }

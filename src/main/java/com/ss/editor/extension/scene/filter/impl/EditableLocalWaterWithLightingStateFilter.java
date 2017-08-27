@@ -24,13 +24,12 @@ public class EditableLocalWaterWithLightingStateFilter extends EditableLocalWate
     }
 
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return "Local water with lighting state";
     }
 
-    @Nullable
     @Override
-    public String checkStates(@NotNull final List<SceneAppState> exists) {
+    public @Nullable String checkStates(@NotNull final List<SceneAppState> exists) {
 
         SceneAppState lightingState = null;
 

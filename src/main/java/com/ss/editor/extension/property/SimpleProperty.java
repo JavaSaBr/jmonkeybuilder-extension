@@ -96,27 +96,23 @@ public class SimpleProperty<T, O> implements EditableProperty<T, O> {
         return minValue;
     }
 
-    @NotNull
     @Override
-    public EditablePropertyType getType() {
+    public @NotNull EditablePropertyType getType() {
         return type;
     }
 
-    @NotNull
     @Override
-    public O getObject() {
+    public @NotNull O getObject() {
         return object;
     }
 
-    @NotNull
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return name;
     }
 
     @Override
-    @Nullable
-    public T getValue() {
+    public @Nullable T getValue() {
         return getter.get(object);
     }
 

@@ -27,15 +27,13 @@ public class EditablePointLightFromSceneShadowFilter extends EditablePointLightS
     public EditablePointLightFromSceneShadowFilter() {
     }
 
-    @NotNull
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return "Shadows from point light";
     }
 
-    @NotNull
     @Override
-    public List<EditableProperty<?, ?>> getEditableProperties() {
+    public @NotNull List<EditableProperty<?, ?>> getEditableProperties() {
 
         final List<EditableProperty<?, ?>> result = super.getEditableProperties();
         result.add(new SimpleProperty<>(POINT_LIGHT_FROM_SCENE, "Point light", this,

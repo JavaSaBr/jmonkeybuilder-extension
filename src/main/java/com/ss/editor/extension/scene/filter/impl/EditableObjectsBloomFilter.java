@@ -13,9 +13,8 @@ public class EditableObjectsBloomFilter extends EditableBloomFilter {
         super(GlowMode.Objects);
     }
 
-    @NotNull
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return "Objects bloom filter";
     }
 }

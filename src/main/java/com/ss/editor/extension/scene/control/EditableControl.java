@@ -15,20 +15,17 @@ import java.util.List;
  */
 public interface EditableControl extends Control, Named {
 
-    @NotNull
-    List<EditableProperty<?, ?>> EMPTY_PROPERTIES = Collections.emptyList();
+    @NotNull List<EditableProperty<?, ?>> EMPTY_PROPERTIES = Collections.emptyList();
 
     /**
      * @return the control's name.
      */
-    @NotNull
-    String getName() ;
+    @NotNull String getName() ;
 
     /**
      * Get list of editable properties.
      *
      * @return the list of editable properties.
      */
-    @NotNull
-    List<EditableProperty<?, ?>> getEditableProperties();
+    @NotNull List<EditableProperty<?, ?>> getEditableProperties();
 }

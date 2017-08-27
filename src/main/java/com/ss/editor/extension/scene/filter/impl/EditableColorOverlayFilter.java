@@ -24,13 +24,12 @@ import java.util.List;
 public class EditableColorOverlayFilter extends ColorOverlayFilter implements EditableSceneFilter {
 
     @Override
-    public ColorOverlayFilter get() {
+    public @NotNull ColorOverlayFilter get() {
         return this;
     }
 
-    @NotNull
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return "Color overlay filter";
     }
 
@@ -43,9 +42,8 @@ public class EditableColorOverlayFilter extends ColorOverlayFilter implements Ed
         }
     }
 
-    @NotNull
     @Override
-    public List<EditableProperty<?, ?>> getEditableProperties() {
+    public @NotNull List<EditableProperty<?, ?>> getEditableProperties() {
 
         final List<EditableProperty<?, ?>> result = new ArrayList<>(1);
 
@@ -61,15 +59,13 @@ public class EditableColorOverlayFilter extends ColorOverlayFilter implements Ed
         setColor(cloner.clone(getColor()));
     }
 
-    @Nullable
     @Override
-    public String checkStates(@NotNull final List<SceneAppState> exists) {
+    public @Nullable String checkStates(@NotNull final List<SceneAppState> exists) {
         return null;
     }
 
-    @Nullable
     @Override
-    public String checkFilters(@NotNull final List<SceneFilter> exists) {
+    public @Nullable String checkFilters(@NotNull final List<SceneFilter> exists) {
         return null;
     }
 }
