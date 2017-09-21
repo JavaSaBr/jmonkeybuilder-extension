@@ -10,13 +10,24 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class SeparatorProperty implements EditableProperty<Object, Object> {
 
+    private static final SeparatorProperty INSTANCE = new SeparatorProperty();
+
+    /**
+     * Get the instance of this separator.
+     *
+     * @return the instance of this separator.
+     */
+    public static @NotNull SeparatorProperty getInstance() {
+        return INSTANCE;
+    }
+
     @Override
     public @NotNull String getName() {
         return "Separator";
     }
 
     @Override
-    public @Nullable Object getValue() {
+    public @NotNull Object getValue() {
         throw new UnsupportedOperationException();
     }
 
@@ -48,5 +59,10 @@ public final class SeparatorProperty implements EditableProperty<Object, Object>
     @Override
     public void setValue(@Nullable final Object value) {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public @Nullable String getFileExtension() {
+        return null;
     }
 }

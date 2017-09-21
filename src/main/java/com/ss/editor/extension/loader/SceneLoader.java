@@ -14,6 +14,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
  * The implementation of jME Importer to load scenes.
@@ -70,32 +72,63 @@ public class SceneLoader implements JmeImporter {
     }
 
     /**
-     * The importer.
+     * The thread local importers.
      */
     @NotNull
-    private final BinaryImporter importer;
+    private final ThreadLocal<Deque<BinaryImporter>> threadLocalImporters;
+
+    /**
+     * The current importer.
+     */
+    @NotNull
+    private final ThreadLocal<BinaryImporter> currentImporter;
 
     public SceneLoader() {
-        importer = new BinaryImporter();
+        currentImporter = new ThreadLocal<>();
+        threadLocalImporters = new ThreadLocal<Deque<BinaryImporter>>() {
+
+            @Override
+            protected Deque<BinaryImporter> initialValue() {
+                return new ArrayDeque<>();
+            }
+        };
     }
 
     @Override
     public InputCapsule getCapsule(final Savable id) {
+        final BinaryImporter importer = currentImporter.get();
         return importer.getCapsule(id);
     }
 
     @Override
     public AssetManager getAssetManager() {
+        final BinaryImporter importer = currentImporter.get();
         return importer.getAssetManager();
     }
 
     @Override
     public int getFormatVersion() {
+        final BinaryImporter importer = currentImporter.get();
         return importer.getFormatVersion();
     }
 
     @Override
     public Object load(@NotNull final AssetInfo assetInfo) throws IOException {
-        return importer.load(assetInfo);
+
+        final Deque<BinaryImporter> importers = threadLocalImporters.get();
+        BinaryImporter importer = importers.pollLast();
+
+        if (importer == null) {
+            importer = new BinaryImporter();
+        }
+
+        final BinaryImporter prev = currentImporter.get();
+        currentImporter.set(importer);
+        try {
+            return importer.load(assetInfo);
+        } finally {
+            importers.addLast(importer);
+            currentImporter.set(prev);
+        }
     }
 }

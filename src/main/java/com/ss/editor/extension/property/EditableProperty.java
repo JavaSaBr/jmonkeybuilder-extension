@@ -53,4 +53,11 @@ public interface EditableProperty<T, O> extends Named {
      * @param value the new value.
      */
     void setValue(@Nullable final T value);
+
+    /**
+     * Get the extension to filter files/resources.
+     *
+     * @return the extension to filter files/resources.
+     */
+    @Nullable String getFileExtension();
 }

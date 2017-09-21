@@ -13,6 +13,8 @@ import com.jme3.texture.Texture2D;
 import javafx.scene.text.Font;
 import org.jetbrains.annotations.NotNull;
 
+import java.nio.file.Path;
+
 /**
  * The enum with list editable property types.
  *
@@ -41,7 +43,10 @@ public enum EditablePropertyType {
     FX_FONT(Font.class),
     STRING_FROM_LIST(String.class),
     OBJECT_FROM_LIST(Object.class),
-    SEPARATOR(Void.class),;
+    SEPARATOR(Void.class),
+    FILE_FROM_ASSET_FOLDER(Path.class),
+    FOLDER_FROM_ASSET_FOLDER(Path.class),
+    RESOURCE_FROM_CLASSPATH(String.class);
 
     @NotNull
     private static final EditablePropertyType[] TYPES = values();

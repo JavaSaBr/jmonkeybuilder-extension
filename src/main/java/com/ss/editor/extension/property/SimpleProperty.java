@@ -43,6 +43,12 @@ public class SimpleProperty<T, O> implements EditableProperty<T, O> {
     private final O object;
 
     /**
+     * The extension to filter resources/files.
+     */
+    @Nullable
+    private final String extension;
+
+    /**
      * The scroll power.
      */
     private float scrollPower;
@@ -71,9 +77,17 @@ public class SimpleProperty<T, O> implements EditableProperty<T, O> {
     public SimpleProperty(@NotNull final EditablePropertyType type, @NotNull final String name, final float scrollPower,
                           final float minValue, final float maxValue, @NotNull final O object,
                           @NotNull final Getter<O, T> getter, @NotNull final Setter<O, T> setter) {
+        this(type, name, scrollPower, minValue, maxValue, object, null, getter, setter);
+    }
+
+    public SimpleProperty(@NotNull final EditablePropertyType type, @NotNull final String name, final float scrollPower,
+                          final float minValue, final float maxValue, @NotNull final O object,
+                          @Nullable final String extension, @NotNull final Getter<O, T> getter,
+                          @NotNull final Setter<O, T> setter) {
         this.type = type;
         this.name = name;
         this.object = object;
+        this.extension = extension;
         this.getter = getter;
         this.setter = setter;
         this.scrollPower = scrollPower;
@@ -119,6 +133,11 @@ public class SimpleProperty<T, O> implements EditableProperty<T, O> {
     @Override
     public void setValue(@Nullable final T value) {
         setter.set(object, value);
+    }
+
+    @Override
+    public @Nullable String getFileExtension() {
+        return extension;
     }
 
     @Override
