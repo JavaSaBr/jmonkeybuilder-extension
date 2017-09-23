@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import java.nio.file.Path;
 
 /**
- * The enum with list editable property types.
+ * The enum with list of editable property types.
  *
  * @author JavaSaBr
  */
