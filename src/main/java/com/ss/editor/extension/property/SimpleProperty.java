@@ -64,6 +64,15 @@ public class SimpleProperty<T, O> implements EditableProperty<T, O> {
     private float maxValue;
 
     public SimpleProperty(@NotNull final EditablePropertyType type, @NotNull final String name, @NotNull final O object,
+                          @NotNull final Getter<O, T> getter) {
+        this(type, name, 1F, Integer.MIN_VALUE, Integer.MAX_VALUE, object, getter, new Setter<O, T>() {
+            @Override
+            public void set(@NotNull final O object, @Nullable final T property) {
+            }
+        });
+    }
+
+    public SimpleProperty(@NotNull final EditablePropertyType type, @NotNull final String name, @NotNull final O object,
                           @NotNull final Getter<O, T> getter, @NotNull final Setter<O, T> setter) {
         this(type, name, 1F, Integer.MIN_VALUE, Integer.MAX_VALUE, object, getter, setter);
     }
