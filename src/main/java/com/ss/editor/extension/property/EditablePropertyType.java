@@ -46,7 +46,8 @@ public enum EditablePropertyType {
     SEPARATOR(Void.class),
     FILE_FROM_ASSET_FOLDER(Path.class),
     FOLDER_FROM_ASSET_FOLDER(Path.class),
-    RESOURCE_FROM_CLASSPATH(String.class);
+    RESOURCE_FROM_CLASSPATH(String.class),
+    READ_ONLY_STRING(String.class);
 
     @NotNull
     private static final EditablePropertyType[] TYPES = values();
