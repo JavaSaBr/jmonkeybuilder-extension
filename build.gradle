@@ -13,7 +13,7 @@ apply plugin: 'idea'
 apply plugin: 'org.junit.platform.gradle.plugin'
 
 group = 'com.spaceshift'
-version = '1.7.1'
+version = '1.7.2'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -101,7 +101,7 @@ artifacts {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '4.1'
+    gradleVersion = '4.2'
 }
 
 defaultTasks 'clean', 'install'

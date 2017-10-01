@@ -4,10 +4,8 @@ import static java.util.Objects.requireNonNull;
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetInfo;
+import com.jme3.asset.AssetLoader;
 import com.jme3.asset.AssetManager;
-import com.jme3.export.InputCapsule;
-import com.jme3.export.JmeImporter;
-import com.jme3.export.Savable;
 import com.jme3.export.binary.BinaryImporter;
 import com.jme3.post.FilterPostProcessor;
 import org.jetbrains.annotations.NotNull;
@@ -22,7 +20,7 @@ import java.util.Deque;
  *
  * @author JavaSaBr
  */
-public class SceneLoader implements JmeImporter {
+public class SceneLoader implements AssetLoader {
 
     /**
      * The application.
@@ -59,76 +57,59 @@ public class SceneLoader implements JmeImporter {
         SceneLoader.processor = processor;
     }
 
+    /**
+     * Try to get an asset manager.
+     *
+     * @return the asset manager.
+     * @throws NullPointerException if we don't have an asset manager.
+     */
     public static @NotNull AssetManager tryToGetAssetManager() {
         return requireNonNull(application).getAssetManager();
     }
 
+    /**
+     * Try to get a state manager.
+     *
+     * @return the state manager.
+     * @throws NullPointerException if we don't have a state manager.
+     */
     public static @NotNull AppStateManager tryToGetStateManager() {
         return requireNonNull(application).getStateManager();
     }
 
+    /**
+     * Try to get a filter post processor.
+     *
+     * @return the filter post processor.
+     * @throws NullPointerException if we don't have a filter post processor.
+     */
     public static @Nullable FilterPostProcessor tryToGetPostProcessor() {
         return processor;
     }
 
     /**
-     * The thread local importers.
+     * The queue importers.
      */
     @NotNull
-    private final ThreadLocal<Deque<BinaryImporter>> threadLocalImporters;
-
-    /**
-     * The current importer.
-     */
-    @NotNull
-    private final ThreadLocal<BinaryImporter> currentImporter;
+    private final Deque<BinaryImporter> importers;
 
     public SceneLoader() {
-        currentImporter = new ThreadLocal<>();
-        threadLocalImporters = new ThreadLocal<Deque<BinaryImporter>>() {
-
-            @Override
-            protected Deque<BinaryImporter> initialValue() {
-                return new ArrayDeque<>();
-            }
-        };
-    }
-
-    @Override
-    public InputCapsule getCapsule(final Savable id) {
-        final BinaryImporter importer = currentImporter.get();
-        return importer.getCapsule(id);
-    }
-
-    @Override
-    public AssetManager getAssetManager() {
-        final BinaryImporter importer = currentImporter.get();
-        return importer.getAssetManager();
-    }
-
-    @Override
-    public int getFormatVersion() {
-        final BinaryImporter importer = currentImporter.get();
-        return importer.getFormatVersion();
+        importers = new ArrayDeque<>();
     }
 
     @Override
     public Object load(@NotNull final AssetInfo assetInfo) throws IOException {
 
-        final Deque<BinaryImporter> importers = threadLocalImporters.get();
         BinaryImporter importer = importers.pollLast();
 
         if (importer == null) {
             importer = new BinaryImporter();
         }
 
-        final BinaryImporter prev = currentImporter.get();
-        currentImporter.set(importer);
         try {
             return importer.load(assetInfo);
         } finally {
             importers.addLast(importer);
-            currentImporter.set(prev);
         }
     }
 }
