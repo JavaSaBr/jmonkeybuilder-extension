@@ -1,10 +1,12 @@
+# About this library #
+This library provides some interface to get integration with jMonkey Builder.
+
 # License #
 Please see the file called LICENSE.
 
 ## How to use
 
 #### Gradle
-
 
 ```
 #!groovy
@@ -16,16 +18,14 @@ allprojects {
 }
 
 dependencies {
-    compile 'com.github.JavaSaBr:jme3-spaceshift-extension:1.7.2'
+    compile 'com.github.JavaSaBr:jmonkey-builder-extension:1.8.0'
 }
 ```
 
-    
 #### Maven
 
 ```
 #!xml
-
 
 <repositories>
         <repository>
@@ -36,7 +36,7 @@ dependencies {
 
     <dependency>
         <groupId>com.github.JavaSaBr</groupId>
-        <artifactId>jme3-spaceshift-extension</artifactId>
-        <version>1.7.2</version>
+        <artifactId>jmonkey-builder-extension</artifactId>
+        <version>1.8.0</version>
     </dependency>
 ```

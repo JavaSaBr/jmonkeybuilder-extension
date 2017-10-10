@@ -51,7 +51,6 @@ public class SceneLoader implements AssetLoader {
      */
     public static void install(@NotNull final Application application, @Nullable final FilterPostProcessor processor) {
         final AssetManager assetManager = application.getAssetManager();
-        assetManager.unregisterLoader(BinaryImporter.class);
         assetManager.registerLoader(SceneLoader.class, "j3o", "j3f", "j3s");
         SceneLoader.application = application;
         SceneLoader.processor = processor;
