@@ -20,7 +20,7 @@ public class SetUpTest {
     private static SimpleApplication application = null;
 
     @NotNull
-    private static synchronized SimpleApplication getApplication() {
+    protected static synchronized SimpleApplication getApplication() {
 
         if (application == null) {
 
@@ -30,7 +30,6 @@ public class SetUpTest {
                     COUNT_DOWN_LATCH.countDown();
                 }
             };
-
             application.setShowSettings(false);
 
             final Thread appThread = new Thread(() -> application.start());
