@@ -101,7 +101,7 @@ artifacts {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '4.2'
+    gradleVersion = '4.3'
 }
 
 defaultTasks 'clean', 'install'
@@ -110,7 +110,7 @@ defaultTasks 'clean', 'install'
 install {
     repositories.mavenInstaller {
         pom.version = version
-        pom.artifactId = 'jmonkey-builder-extension'
+        pom.artifactId = 'jmonkeybuilder-extension'
         pom.project {
             licenses {
                 license {
