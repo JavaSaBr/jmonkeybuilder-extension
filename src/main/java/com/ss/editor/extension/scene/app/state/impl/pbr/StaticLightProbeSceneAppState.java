@@ -19,6 +19,7 @@ import com.jme3.light.LightList;
 import com.jme3.light.LightProbe;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Node;
 import com.jme3.util.clone.Cloner;
 import com.ss.editor.extension.property.EditableProperty;
@@ -189,29 +190,32 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
     }
 
     @Override
-    public void update(final float tpf) {
-        super.update(tpf);
+    public void render(final RenderManager renderManager) {
+        try {
 
-        if (pbrScene == null) {
-            return;
-        }
-
-        if (frame == 2 && !preparing) {
-
-            prepareToMakeProbe();
-
-            Node environmentScene = getEnvironmentScene();
-
-            if (environmentScene == null) {
-                environmentScene = EMPTY_SCENE;
-                EMPTY_SCENE.updateGeometricState();
+            if (pbrScene == null) {
+                return;
             }
 
-            LightProbeFactory.updateProbe(lightProbe, this, environmentScene, getGenerationType(), probeHandler);
+            if (frame == 2 && !preparing) {
+                prepareToMakeProbe();
 
-            frame++;
-        } else if (frame < 2) {
-            frame++;
+                Node environmentScene = getEnvironmentScene();
+
+                if (environmentScene == null) {
+                    environmentScene = EMPTY_SCENE;
+                    EMPTY_SCENE.updateGeometricState();
+                }
+
+                LightProbeFactory.updateProbe(lightProbe, this, environmentScene, getGenerationType(), probeHandler);
+
+                frame++;
+            } else if (frame < 2) {
+                frame++;
+            }
+
+        } finally {
+            super.render(renderManager);
         }
     }
 
