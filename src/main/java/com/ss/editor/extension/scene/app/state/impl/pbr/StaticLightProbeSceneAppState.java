@@ -343,15 +343,24 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
 
     @Override
     public void setLocation(@NotNull final Vector3f location) {
+
+        if (!location.equals(lightProbe.getPosition())) {
+            frame = 0;
+        }
+
         lightProbe.setPosition(location);
-        this.frame = 0;
     }
 
     @Override
     public void setScale(@NotNull final Vector3f scale) {
+
         final float radius = max(max(scale.getX(), scale.getY()), scale.getZ());
+
+        if (radius != getRadius()) {
+            frame = 0;
+        }
+
         setRadius(radius);
-        this.frame = 0;
     }
 
     /**
