@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * The interface for implementing editable property of generic object.
+ * The interface to implement an editable property of generic object.
  *
  * @author JavaSabr
  */

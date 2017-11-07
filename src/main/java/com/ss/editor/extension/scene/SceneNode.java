@@ -106,7 +106,8 @@ public class SceneNode extends Node {
         final SafeArrayList<SceneFilter> filters = getFilters();
 
         if (!filters.isEmpty() && postProcessor == null) {
-            throw new IllegalArgumentException("Not found a FilterPostProcessor to attach scene filters.");
+            throw new IllegalArgumentException("Not found an instance of FilterPostProcessor in your installed SceneLoader, " +
+                    "so this scene can't load scene filters. You need to install SceneLoader using the method SceneLoader.install(application, postFilterProcessor).");
         }
 
         if (parent == null) {
