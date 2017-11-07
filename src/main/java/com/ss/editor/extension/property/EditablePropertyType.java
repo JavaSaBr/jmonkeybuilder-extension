@@ -47,13 +47,19 @@ public enum EditablePropertyType {
     FILE_FROM_ASSET_FOLDER(Path.class),
     FOLDER_FROM_ASSET_FOLDER(Path.class),
     RESOURCE_FROM_CLASSPATH(String.class),
-    READ_ONLY_STRING(String.class);
+    READ_ONLY_STRING(String.class),
+    EXTERNAL_FILE(Path.class);
 
     @NotNull
     private static final EditablePropertyType[] TYPES = values();
 
-    @NotNull
-    public static EditablePropertyType valueOf(final int index) {
+    /**
+     * Gets the property type by the index.
+     *
+     * @param index the index.
+     * @return the property type.
+     */
+    public static @NotNull EditablePropertyType valueOf(final int index) {
         return TYPES[index];
     }
 
@@ -72,8 +78,7 @@ public enum EditablePropertyType {
      *
      * @return the list of available classes for this type.
      */
-    @NotNull
-    public Class<?>[] getTypes() {
+    public @NotNull Class<?>[] getTypes() {
         return types;
     }
 }

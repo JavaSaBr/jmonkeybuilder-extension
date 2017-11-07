@@ -1,5 +1,5 @@
 # About this library #
-This library provides some interface to get integration with jMonkey Builder.
+This library provides some interface to get integration with jMonkeyBuilder.
 
 # License #
 Please see the file called LICENSE.
@@ -18,7 +18,7 @@ allprojects {
 }
 
 dependencies {
-    compile 'com.github.JavaSaBr:jmonkey-builder-extension:1.8.0'
+    compile 'com.github.JavaSaBr:jmonkeybuilder-extension:1.9.0'
 }
 ```
 
@@ -36,7 +36,7 @@ dependencies {
 
     <dependency>
         <groupId>com.github.JavaSaBr</groupId>
-        <artifactId>jmonkey-builder-extension</artifactId>
-        <version>1.8.0</version>
+        <artifactId>jmonkeybuilder-extension</artifactId>
+        <version>1.9.0</version>
     </dependency>
 ```

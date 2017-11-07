@@ -16,7 +16,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 /**
- * The implementation of jME Importer to load scenes.
+ * The implementation of asset loader to load scenes.
  *
  * @author JavaSaBr
  */

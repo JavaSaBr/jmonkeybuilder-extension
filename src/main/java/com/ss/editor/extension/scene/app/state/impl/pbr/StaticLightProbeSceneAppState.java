@@ -10,6 +10,7 @@ import com.jme3.bounding.BoundingVolume;
 import com.jme3.environment.EnvironmentCamera;
 import com.jme3.environment.LightProbeFactory;
 import com.jme3.environment.generation.JobProgressAdapter;
+import com.jme3.environment.util.EnvMapUtils.GenerationType;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
@@ -66,6 +67,12 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
     private Node environmentScene;
 
     /**
+     * The generation type.
+     */
+    @NotNull
+    private GenerationType generationType;
+
+    /**
      * The current frame.
      */
     private int frame;
@@ -82,6 +89,7 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
 
     public StaticLightProbeSceneAppState() {
         this.lightProbe = new InvisibleLightProbe();
+        this.generationType = GenerationType.HighQuality;
     }
 
     /**
@@ -102,6 +110,26 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
         if (scene != null) {
             scene.addLight(lightProbe);
         }
+
+        this.frame = 0;
+    }
+
+    /**
+     * Sets the generation type.
+     *
+     * @return the generation type.
+     */
+    public @NotNull GenerationType getGenerationType() {
+        return generationType;
+    }
+
+    /**
+     * Gets the generation type.
+     *
+     * @param generationType the generation type.
+     */
+    public void setGenerationType(@NotNull final GenerationType generationType) {
+        this.generationType = generationType;
     }
 
     /**
@@ -179,7 +207,7 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
                 EMPTY_SCENE.updateGeometricState();
             }
 
-            LightProbeFactory.updateProbe(lightProbe, this, environmentScene, probeHandler);
+            LightProbeFactory.updateProbe(lightProbe, this, environmentScene, getGenerationType(), probeHandler);
 
             frame++;
         } else if (frame < 2) {
@@ -263,6 +291,7 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
         out.write(pbrScene, "pbrScene", this);
         out.write(environmentScene, "environmentScene", this);
         out.write(frame, "frame", 0);
+        out.write(generationType, "generationType", GenerationType.HighQuality);
     }
 
     @Override
@@ -271,6 +300,7 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
         lightProbe = (LightProbe) in.readSavable("lightProbe", null);
         pbrScene = (Node) in.readSavable("pbrScene", null);
         environmentScene = (Node) in.readSavable("environmentScene", null);
+        generationType = in.readEnum("generationType", GenerationType.class, GenerationType.HighQuality);
         frame = in.readInt("frame", 0);
     }
 
@@ -314,12 +344,14 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
     @Override
     public void setLocation(@NotNull final Vector3f location) {
         lightProbe.setPosition(location);
+        this.frame = 0;
     }
 
     @Override
     public void setScale(@NotNull final Vector3f scale) {
         final float radius = max(max(scale.getX(), scale.getY()), scale.getZ());
         setRadius(radius);
+        this.frame = 0;
     }
 
     /**
@@ -380,6 +412,9 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
         result.add(new SimpleProperty<>(VECTOR_3F, "Position", this,
                 makeGetter(this, Vector3f.class, "getLocation"),
                 makeSetter(this, Vector3f.class, "setLocation")));
+        result.add(new SimpleProperty<>(ENUM, "Generation type", this,
+                makeGetter(this, GenerationType.class, "getGenerationType"),
+                makeSetter(this, GenerationType.class, "setGenerationType")));
 
         return result;
     }

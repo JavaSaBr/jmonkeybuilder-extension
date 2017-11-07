@@ -15,12 +15,26 @@ import java.util.Map;
  */
 public class ReflectionGetterSetterFactory {
 
+    /**
+     * The cache of getters.
+     */
     @NotNull
     private static final Map<String, Object> GETTERS = new HashMap<>();
 
+    /**
+     * The cache of setters.
+     */
     @NotNull
     private static final Map<String, Object> SETTERS = new HashMap<>();
 
+    /**
+     * Creates a getter.
+     *
+     * @param object       the editable object.
+     * @param propertyType the property type.
+     * @param methodName   the method name.
+     * @return the getter.
+     */
     public static synchronized @NotNull <T, O> Getter<T, O> makeGetter(@NotNull final T object,
                                                                        @NotNull final Class<O> propertyType,
                                                                        @NotNull final String methodName) {
@@ -59,6 +73,14 @@ public class ReflectionGetterSetterFactory {
         return getter;
     }
 
+    /**
+     * Creates a setter.
+     *
+     * @param object       the editable object.
+     * @param propertyType the property type.
+     * @param methodName   the method name.
+     * @return the setter.
+     */
     public static synchronized @NotNull <T, O> Setter<T, O> makeSetter(@NotNull final T object,
                                                                        @NotNull final Class<O> propertyType,
                                                                        @NotNull final String methodName) {
