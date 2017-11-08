@@ -90,7 +90,7 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
 
     public StaticLightProbeSceneAppState() {
         this.lightProbe = new InvisibleLightProbe();
-        this.generationType = GenerationType.HighQuality;
+        this.generationType = GenerationType.Fast;
     }
 
     /**
@@ -204,8 +204,9 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
 
                 if (environmentScene == null) {
                     environmentScene = EMPTY_SCENE;
-                    EMPTY_SCENE.updateGeometricState();
                 }
+
+                environmentScene.updateGeometricState();
 
                 LightProbeFactory.updateProbe(lightProbe, this, environmentScene, getGenerationType(), probeHandler);
 
@@ -295,7 +296,7 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
         out.write(pbrScene, "pbrScene", this);
         out.write(environmentScene, "environmentScene", this);
         out.write(frame, "frame", 0);
-        out.write(generationType, "generationType", GenerationType.HighQuality);
+        out.write(generationType, "generationType", GenerationType.Fast);
     }
 
     @Override
@@ -304,7 +305,7 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
         lightProbe = (LightProbe) in.readSavable("lightProbe", null);
         pbrScene = (Node) in.readSavable("pbrScene", null);
         environmentScene = (Node) in.readSavable("environmentScene", null);
-        generationType = in.readEnum("generationType", GenerationType.class, GenerationType.HighQuality);
+        generationType = in.readEnum("generationType", GenerationType.class, GenerationType.Fast);
         frame = in.readInt("frame", 0);
     }
 
