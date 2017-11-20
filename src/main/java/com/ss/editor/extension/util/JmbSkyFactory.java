@@ -23,7 +23,7 @@ import java.nio.ByteBuffer;
  *
  * @author Kirill Vainer, JavaSaBr
  */
-public class SSSkyFactory {
+public class JmbSkyFactory {
 
     /**
      * Create a sky with radius=10 using the given cubemap or spheremap texture.
