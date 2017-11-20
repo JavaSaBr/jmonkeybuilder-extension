@@ -13,7 +13,7 @@ apply plugin: 'idea'
 apply plugin: 'org.junit.platform.gradle.plugin'
 
 group = 'com.spaceshift'
-version = '1.9.3'
+version = '1.9.4'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -60,7 +60,7 @@ dependencies {
 
     testRuntime "com.github.JavaSaBr.jmonkeyengine:jme3-bullet:$jmeVersion"
     testRuntime "com.github.JavaSaBr.jmonkeyengine:jme3-bullet-native:$jmeVersion"
-    testRuntime "com.github.JavaSaBr.jmonkeyengine:jme3-lwjgl3:$jmeVersion"
+    testRuntime "com.github.JavaSaBr.jmonkeyengine: v f   :$jmeVersion"
 
     testRuntime "org.lwjgl:lwjgl:${lwjglVersion}:natives-windows"
     testRuntime "org.lwjgl:lwjgl:${lwjglVersion}:natives-linux"

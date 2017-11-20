@@ -1,6 +1,7 @@
 package com.ss.editor.extension.property;
 
 import com.jme3.light.DirectionalLight;
+import com.jme3.light.Light;
 import com.jme3.light.PointLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
@@ -48,7 +49,8 @@ public enum EditablePropertyType {
     FOLDER_FROM_ASSET_FOLDER(Path.class),
     RESOURCE_FROM_CLASSPATH(String.class),
     READ_ONLY_STRING(String.class),
-    EXTERNAL_FILE(Path.class);
+    EXTERNAL_FILE(Path.class),
+    LIGHT_FROM_SCENE(Light.class),;
 
     @NotNull
     private static final EditablePropertyType[] TYPES = values();
