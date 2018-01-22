@@ -7,10 +7,12 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
+import com.jme3.post.Filter;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.texture.Texture2D;
+import javafx.scene.AmbientLight;
 import javafx.scene.text.Font;
 import org.jetbrains.annotations.NotNull;
 
@@ -50,13 +52,15 @@ public enum EditablePropertyType {
     RESOURCE_FROM_CLASSPATH(String.class),
     READ_ONLY_STRING(String.class),
     EXTERNAL_FILE(Path.class),
-    LIGHT_FROM_SCENE(Light.class),;
+    LIGHT_FROM_SCENE(Light.class),
+    AMBIENT_LIGHT_FROM_SCENE(AmbientLight.class),
+    FILTER_FROM_SCENE(Filter.class),;
 
     @NotNull
     private static final EditablePropertyType[] TYPES = values();
 
     /**
-     * Gets the property type by the index.
+     * Get the the property type by the index.
      *
      * @param index the index.
      * @return the property type.
