@@ -13,7 +13,7 @@ apply plugin: 'idea'
 apply plugin: 'org.junit.platform.gradle.plugin'
 
 group = 'com.spaceshift'
-version = '1.9.5'
+version = '1.9.6'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -24,7 +24,8 @@ compileTestJava {
     options.compilerArgs += '-parameters'
 }
 
-ext.jmeVersion = "3.2_branch-SNAPSHOT"
+ext.jmeVersion = "v3.3.dev-SNAPSHOT"
+ext.rlibVersion = "6.7.4"
 ext.junitPlatformVersion = "1.0.0"
 ext.junitJupiterVersion = "5.0.0"
 ext.log4jVersion = '2.6.2'
@@ -49,31 +50,20 @@ repositories {
 dependencies {
     // https://mvnrepository.com/artifact/org.jetbrains/annotations
     compile group: 'org.jetbrains', name: 'annotations', version: '15.0'
-    compile 'com.github.JavaSaBr:SimFX:1.0.5'
-    compile "com.github.JavaSaBr.jmonkeyengine:jme3-core:$jmeVersion"
-    compile "com.github.JavaSaBr.jmonkeyengine:jme3-effects:$jmeVersion"
-    compile "com.github.JavaSaBr.jmonkeyengine:jme3-bullet:$jmeVersion"
+    compile (group: 'com.github.JavaSaBr', name: 'SimFX', version: '1.0.5') {
+        exclude group: 'org.jmonkeyengine'
+    }
+    compile group: 'com.github.JavaSaBr.jmonkeyengine', name: 'jme3-core', version: jmeVersion
+    compile group: 'com.github.JavaSaBr.jmonkeyengine', name: 'jme3-effects', version: jmeVersion
+    compile group: 'com.github.JavaSaBr.jmonkeyengine', name: 'jme3-bullet', version: jmeVersion
 
-    testCompile 'com.github.JavaSaBr:Rlib:6.4.1'
+    testCompile group: 'com.github.JavaSaBr', name: 'RLib', version: rlibVersion
     testCompile "org.junit.platform:junit-platform-commons:$junitPlatformVersion"
     testRuntime "org.junit.platform:junit-platform-engine:$junitPlatformVersion"
 
-    testRuntime "com.github.JavaSaBr.jmonkeyengine:jme3-bullet:$jmeVersion"
-    testRuntime "com.github.JavaSaBr.jmonkeyengine:jme3-bullet-native:$jmeVersion"
-    testRuntime "com.github.JavaSaBr.jmonkeyengine:jme3-lwjgl3:$jmeVersion"
-
-    testRuntime "org.lwjgl:lwjgl:${lwjglVersion}:natives-windows"
-    testRuntime "org.lwjgl:lwjgl:${lwjglVersion}:natives-linux"
-    testRuntime "org.lwjgl:lwjgl:${lwjglVersion}:natives-macos"
-    testRuntime "org.lwjgl:lwjgl-glfw:${lwjglVersion}:natives-windows"
-    testRuntime "org.lwjgl:lwjgl-glfw:${lwjglVersion}:natives-linux"
-    testRuntime "org.lwjgl:lwjgl-glfw:${lwjglVersion}:natives-macos"
-    testRuntime "org.lwjgl:lwjgl-jemalloc:${lwjglVersion}:natives-windows"
-    testRuntime "org.lwjgl:lwjgl-jemalloc:${lwjglVersion}:natives-linux"
-    testRuntime "org.lwjgl:lwjgl-jemalloc:${lwjglVersion}:natives-macos"
-    testRuntime "org.lwjgl:lwjgl-openal:${lwjglVersion}:natives-windows"
-    testRuntime "org.lwjgl:lwjgl-openal:${lwjglVersion}:natives-linux"
-    testRuntime "org.lwjgl:lwjgl-openal:${lwjglVersion}:natives-macos"
+    testRuntime group: 'com.github.JavaSaBr.jmonkeyengine', name: 'jme3-bullet', version: jmeVersion
+    testRuntime group: 'com.github.JavaSaBr.jmonkeyengine', name: 'jme3-bullet-native', version: jmeVersion
+    testRuntime group: 'com.github.JavaSaBr.jmonkeyengine', name: 'jme3-lwjgl3', version: jmeVersion
 
     testCompile "org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion"
     testRuntime "org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion"
