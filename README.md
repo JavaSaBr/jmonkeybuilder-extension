@@ -14,7 +14,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.JavaSaBr:jmonkeybuilder-extension:1.9.5'
+    compile 'com.github.JavaSaBr:jmonkeybuilder-extension:1.9.6'
 }
 ```
 
@@ -31,6 +31,6 @@ dependencies {
 <dependency>
     <groupId>com.github.JavaSaBr</groupId>
     <artifactId>jmonkeybuilder-extension</artifactId>
-    <version>1.9.5</version>
+    <version>1.9.6</version>
 </dependency>
 ```
