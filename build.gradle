@@ -13,7 +13,7 @@ apply plugin: 'idea'
 apply plugin: 'org.junit.platform.gradle.plugin'
 
 group = 'com.spaceshift'
-version = '1.9.6'
+version = '1.9.7'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -30,6 +30,8 @@ ext.junitPlatformVersion = "1.0.0"
 ext.junitJupiterVersion = "5.0.0"
 ext.log4jVersion = '2.6.2'
 ext.lwjglVersion = "3.1.0"
+
+def jme3 = [v: '3.2.0-stable', g: 'org.jmonkeyengine']
 
 junitPlatform {
     filters {
@@ -53,17 +55,18 @@ dependencies {
     compile (group: 'com.github.JavaSaBr', name: 'SimFX', version: '1.0.5') {
         exclude group: 'org.jmonkeyengine'
     }
-    compile group: 'com.github.JavaSaBr.jmonkeyengine', name: 'jme3-core', version: jmeVersion
-    compile group: 'com.github.JavaSaBr.jmonkeyengine', name: 'jme3-effects', version: jmeVersion
-    compile group: 'com.github.JavaSaBr.jmonkeyengine', name: 'jme3-bullet', version: jmeVersion
+
+    compile "${jme3.g}:jme3-core:${jme3.v}"
+    compile "${jme3.g}:jme3-effects:${jme3.v}"
+    compile "${jme3.g}:jme3-bullet:${jme3.v}"
 
     testCompile group: 'com.github.JavaSaBr', name: 'RLib', version: rlibVersion
     testCompile "org.junit.platform:junit-platform-commons:$junitPlatformVersion"
     testRuntime "org.junit.platform:junit-platform-engine:$junitPlatformVersion"
 
-    testRuntime group: 'com.github.JavaSaBr.jmonkeyengine', name: 'jme3-bullet', version: jmeVersion
-    testRuntime group: 'com.github.JavaSaBr.jmonkeyengine', name: 'jme3-bullet-native', version: jmeVersion
-    testRuntime group: 'com.github.JavaSaBr.jmonkeyengine', name: 'jme3-lwjgl3', version: jmeVersion
+    testRuntime "${jme3.g}:jme3-bullet:${jme3.v}"
+    testRuntime "${jme3.g}:jme3-bullet-native:${jme3.v}"
+    testRuntime "${jme3.g}:jme3-lwjgl3:${jme3.v}"
 
     testCompile "org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion"
     testRuntime "org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion"
