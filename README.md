@@ -11,10 +11,11 @@ Please see the file called LICENSE.
 ```groovy
 repositories {
     maven { url 'https://jitpack.io' }
+    jcenter()
 }
 
 dependencies {
-    compile 'com.github.JavaSaBr:jmonkeybuilder-extension:1.9.6'
+    compile 'com.github.JavaSaBr:jmonkeybuilder-extension:1.9.7'
 }
 ```
 
@@ -31,6 +32,6 @@ dependencies {
 <dependency>
     <groupId>com.github.JavaSaBr</groupId>
     <artifactId>jmonkeybuilder-extension</artifactId>
-    <version>1.9.6</version>
+    <version>1.9.7</version>
 </dependency>
 ```
