@@ -144,12 +144,9 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
      */
     protected boolean debugEnabled;
 
-    /**
-     * Instantiates a new Editable bullet scene app state.
-     */
     public EditableBulletSceneAppState() {
         this.threadingType = ThreadingType.SEQUENTIAL;
-        this.broadphaseType = BroadphaseType.DBVT;
+        this.broadphaseType = BroadphaseType.AXIS_SWEEP_3;
         this.worldMin = new Vector3f(-10000f, -10000f, -10000f);
         this.worldMax = new Vector3f(10000f, 10000f, 10000f);
         this.debugEnabled = false;
@@ -161,7 +158,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
     }
 
     /**
-     * Gets scene node.
+     * Get the scene node.
      *
      * @return the scene node.
      */
@@ -170,7 +167,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
     }
 
     /**
-     * Sets debug enabled.
+     * Set the debug enabled.
      *
      * @param debugEnabled the flag to enable debug.
      */
@@ -180,7 +177,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
     }
 
     /**
-     * Is debug enabled boolean.
+     * Return true if debug is enabled.
      *
      * @return true if debug is enabled.
      */
@@ -189,7 +186,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
     }
 
     /**
-     * Gets physics space.
+     * Get the physics space.
      *
      * @return the physics space.
      */
@@ -198,7 +195,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
     }
 
     /**
-     * Gets speed.
+     * Get the speed.
      *
      * @return the speed.
      */
@@ -207,7 +204,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
     }
 
     /**
-     * Sets speed.
+     * Set the speed.
      *
      * @param speed the speed.
      */
@@ -216,7 +213,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
     }
 
     /**
-     * Gets tpf.
+     * Get the tpf.
      *
      * @return the time per frame.
      */
@@ -230,7 +227,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
     }
 
     /**
-     * Sets threading type.
+     * Set the threading type.
      *
      * @param threadingType the threading type
      */
@@ -241,7 +238,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
     }
 
     /**
-     * Gets threading type.
+     * Get the threading type.
      *
      * @return the threading type
      */
@@ -250,7 +247,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
     }
 
     /**
-     * Sets broadphase type.
+     * Set the broadphase type.
      *
      * @param broadphaseType the broadphase type
      */
@@ -260,7 +257,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
     }
 
     /**
-     * Gets broadphase type.
+     * Get the broadphase type.
      *
      * @return the broadphase type
      */
@@ -269,7 +266,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
     }
 
     /**
-     * Gets world max.
+     * Get the world max.
      *
      * @return the world max
      */
@@ -278,7 +275,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
     }
 
     /**
-     * Sets world max.
+     * Set the world max.
      *
      * @param worldMax the world max
      */
@@ -288,7 +285,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
     }
 
     /**
-     * Gets world min.
+     * Get the world min.
      *
      * @return the world min
      */
@@ -297,7 +294,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
     }
 
     /**
-     * Sets world min.
+     * Set the world min.
      *
      * @param worldMin the world min
      */
@@ -326,7 +323,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
     }
 
     /**
-     * Update a spatial.
+     * Update the spatial.
      *
      * @param spatial      the spatial.
      * @param physicsSpace the new physical space or null.
@@ -373,7 +370,9 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
      * Start physics.
      */
     public void startPhysics() {
-        if (physicsSpace != null) return;
+        if (physicsSpace != null) {
+            return;
+        }
 
         if (threadingType == ThreadingType.PARALLEL) {
             startBackgroundPhysics();
@@ -390,7 +389,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
     /**
      * Start background physics.
      *
-     * @return the boolean
+     * @return true of the physics was started.
      */
     protected boolean startBackgroundPhysics() {
 
@@ -404,10 +403,8 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
 
                 @Override
                 public Boolean call() throws Exception {
-
                     physicsSpace = new PhysicsSpace(worldMin, worldMax, broadphaseType);
                     physicsSpace.addTickListener(EditableBulletSceneAppState.this);
-
                     return true;
                 }
 
@@ -423,7 +420,9 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
      * Rebuild this state.
      */
     protected void rebuildState() {
-        if (!isInitialized()) return;
+        if (!isInitialized()) {
+            return;
+        }
 
         final SceneNode sceneNode = getSceneNode();
 
@@ -453,7 +452,10 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
      * Stop physics.
      */
     public void stopPhysics() {
-        if (physicsSpace == null) return;
+
+        if (physicsSpace == null) {
+            return;
+        }
 
         if (executor != null) {
             executor.shutdown();
@@ -474,7 +476,11 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
 
     @Override
     public void render(@NotNull final RenderManager renderManager) {
-        if (!isEnabled()) return;
+
+        if (!isEnabled()) {
+            return;
+        }
+
         switch (threadingType) {
             case PARALLEL: {
                 physicsFuture = executor.submit(physicsUpdateTask);
@@ -489,7 +495,11 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
 
     @Override
     public void postRender() {
-        if (physicsFuture == null) return;
+
+        if (physicsFuture == null) {
+            return;
+        }
+
         try {
             physicsFuture.get();
             physicsFuture = null;
