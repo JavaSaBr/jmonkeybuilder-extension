@@ -13,7 +13,7 @@ apply plugin: 'idea'
 apply plugin: 'org.junit.platform.gradle.plugin'
 
 group = 'com.spaceshift'
-version = '1.9.8'
+version = '2.0.0'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -49,11 +49,7 @@ repositories {
 }
 
 dependencies {
-    // https://mvnrepository.com/artifact/org.jetbrains/annotations
     compile group: 'org.jetbrains', name: 'annotations', version: '15.0'
-    compile (group: 'com.github.JavaSaBr', name: 'SimFX', version: '1.0.5') {
-        exclude group: 'org.jmonkeyengine'
-    }
 
     compile "${jme3.g}:jme3-core:${jme3.v}"
     compile "${jme3.g}:jme3-effects:${jme3.v}"

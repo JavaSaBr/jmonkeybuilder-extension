@@ -119,20 +119,8 @@ class FiltersTest extends PropertyTest {
     }
 
     @Test
-    void localWaterWithLightingStateFilterTest() {
-        final EditableLocalWaterWithLightingStateFilter filter = new EditableLocalWaterWithLightingStateFilter();
-        testProperties(filter.getEditableProperties());
-    }
-
-    @Test
     void waterWithDirectionLightFilterTest() {
         final EditableWaterWithDirectionLightFilter filter = new EditableWaterWithDirectionLightFilter();
-        testProperties(filter.getEditableProperties());
-    }
-
-    @Test
-    void waterWithLightingStateFilterTest() {
-        final EditableWaterWithLightingStateFilter filter = new EditableWaterWithLightingStateFilter();
         testProperties(filter.getEditableProperties());
     }
 }

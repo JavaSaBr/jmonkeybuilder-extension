@@ -48,7 +48,7 @@ public class EditablePointLightShadowFilter extends PointLightShadowFilter imple
         result.add(new SimpleProperty<>(FLOAT, "Shadow z fade length", this,
                 makeGetter(this, float.class, "getShadowZFadeLength"),
                 makeSetter(this, float.class, "setShadowZFadeLength")));
-        result.add(new SimpleProperty<>(FLOAT, "Shadow intensity", 0.1F, 0F, 1F, this,
+        result.add(new SimpleProperty<>(FLOAT, "Shadow intensity", 0.1F, 0.1F, 0.8F, this,
                 makeGetter(this, float.class, "getShadowIntensity"),
                 makeSetter(this, float.class, "setShadowIntensity")));
         result.add(new SimpleProperty<>(INTEGER, "Edges thickness", 1F, 1, 10, this,
