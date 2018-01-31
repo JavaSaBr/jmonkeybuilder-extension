@@ -27,6 +27,10 @@ public class EditableDirectionLightFromSceneShadowFilter extends EditableDirecti
     public EditableDirectionLightFromSceneShadowFilter() {
     }
 
+    protected EditableDirectionLightFromSceneShadowFilter(final int shadowMapSize, final int nbSplits) {
+        super(shadowMapSize, nbSplits);
+    }
+
     @Override
     public @NotNull String getName() {
         return "Shadows from direction light";
