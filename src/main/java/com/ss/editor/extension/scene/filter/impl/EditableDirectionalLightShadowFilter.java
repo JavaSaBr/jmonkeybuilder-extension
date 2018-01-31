@@ -32,6 +32,10 @@ public class EditableDirectionalLightShadowFilter extends DirectionalLightShadow
         super(tryToGetAssetManager(), SHADOW_MAP_SIZE, 3);
     }
 
+    protected EditableDirectionalLightShadowFilter(final int shadowMapSize, final int nbSplits) {
+        super(tryToGetAssetManager(), shadowMapSize, nbSplits);
+    }
+
     @Override
     public @NotNull List<EditableProperty<?, ?>> getEditableProperties() {
 
@@ -52,7 +56,7 @@ public class EditableDirectionalLightShadowFilter extends DirectionalLightShadow
         result.add(new SimpleProperty<>(FLOAT, "Lambda", this,
                 makeGetter(this, float.class, "getLambda"),
                 makeSetter(this, float.class, "setLambda")));
-        result.add(new SimpleProperty<>(FLOAT, "Shadow intensity", 0.1F, 0F, 1F, this,
+        result.add(new SimpleProperty<>(FLOAT, "Shadow intensity", 0.1F, 0.1F, 0.8F, this,
                 makeGetter(this, float.class, "getShadowIntensity"),
                 makeSetter(this, float.class, "setShadowIntensity")));
         result.add(new SimpleProperty<>(INTEGER, "Edges thickness", 1F, 1, 10, this,
