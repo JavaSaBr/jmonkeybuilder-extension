@@ -7,9 +7,9 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author JavaSaBr
  */
-public class EditableHqDirectionalLightShadowFilter extends EditableDirectionLightFromSceneShadowFilter {
+public class EditableHqDirectionalLightFromSceneShadowFilter extends EditableDirectionLightFromSceneShadowFilter {
 
-    public EditableHqDirectionalLightShadowFilter() {
+    public EditableHqDirectionalLightFromSceneShadowFilter() {
         super(4096, 4);
     }
 
