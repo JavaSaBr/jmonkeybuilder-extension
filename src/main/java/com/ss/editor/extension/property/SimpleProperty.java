@@ -6,8 +6,8 @@ import org.jetbrains.annotations.Nullable;
 /**
  * The simple implementation of editable property to a generic object.
  *
- * @param <T> the property type.
- * @param <O> the edited object type.
+ * @param <T> the property's type.
+ * @param <O> the edited object's type.
  * @author JavaSabr
  */
 public class SimpleProperty<T, O> implements EditableProperty<T, O> {
@@ -33,7 +33,7 @@ public class SimpleProperty<T, O> implements EditableProperty<T, O> {
     /**
      * The setter of this property.
      */
-    @NotNull
+    @Nullable
     private final Setter<O, T> setter;
 
     /**
@@ -65,11 +65,7 @@ public class SimpleProperty<T, O> implements EditableProperty<T, O> {
 
     public SimpleProperty(@NotNull final EditablePropertyType type, @NotNull final String name, @NotNull final O object,
                           @NotNull final Getter<O, T> getter) {
-        this(type, name, 1F, Integer.MIN_VALUE, Integer.MAX_VALUE, object, getter, new Setter<O, T>() {
-            @Override
-            public void set(@NotNull final O object, @Nullable final T property) {
-            }
-        });
+        this(type, name, 1F, Integer.MIN_VALUE, Integer.MAX_VALUE, object, null, getter);
     }
 
     public SimpleProperty(@NotNull final EditablePropertyType type, @NotNull final String name, @NotNull final O object,
@@ -91,8 +87,14 @@ public class SimpleProperty<T, O> implements EditableProperty<T, O> {
 
     public SimpleProperty(@NotNull final EditablePropertyType type, @NotNull final String name, final float scrollPower,
                           final float minValue, final float maxValue, @NotNull final O object,
+                          @Nullable final String extension, @NotNull final Getter<O, T> getter) {
+        this(type, name, scrollPower, minValue, maxValue, object, extension, getter, null);
+    }
+
+    public SimpleProperty(@NotNull final EditablePropertyType type, @NotNull final String name, final float scrollPower,
+                          final float minValue, final float maxValue, @NotNull final O object,
                           @Nullable final String extension, @NotNull final Getter<O, T> getter,
-                          @NotNull final Setter<O, T> setter) {
+                          @Nullable final Setter<O, T> setter) {
         this.type = type;
         this.name = name;
         this.object = object;
@@ -140,7 +142,15 @@ public class SimpleProperty<T, O> implements EditableProperty<T, O> {
     }
 
     @Override
+    public boolean isReadOnly() {
+        return setter == null;
+    }
+
+    @Override
     public void setValue(@Nullable final T value) {
+        if (setter == null) {
+            throw new IllegalStateException("This property " + this + " is read only.");
+        }
         setter.set(object, value);
     }
 

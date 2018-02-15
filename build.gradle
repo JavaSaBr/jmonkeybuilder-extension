@@ -13,7 +13,7 @@ apply plugin: 'idea'
 apply plugin: 'org.junit.platform.gradle.plugin'
 
 group = 'com.spaceshift'
-version = '2.0.2'
+version = '2.1.0'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -24,7 +24,7 @@ compileTestJava {
     options.compilerArgs += '-parameters'
 }
 
-ext.rlibVersion = "6.7.4"
+ext.rlibVersion = "6.7.6"
 ext.junitPlatformVersion = "1.0.0"
 ext.junitJupiterVersion = "5.0.0"
 ext.log4jVersion = '2.6.2'
@@ -89,7 +89,7 @@ artifacts {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '4.4'
+    gradleVersion = '4.5.1'
 }
 
 defaultTasks 'clean', 'install'
