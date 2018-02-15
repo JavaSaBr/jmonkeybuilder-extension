@@ -55,6 +55,13 @@ public interface EditableProperty<T, O> extends Named {
     void setValue(@Nullable final T value);
 
     /**
+     * Return true if this property is read only.
+     *
+     * @return true if this property is read only.
+     */
+    boolean isReadOnly();
+
+    /**
      * Get the extension to filter files/resources.
      *
      * @return the extension to filter files/resources.

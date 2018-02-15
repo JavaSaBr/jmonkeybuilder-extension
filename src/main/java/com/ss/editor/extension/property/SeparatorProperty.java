@@ -62,6 +62,11 @@ public final class SeparatorProperty implements EditableProperty<Object, Object>
     }
 
     @Override
+    public boolean isReadOnly() {
+        return true;
+    }
+
+    @Override
     public @Nullable String getFileExtension() {
         return null;
     }
