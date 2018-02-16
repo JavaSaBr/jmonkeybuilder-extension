@@ -136,38 +136,6 @@ public class SceneNode extends Node {
                     postProcessor.addFilter(filter.get());
                 }
             }
-
-            resetPhysics(this);
-        }
-    }
-
-    /**
-     * Reset physics controls on loaded spatial.
-     *
-     * @param spatial the loaded spatial.
-     */
-    private void resetPhysics(@NotNull final Spatial spatial) {
-
-        final int numControls = spatial.getNumControls();
-        for (int i = 0; i < numControls; i++) {
-            final Control control = spatial.getControl(i);
-            if (control instanceof RigidBodyControl) {
-                final RigidBodyControl bodyControl = (RigidBodyControl) control;
-                final boolean kinematic = bodyControl.isKinematic();
-                final boolean kinematicSpatial = bodyControl.isKinematicSpatial();
-                bodyControl.setKinematic(true);
-                bodyControl.setKinematicSpatial(true);
-                bodyControl.clearForces();
-                bodyControl.update(0);
-                bodyControl.setKinematic(kinematic);
-                bodyControl.setKinematicSpatial(kinematicSpatial);
-            }
-        }
-
-        if (spatial instanceof Node) {
-            for (final Spatial child : ((Node) spatial).getChildren()) {
-                resetPhysics(child);
-            }
         }
     }
 
@@ -308,11 +276,6 @@ public class SceneNode extends Node {
      * @param object the added object.
      */
     public void notifyAdded(@NotNull final Object object) {
-
-        if (object instanceof Spatial) {
-            resetPhysics((Spatial) object);
-        }
-
         for (final SceneAppState appState : getAppStates().getArray()) {
             appState.notifyAdded(object);
         }
