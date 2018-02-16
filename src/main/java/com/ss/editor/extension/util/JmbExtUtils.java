@@ -1,5 +1,6 @@
 package com.ss.editor.extension.util;
 
+import com.jme3.bullet.control.PhysicsControl;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.scene.SceneGraphVisitor;
 import com.jme3.scene.Spatial;
@@ -20,7 +21,12 @@ public class JmbExtUtils {
         public void visit(@NotNull final Spatial spatial) {
             final int numControls = spatial.getNumControls();
             for (int i = 0; i < numControls; i++) {
+
                 final Control control = spatial.getControl(i);
+                if (!(control instanceof PhysicsControl) || !((PhysicsControl) control).isEnabled()) {
+                    continue;
+                }
+
                 if (control instanceof RigidBodyControl) {
                     final RigidBodyControl bodyControl = (RigidBodyControl) control;
                     final boolean kinematic = bodyControl.isKinematic();
