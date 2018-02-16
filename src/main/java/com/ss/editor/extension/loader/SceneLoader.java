@@ -111,47 +111,11 @@ public class SceneLoader implements AssetLoader {
         }
 
         try {
-
-            Object load = importer.load(assetInfo);
-
-            if (load instanceof Spatial) {
-                resetPhysics((Spatial) load);
-            }
-
-            return load;
-
+            return importer.load(assetInfo);
         } finally {
             importers.addLast(importer);
         }
     }
 
-    /**
-     * Reset physics controls on loaded spatial.
-     *
-     * @param spatial the loaded spatial.
-     */
-    private void resetPhysics(@NotNull final Spatial spatial) {
 
-        final int numControls = spatial.getNumControls();
-        for (int i = 0; i < numControls; i++) {
-            final Control control = spatial.getControl(i);
-            if (control instanceof RigidBodyControl) {
-                final RigidBodyControl bodyControl = (RigidBodyControl) control;
-                final boolean kinematic = bodyControl.isKinematic();
-                final boolean kinematicSpatial = bodyControl.isKinematicSpatial();
-                bodyControl.setKinematic(true);
-                bodyControl.setKinematicSpatial(true);
-                bodyControl.clearForces();
-                bodyControl.update(0);
-                bodyControl.setKinematic(kinematic);
-                bodyControl.setKinematicSpatial(kinematicSpatial);
-            }
-        }
-
-        if (spatial instanceof Node) {
-            for (final Spatial child : ((Node) spatial).getChildren()) {
-                resetPhysics(child);
-            }
-        }
-    }
 }

@@ -3,9 +3,12 @@ package com.ss.editor.extension.scene;
 import static com.ss.editor.extension.loader.SceneLoader.tryToGetPostProcessor;
 import static com.ss.editor.extension.loader.SceneLoader.tryToGetStateManager;
 import com.jme3.app.state.AppStateManager;
+import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.export.*;
 import com.jme3.post.FilterPostProcessor;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
+import com.jme3.scene.control.Control;
 import com.jme3.util.SafeArrayList;
 import com.jme3.util.clone.Cloner;
 import com.ss.editor.extension.scene.app.state.SceneAppState;
@@ -132,6 +135,38 @@ public class SceneNode extends Node {
                 for (final SceneFilter filter : filters) {
                     postProcessor.addFilter(filter.get());
                 }
+            }
+
+            resetPhysics(this);
+        }
+    }
+
+    /**
+     * Reset physics controls on loaded spatial.
+     *
+     * @param spatial the loaded spatial.
+     */
+    private void resetPhysics(@NotNull final Spatial spatial) {
+
+        final int numControls = spatial.getNumControls();
+        for (int i = 0; i < numControls; i++) {
+            final Control control = spatial.getControl(i);
+            if (control instanceof RigidBodyControl) {
+                final RigidBodyControl bodyControl = (RigidBodyControl) control;
+                final boolean kinematic = bodyControl.isKinematic();
+                final boolean kinematicSpatial = bodyControl.isKinematicSpatial();
+                bodyControl.setKinematic(true);
+                bodyControl.setKinematicSpatial(true);
+                bodyControl.clearForces();
+                bodyControl.update(0);
+                bodyControl.setKinematic(kinematic);
+                bodyControl.setKinematicSpatial(kinematicSpatial);
+            }
+        }
+
+        if (spatial instanceof Node) {
+            for (final Spatial child : ((Node) spatial).getChildren()) {
+                resetPhysics(child);
             }
         }
     }
