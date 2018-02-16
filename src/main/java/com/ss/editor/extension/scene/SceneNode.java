@@ -308,6 +308,11 @@ public class SceneNode extends Node {
      * @param object the added object.
      */
     public void notifyAdded(@NotNull final Object object) {
+
+        if (object instanceof Spatial) {
+            resetPhysics((Spatial) object);
+        }
+
         for (final SceneAppState appState : getAppStates().getArray()) {
             appState.notifyAdded(object);
         }
