@@ -37,7 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The implementation of static Light probe scene app state.
+ * The implementation of {@link SceneAppState} to make static {@link LightProbe}.
  *
  * @author JavaSaBr
  */
@@ -148,7 +148,6 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
         super.onEnable();
 
         final Node pbrScene = getPbrScene();
-
         if (pbrScene == null) {
             return;
         }

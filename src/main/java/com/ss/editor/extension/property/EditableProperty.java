@@ -26,16 +26,22 @@ public interface EditableProperty<T, O> extends Named {
     @NotNull EditablePropertyType getType();
 
     /**
-     * @return scroll power.
+     * Get the scroll power.
+     *
+     * @return the scroll power.
      */
     float getScrollPower();
 
     /**
+     * Get the min value.
+     *
      * @return the min value.
      */
     float getMinValue();
 
     /**
+     * Get the max value.
+     *
      * @return the max value.
      */
     float getMaxValue();

@@ -420,6 +420,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
      * Rebuild this state.
      */
     protected void rebuildState() {
+
         if (!isInitialized()) {
             return;
         }

@@ -57,9 +57,8 @@ public class ReflectionGetterSetterFactory {
 
         getter = new Getter<T, O>() {
 
-            @Nullable
             @Override
-            public O get(@NotNull final T object) {
+            public @Nullable O get(@NotNull final T object) {
                 try {
                     return (O) targetMethod.invoke(object);
                 } catch (final IllegalAccessException | InvocationTargetException e) {
