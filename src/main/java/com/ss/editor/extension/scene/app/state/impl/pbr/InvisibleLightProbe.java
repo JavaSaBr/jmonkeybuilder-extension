@@ -4,7 +4,7 @@ import com.jme3.light.LightProbe;
 import com.ss.editor.extension.scene.InvisibleObject;
 
 /**
- * The implementation of {@link LightProbe} to be invisible in SS Editor.
+ * The implementation of {@link LightProbe} to be invisible in jMB.
  *
  * @author JavaSaBr
  */

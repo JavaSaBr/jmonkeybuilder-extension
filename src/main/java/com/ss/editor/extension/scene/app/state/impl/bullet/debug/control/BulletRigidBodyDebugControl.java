@@ -114,7 +114,7 @@ public class BulletRigidBodyDebugControl extends AbstractPhysicsDebugControl {
             currentShape = shape;
         }
 
-        if (body.isActive()) {
+        if (body.isActive() && Float.compare(body.getMass(), 0.0F) != 0) {
             geom.setMaterial(debugAppState.getDebugMagenta());
         } else {
             geom.setMaterial(debugAppState.getDebugBlue());
