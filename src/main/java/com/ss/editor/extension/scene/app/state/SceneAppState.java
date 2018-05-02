@@ -20,20 +20,20 @@ public interface SceneAppState extends AppState, Savable, Named, Cloneable, JmeC
      *
      * @param sceneNode the scene node or null.
      */
-    void setSceneNode(@Nullable final SceneNode sceneNode);
+    void setSceneNode(@Nullable SceneNode sceneNode);
 
     /**
-     * Notify a scene node about added an object to a scene node.
+     * Notify this scene app state about the added object.
      *
      * @param object the added object.
      */
-    void notifyAdded(@NotNull final Object object);
+    void notifyAdded(@NotNull Object object);
 
     /**
-     * Notify a scene node about removed an object from a scene node.
+     * Notify this scene app state about the removed object.
      *
      * @param object the removed object.
      */
-    void notifyRemoved(@NotNull final Object object);
+    void notifyRemoved(@NotNull Object object);
 }
 

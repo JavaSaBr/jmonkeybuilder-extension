@@ -27,7 +27,7 @@ public class EditableDirectionLightFromSceneShadowFilter extends EditableDirecti
     public EditableDirectionLightFromSceneShadowFilter() {
     }
 
-    protected EditableDirectionLightFromSceneShadowFilter(final int shadowMapSize, final int nbSplits) {
+    protected EditableDirectionLightFromSceneShadowFilter(int shadowMapSize, int nbSplits) {
         super(shadowMapSize, nbSplits);
     }
 
@@ -39,7 +39,7 @@ public class EditableDirectionLightFromSceneShadowFilter extends EditableDirecti
     @Override
     public @NotNull List<EditableProperty<?, ?>> getEditableProperties() {
 
-        final List<EditableProperty<?, ?>> result = super.getEditableProperties();
+        List<EditableProperty<?, ?>> result = super.getEditableProperties();
         result.add(new SimpleProperty<>(DIRECTION_LIGHT_FROM_SCENE, "Direction light", this,
                 ReflectionGetterSetterFactory.makeGetter(this, DirectionalLight.class, "getLight"),
                 ReflectionGetterSetterFactory.makeSetter(this, DirectionalLight.class, "setLight")));

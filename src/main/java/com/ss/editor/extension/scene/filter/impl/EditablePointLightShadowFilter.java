@@ -35,7 +35,7 @@ public class EditablePointLightShadowFilter extends PointLightShadowFilter imple
     @Override
     public @NotNull List<EditableProperty<?, ?>> getEditableProperties() {
 
-        final List<EditableProperty<?, ?>> result = new ArrayList<>(8);
+        List<EditableProperty<?, ?>> result = new ArrayList<>(8);
         result.add(new SimpleProperty<>(ENUM, "Edge filtering mode", this,
                 makeGetter(this, EdgeFilteringMode.class, "getEdgeFilteringMode"),
                 makeSetter(this, EdgeFilteringMode.class, "setEdgeFilteringMode")));
@@ -67,12 +67,12 @@ public class EditablePointLightShadowFilter extends PointLightShadowFilter imple
     }
 
     @Override
-    public @Nullable String checkStates(@NotNull final List<SceneAppState> exists) {
+    public @Nullable String checkStates(@NotNull List<SceneAppState> exists) {
         return null;
     }
 
     @Override
-    public @Nullable String checkFilters(@NotNull final List<SceneFilter> exists) {
+    public @Nullable String checkFilters(@NotNull List<SceneFilter> exists) {
         return null;
     }
 }

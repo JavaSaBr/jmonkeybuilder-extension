@@ -57,7 +57,7 @@ public final class SeparatorProperty implements EditableProperty<Object, Object>
     }
 
     @Override
-    public void setValue(@Nullable final Object value) {
+    public void setValue(@Nullable Object value) {
         throw new UnsupportedOperationException();
     }
 

@@ -61,16 +61,16 @@ public class EditableDepthOfFieldFilter extends DepthOfFieldFilter implements Ed
     }
 
     @Override
-    public void cloneFields(@NotNull final Cloner cloner, @NotNull final Object original) {
+    public void cloneFields(@NotNull Cloner cloner, @NotNull Object original) {
     }
 
     @Override
-    public @Nullable String checkStates(@NotNull final List<SceneAppState> exists) {
+    public @Nullable String checkStates(@NotNull List<SceneAppState> exists) {
         return null;
     }
 
     @Override
-    public @Nullable String checkFilters(@NotNull final List<SceneFilter> exists) {
+    public @Nullable String checkFilters(@NotNull List<SceneFilter> exists) {
         return null;
     }
 }

@@ -66,34 +66,34 @@ public class EditablePosterizationFilter extends PosterizationFilter implements 
     }
 
     @Override
-    public void cloneFields(@NotNull final Cloner cloner, @NotNull final Object original) {
+    public void cloneFields(@NotNull Cloner cloner, @NotNull Object original) {
     }
 
     @Override
-    public void read(@NotNull final JmeImporter importer) throws IOException {
+    public void read(@NotNull JmeImporter importer) throws IOException {
         super.read(importer);
-        final InputCapsule capsule = importer.getCapsule(this);
+        InputCapsule capsule = importer.getCapsule(this);
         setGamma(capsule.readFloat("gamma", 0.6F));
         setNumColors(capsule.readInt("numColors", 8));
         setStrength(capsule.readFloat("strength", 1.0f));
     }
 
     @Override
-    public void write(@NotNull final JmeExporter exporter) throws IOException {
+    public void write(@NotNull JmeExporter exporter) throws IOException {
         super.write(exporter);
-        final OutputCapsule capsule = exporter.getCapsule(this);
+        OutputCapsule capsule = exporter.getCapsule(this);
         capsule.write(getGamma(), "gamma", 0.6F);
         capsule.write(getNumColors(), "numColors", 8);
         capsule.write(getStrength(), "strength", 1.0f);
     }
 
     @Override
-    public @Nullable String checkStates(@NotNull final List<SceneAppState> exists) {
+    public @Nullable String checkStates(@NotNull List<SceneAppState> exists) {
         return null;
     }
 
     @Override
-    public @Nullable String checkFilters(@NotNull final List<SceneFilter> exists) {
+    public @Nullable String checkFilters(@NotNull List<SceneFilter> exists) {
         return null;
     }
 }

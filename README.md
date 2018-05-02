@@ -10,11 +10,13 @@ Please see the file called LICENSE.
 
 ```groovy
 repositories {
-    maven { url 'https://jitpack.io' }
+    maven {
+        url  "https://dl.bintray.com/javasabr/maven" 
+    }
 }
 
 dependencies {
-    compile 'com.github.JavaSaBr:jmonkeybuilder-extension:2.1.1'
+    compile 'com.spaceshift:jmonkeybuilder-extension:2.2.0'
 }
 ```
 
@@ -32,5 +34,22 @@ dependencies {
     <groupId>com.github.JavaSaBr</groupId>
     <artifactId>jmonkeybuilder-extension</artifactId>
     <version>2.1.1</version>
+</dependency>
+
+<repositories>
+    <repository>
+        <snapshots>
+            <enabled>false</enabled>
+        </snapshots>
+        <id>bintray-javasabr-maven</id>
+        <name>bintray</name>
+        <url>https://dl.bintray.com/javasabr/maven</url>
+    </repository>
+</repositories>
+
+<dependency>
+    <groupId>com.spaceshift</groupId>
+    <artifactId>jmonkeybuilder-extension</artifactId>
+    <version>2.2.0</version>
 </dependency>
 ```

@@ -47,14 +47,14 @@ public interface EditableProperty<T, O> extends Named {
     float getMaxValue();
 
     /**
-     * Get an edited object.
+     * Get the edited object.
      *
      * @return the edited object.
      */
     @NotNull O getObject();
 
     /**
-     * Set a new value.
+     * Set the new value.
      *
      * @param value the new value.
      */

@@ -27,7 +27,7 @@ public class EditableBillboardControl extends BillboardControl implements Editab
     @Override
     public @NotNull List<EditableProperty<?, ?>> getEditableProperties() {
 
-        final List<EditableProperty<?, ?>> result = new ArrayList<>(1);
+        List<EditableProperty<?, ?>> result = new ArrayList<>(1);
 
         result.add(new SimpleProperty<>(ENUM, "Alignment", this,
                 makeGetter(this, Alignment.class, "getAlignment"),

@@ -18,12 +18,14 @@ public interface EditableControl extends Control, Named {
     @NotNull List<EditableProperty<?, ?>> EMPTY_PROPERTIES = Collections.emptyList();
 
     /**
+     * Get the control's name.
+     *
      * @return the control's name.
      */
     @NotNull String getName() ;
 
     /**
-     * Get list of editable properties.
+     * Get a list of editable properties.
      *
      * @return the list of editable properties.
      */

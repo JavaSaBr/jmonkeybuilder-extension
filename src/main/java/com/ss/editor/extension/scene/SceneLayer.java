@@ -19,10 +19,7 @@ import java.io.IOException;
 @SuppressWarnings("WeakerAccess")
 public class SceneLayer extends Node {
 
-    @NotNull
     public static final String KEY = SceneLayer.class.getName();
-
-    @NotNull
     public static final SceneLayer NO_LAYER = new SceneLayer();
 
     /**
@@ -31,7 +28,7 @@ public class SceneLayer extends Node {
      * @param spatial the spatial.
      * @return the layer or null.
      */
-    public static @Nullable SceneLayer getLayer(@NotNull final Spatial spatial) {
+    public static @Nullable SceneLayer getLayer(@NotNull Spatial spatial) {
         return spatial.getUserData(KEY);
     }
 
@@ -41,17 +38,17 @@ public class SceneLayer extends Node {
      * @param layer   the layer.
      * @param spatial the spatial.
      */
-    public static void setLayer(@Nullable final SceneLayer layer, @NotNull final Spatial spatial) {
+    public static void setLayer(@Nullable SceneLayer layer, @NotNull Spatial spatial) {
         spatial.setUserData(KEY, layer == NO_LAYER ? null : layer);
     }
 
     /**
-     * The flag that layer is builtin.
+     * True if this layer is built in.
      */
     private boolean builtIn;
 
     /**
-     * The flag of showing this layer.
+     * True if this layer is visible.
      */
     private boolean showed;
 
@@ -59,12 +56,14 @@ public class SceneLayer extends Node {
         super("Empty layer");
     }
 
-    public SceneLayer(@NotNull final String name, final boolean builtIn) {
+    public SceneLayer(@NotNull String name, boolean builtIn) {
         super(name);
         this.builtIn = builtIn;
     }
 
     /**
+     * Return true if this layer is built in.
+     *
      * @return true if this layer is built in.
      */
     public boolean isBuiltIn() {
@@ -72,20 +71,26 @@ public class SceneLayer extends Node {
     }
 
     /**
+     * Set true if this layer is built in.
+     *
      * @param builtIn true if this layer is built in.
      */
-    public void setBuiltIn(final boolean builtIn) {
+    public void setBuiltIn(boolean builtIn) {
         this.builtIn = builtIn;
     }
 
     /**
-     * @param showed the flag of showing this layer.
+     * Set true if this layer is visible.
+     *
+     * @param showed true if this layer is visible.
      */
-    protected void setShowed(final boolean showed) {
+    protected void setShowed(boolean showed) {
         this.showed = showed;
     }
 
     /**
+     * Return true if this layer is visible.
+     *
      * @return true if this layer is showed.
      */
     public boolean isShowed() {
@@ -109,10 +114,10 @@ public class SceneLayer extends Node {
     }
 
     @Override
-    public void write(@NotNull final JmeExporter exporter) throws IOException {
+    public void write(@NotNull JmeExporter exporter) throws IOException {
         super.write(exporter);
 
-        final OutputCapsule capsule = exporter.getCapsule(this);
+        OutputCapsule capsule = exporter.getCapsule(this);
         capsule.write(isShowed(), "showed", false);
         capsule.write(isBuiltIn(), "builtIn", false);
     }
@@ -121,7 +126,7 @@ public class SceneLayer extends Node {
     public void read(@NotNull final JmeImporter importer) throws IOException {
         super.read(importer);
 
-        final InputCapsule capsule = importer.getCapsule(this);
+        InputCapsule capsule = importer.getCapsule(this);
         setShowed(capsule.readBoolean("showed", false));
         setBuiltIn(capsule.readBoolean("builtIn", false));
     }

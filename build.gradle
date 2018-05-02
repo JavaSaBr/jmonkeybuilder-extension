@@ -1,9 +1,11 @@
 buildscript {
     repositories {
         mavenCentral()
+        jcenter()
     }
     dependencies {
         classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
     }
 }
 
@@ -11,9 +13,11 @@ apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'idea'
 apply plugin: 'org.junit.platform.gradle.plugin'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven-publish'
 
 group = 'com.spaceshift'
-version = '2.1.1'
+version = '2.2.0'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -24,11 +28,11 @@ compileTestJava {
     options.compilerArgs += '-parameters'
 }
 
-ext.rlibVersion = "6.7.6"
+ext.rlibVersion = "7.0.0"
 ext.junitPlatformVersion = "1.0.0"
 ext.junitJupiterVersion = "5.0.0"
 ext.log4jVersion = '2.6.2'
-ext.lwjglVersion = "3.1.0"
+ext.bintrayVersion = version
 
 def jme3 = [v: '3.2.0-stable', g: 'org.jmonkeyengine']
 
@@ -43,10 +47,51 @@ junitPlatform {
 }
 
 repositories {
-    mavenCentral()
     jcenter()
-    maven { url 'https://jitpack.io' }
+    mavenCentral()
+    mavenLocal()
+    maven {
+        url 'https://jitpack.io'
+    }
+    maven {
+        url 'https://dl.bintray.com/javasabr/maven'
+    }
 }
+
+publishing {
+    publications {
+        JmbExtensionArtifact(MavenPublication) {
+            from components.java
+            groupId 'com.spaceshift'
+            artifactId 'jmonkeybuilder-extension'
+            version bintrayVersion
+            artifact sourcesJar
+            artifact javadocJar
+        }
+    }
+}
+
+bintray {
+    user = System.getProperty('bintrayUser')
+    key = System.getProperty('bintrayKey')
+    publications = ['JmbExtensionArtifact']
+    pkg {
+        repo = 'maven'
+        name = 'com.spaceshift.jmonkeybuilder.extension'
+        licenses = ['Apache-2.0']
+        websiteUrl = 'https://github.com/JavaSaBr/jmonkeybuilder-extension'
+        vcsUrl = 'https://github.com/JavaSaBr/jmonkeybuilder-extension.git'
+        issueTrackerUrl = 'https://github.com/JavaSaBr/jmonkeybuilder-extension/issues'
+        githubRepo = 'JavaSaBr/jmonkeybuilder-extension'
+        githubReleaseNotesFile = 'README.md'
+        version {
+            name = bintrayVersion
+            desc = bintrayVersion
+            released  = new Date()
+        }
+    }
+}
+
 
 dependencies {
     compile group: 'org.jetbrains', name: 'annotations', version: '15.0'
@@ -55,7 +100,7 @@ dependencies {
     compile "${jme3.g}:jme3-effects:${jme3.v}"
     compile "${jme3.g}:jme3-bullet:${jme3.v}"
 
-    testCompile group: 'com.github.JavaSaBr', name: 'RLib', version: rlibVersion
+    testCompile "com.spaceshift:rlib.common:$rlibVersion"
     testCompile "org.junit.platform:junit-platform-commons:$junitPlatformVersion"
     testRuntime "org.junit.platform:junit-platform-engine:$junitPlatformVersion"
 
@@ -89,23 +134,5 @@ artifacts {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '4.5.1'
-}
-
-defaultTasks 'clean', 'install'
-
-// To specify a license in the pom:
-install {
-    repositories.mavenInstaller {
-        pom.version = version
-        pom.artifactId = 'jmonkeybuilder-extension'
-        pom.project {
-            licenses {
-                license {
-                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    distribution 'repo'
-                }
-            }
-        }
-    }
+    gradleVersion = '4.7'
 }

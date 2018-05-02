@@ -39,7 +39,7 @@ public class EditableWaterFilter extends WaterFilter implements EditableSceneFil
     @Override
     public @NotNull List<EditableProperty<?, ?>> getEditableProperties() {
 
-        final List<EditableProperty<?, ?>> result = new ArrayList<>(35);
+        List<EditableProperty<?, ?>> result = new ArrayList<>(35);
         result.add(new SimpleProperty<>(BOOLEAN, "Use foam", this,
                 makeGetter(this, boolean.class, "isUseFoam"),
                 makeSetter(this, boolean.class, "setUseFoam")));
@@ -151,7 +151,7 @@ public class EditableWaterFilter extends WaterFilter implements EditableSceneFil
         return new Setter<EditableWaterFilter, Spatial>() {
 
             @Override
-            public void set(@NotNull final EditableWaterFilter filter, @Nullable final Spatial spatial) {
+            public void set(@NotNull EditableWaterFilter filter, @Nullable Spatial spatial) {
                 filter.setReflectionScene(spatial);
                 filter.setNeedSaveReflectionScene(spatial != null);
             }
@@ -163,7 +163,7 @@ public class EditableWaterFilter extends WaterFilter implements EditableSceneFil
 
             @Nullable
             @Override
-            public Spatial get(@NotNull final EditableWaterFilter filter) {
+            public Spatial get(@NotNull EditableWaterFilter filter) {
                 if (filter.isNeedSaveReflectionScene()) {
                     return filter.getReflectionScene();
                 } else {
@@ -179,12 +179,12 @@ public class EditableWaterFilter extends WaterFilter implements EditableSceneFil
     }
 
     @Override
-    public @Nullable String checkStates(@NotNull final List<SceneAppState> exists) {
+    public @Nullable String checkStates(@NotNull List<SceneAppState> exists) {
         return null;
     }
 
     @Override
-    public @Nullable String checkFilters(@NotNull final List<SceneFilter> exists) {
+    public @Nullable String checkFilters(@NotNull List<SceneFilter> exists) {
         return null;
     }
 }

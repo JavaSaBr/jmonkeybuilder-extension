@@ -46,7 +46,7 @@ public class EditableToneMapFilter extends ToneMapFilter implements EditableScen
     @Override
     public @NotNull List<EditableProperty<?, ?>> getEditableProperties() {
 
-        final List<EditableProperty<?, ?>> result = new ArrayList<>(1);
+        List<EditableProperty<?, ?>> result = new ArrayList<>(1);
         result.add(new SimpleProperty<>(VECTOR_3F, "White point", this,
                 makeGetter(this, Vector3f.class, "getWhitePoint"),
                 makeSetter(this, Vector3f.class, "setWhitePoint")));
@@ -55,16 +55,16 @@ public class EditableToneMapFilter extends ToneMapFilter implements EditableScen
     }
 
     @Override
-    public void cloneFields(@NotNull final Cloner cloner, @NotNull final Object original) {
+    public void cloneFields(@NotNull Cloner cloner, @NotNull Object original) {
     }
 
     @Override
-    public @Nullable String checkStates(@NotNull final List<SceneAppState> exists) {
+    public @Nullable String checkStates(@NotNull List<SceneAppState> exists) {
         return null;
     }
 
     @Override
-    public @Nullable String checkFilters(@NotNull final List<SceneFilter> exists) {
+    public @Nullable String checkFilters(@NotNull List<SceneFilter> exists) {
         return null;
     }
 }

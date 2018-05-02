@@ -18,7 +18,7 @@ public interface EditableSceneAppState extends SceneAppState {
     @NotNull List<EditableProperty<?, ?>> EMPTY_PROPERTIES = Collections.emptyList();
 
     /**
-     * Get list of editable properties.
+     * Get a list of editable properties.
      *
      * @return the list of editable properties.
      */
@@ -28,16 +28,16 @@ public interface EditableSceneAppState extends SceneAppState {
      * Check state dependencies.
      *
      * @param exists the current exists states.
-     * @return null of can create or message with description.
+     * @return null if can be created or message with description of missed dependencies.
      */
-    @Nullable String checkStates(@NotNull final List<SceneAppState> exists);
+    @Nullable String checkStates(@NotNull List<SceneAppState> exists);
 
     /**
      * Check filter dependencies.
      *
      * @param exists the current exists filters.
-     * @return null of can create or message with description.
+     * @return null if can be created or message with description of missed dependencies.
      */
-    @Nullable String checkFilters(@NotNull final List<SceneFilter> exists);
+    @Nullable String checkFilters(@NotNull List<SceneFilter> exists);
 }
 

@@ -23,7 +23,7 @@ import java.util.List;
  */
 public class EditableBloomFilter extends BloomFilter implements EditableSceneFilter {
 
-    EditableBloomFilter(@NotNull final GlowMode glowMode) {
+    EditableBloomFilter(@NotNull GlowMode glowMode) {
         super(glowMode);
     }
 
@@ -49,7 +49,7 @@ public class EditableBloomFilter extends BloomFilter implements EditableSceneFil
     @Override
     public @NotNull List<EditableProperty<?, ?>> getEditableProperties() {
 
-        final List<EditableProperty<?, ?>> result = new ArrayList<>(5);
+        List<EditableProperty<?, ?>> result = new ArrayList<>(5);
 
         result.add(new SimpleProperty<>(FLOAT, "Blur scale", 0.1F, 0F, 10F, this,
                 makeGetter(this, float.class, "getBlurScale"),
@@ -71,16 +71,16 @@ public class EditableBloomFilter extends BloomFilter implements EditableSceneFil
     }
 
     @Override
-    public void cloneFields(@NotNull final Cloner cloner, @NotNull final Object original) {
+    public void cloneFields(@NotNull Cloner cloner, @NotNull Object original) {
     }
 
     @Override
-    public @Nullable String checkStates(@NotNull final List<SceneAppState> exists) {
+    public @Nullable String checkStates(@NotNull List<SceneAppState> exists) {
         return null;
     }
 
     @Override
-    public @Nullable String checkFilters(@NotNull final List<SceneFilter> exists) {
+    public @Nullable String checkFilters(@NotNull List<SceneFilter> exists) {
         return null;
     }
 }

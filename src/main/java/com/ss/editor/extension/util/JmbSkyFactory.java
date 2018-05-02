@@ -40,9 +40,12 @@ public class JmbSkyFactory {
      * @return a new spatial representing the sky, ready to be attached to the
      * scene graph
      */
-    public static @NotNull Spatial createSky(@NotNull final AssetManager assetManager, @NotNull final Texture texture,
-                                             @NotNull final Vector3f normalScale,
-                                             @NotNull final SkyFactory.EnvMapType envMapType) {
+    public static @NotNull Spatial createSky(
+            @NotNull AssetManager assetManager,
+            @NotNull Texture texture,
+            @NotNull Vector3f normalScale,
+            @NotNull SkyFactory.EnvMapType envMapType
+    ) {
         return createSky(assetManager, texture, normalScale, envMapType, 10);
     }
 
@@ -61,18 +64,22 @@ public class JmbSkyFactory {
      * @return a new spatial representing the sky, ready to be attached to the
      * scene graph
      */
-    public static @NotNull Spatial createSky(@NotNull final AssetManager assetManager, @NotNull Texture texture,
-                                             @NotNull final Vector3f normalScale,
-                                             @NotNull final SkyFactory.EnvMapType envMapType, float sphereRadius) {
+    public static @NotNull Spatial createSky(
+            @NotNull AssetManager assetManager,
+            @NotNull Texture texture,
+            @NotNull Vector3f normalScale,
+            @NotNull SkyFactory.EnvMapType envMapType,
+            float sphereRadius
+    ) {
 
-        final Sphere sphereMesh = new Sphere(10, 10, sphereRadius, false, true);
+        Sphere sphereMesh = new Sphere(10, 10, sphereRadius, false, true);
 
-        final Geometry sky = new Geometry("Sky", sphereMesh);
+        Geometry sky = new Geometry("Sky", sphereMesh);
         sky.setQueueBucket(Bucket.Sky);
         sky.setCullHint(Spatial.CullHint.Never);
         sky.setModelBound(new BoundingSphere(Float.POSITIVE_INFINITY, Vector3f.ZERO));
 
-        final Material skyMat = new Material(assetManager, "com/ss/editor/extension/shader/sky/Sky.j3md");
+        Material skyMat = new Material(assetManager, "com/ss/editor/extension/shader/sky/Sky.j3md");
         skyMat.setVector3("NormalScale", normalScale);
 
         switch (envMapType) {
@@ -108,7 +115,7 @@ public class JmbSkyFactory {
         return sky;
     }
 
-    private static void checkImage(@NotNull final Image image) {
+    private static void checkImage(@NotNull Image image) {
 
         if (image.getWidth() != image.getHeight()) {
             throw new IllegalArgumentException("Image width and height must be the same");
@@ -119,7 +126,7 @@ public class JmbSkyFactory {
         }
     }
 
-    private static void checkImagesForCubeMap(@NotNull final Image... images) {
+    private static void checkImagesForCubeMap(@NotNull Image... images) {
 
         if (images.length == 1) {
             return;
@@ -171,10 +178,16 @@ public class JmbSkyFactory {
      * @return a new spatial representing the sky, ready to be attached to the
      * scene graph
      */
-    public static @NotNull Spatial createSky(@NotNull final AssetManager assetManager, @NotNull final Texture west,
-                                             @NotNull final Texture east, @NotNull final Texture north,
-                                             @NotNull final Texture south, @NotNull final Texture up,
-                                             @NotNull final Texture down, @NotNull final Vector3f normalScale) {
+    public static @NotNull Spatial createSky(
+            @NotNull AssetManager assetManager,
+            @NotNull Texture west,
+            @NotNull Texture east,
+            @NotNull Texture north,
+            @NotNull Texture south,
+            @NotNull Texture up,
+            @NotNull Texture down,
+            @NotNull Vector3f normalScale
+    ) {
         return createSky(assetManager, west, east, north, south, up, down, normalScale, 10);
     }
 
@@ -197,11 +210,17 @@ public class JmbSkyFactory {
      * @return a new spatial representing the sky, ready to be attached to the
      * scene graph
      */
-    public static @NotNull Spatial createSky(@NotNull final AssetManager assetManager, @NotNull final Texture west,
-                                             @NotNull final Texture east, @NotNull final Texture north,
-                                             @NotNull final Texture south, @NotNull final Texture up,
-                                             @NotNull final Texture down, @NotNull final Vector3f normalScale,
-                                             float sphereRadius) {
+    public static @NotNull Spatial createSky(
+            @NotNull AssetManager assetManager,
+            @NotNull Texture west,
+            @NotNull Texture east,
+            @NotNull Texture north,
+            @NotNull Texture south,
+            @NotNull Texture up,
+            @NotNull Texture down,
+            @NotNull Vector3f normalScale,
+            float sphereRadius
+    ) {
 
         Image westImg = west.getImage();
         Image eastImg = east.getImage();

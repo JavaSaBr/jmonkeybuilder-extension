@@ -32,7 +32,7 @@ public class EditableDirectionalLightShadowFilter extends DirectionalLightShadow
         super(tryToGetAssetManager(), SHADOW_MAP_SIZE, 3);
     }
 
-    protected EditableDirectionalLightShadowFilter(final int shadowMapSize, final int nbSplits) {
+    protected EditableDirectionalLightShadowFilter(int shadowMapSize, int nbSplits) {
         super(tryToGetAssetManager(), shadowMapSize, nbSplits);
     }
 
@@ -72,7 +72,7 @@ public class EditableDirectionalLightShadowFilter extends DirectionalLightShadow
         return result;
     }
 
-    public void setLambda(final float lambda) {
+    public void setLambda(float lambda) {
         shadowRenderer.setLambda(lambda);
     }
 
@@ -80,7 +80,7 @@ public class EditableDirectionalLightShadowFilter extends DirectionalLightShadow
         return shadowRenderer.getLambda();
     }
 
-    public void setEnabledStabilization(final boolean stabilize) {
+    public void setEnabledStabilization(boolean stabilize) {
         shadowRenderer.setEnabledStabilization(stabilize);
     }
 
