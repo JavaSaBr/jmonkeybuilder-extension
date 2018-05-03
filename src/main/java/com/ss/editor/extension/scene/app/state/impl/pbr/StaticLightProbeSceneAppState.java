@@ -98,9 +98,9 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
      *
      * @param scene the scene to put a light probe.
      */
-    public void setPbrScene(@Nullable final Node scene) {
+    public void setPbrScene(@Nullable Node scene) {
 
-        final Node prevScene = getPbrScene();
+        Node prevScene = getPbrScene();
 
         if (prevScene != null) {
             prevScene.removeLight(lightProbe);
@@ -129,7 +129,7 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
      *
      * @param generationType the generation type.
      */
-    public void setGenerationType(@NotNull final GenerationType generationType) {
+    public void setGenerationType(@NotNull GenerationType generationType) {
         this.generationType = generationType;
     }
 
@@ -138,7 +138,7 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
      *
      * @param environmentScene the scene to make a light probe.
      */
-    public void setEnvironmentScene(final Node environmentScene) {
+    public void setEnvironmentScene(Node environmentScene) {
         this.environmentScene = environmentScene;
         this.frame = 0;
     }
@@ -147,12 +147,12 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
     protected void onEnable() {
         super.onEnable();
 
-        final Node pbrScene = getPbrScene();
+        Node pbrScene = getPbrScene();
         if (pbrScene == null) {
             return;
         }
 
-        final LightList lightList = pbrScene.getLocalLightList();
+        LightList lightList = pbrScene.getLocalLightList();
 
         for (int i = 0; i < lightList.size(); i++) {
             if (lightList.get(i) == lightProbe) {
@@ -167,7 +167,7 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
     protected void onDisable() {
         super.onDisable();
 
-        final Node pbrScene = getPbrScene();
+        Node pbrScene = getPbrScene();
 
         if (pbrScene != null) {
             pbrScene.removeLight(lightProbe);
@@ -183,13 +183,13 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
     }
 
     @Override
-    protected void initialize(final Application app) {
+    protected void initialize(Application app) {
         this.nextSize = size;
         super.initialize(app);
     }
 
     @Override
-    public void render(final RenderManager renderManager) {
+    public void render(RenderManager renderManager) {
         try {
 
             if (pbrScene == null) {
@@ -261,15 +261,15 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
     }
 
     @Override
-    public void setSceneNode(@Nullable final SceneNode sceneNode) {
+    public void setSceneNode(@Nullable SceneNode sceneNode) {
     }
 
     @Override
-    public void notifyAdded(@NotNull final Object object) {
+    public void notifyAdded(@NotNull Object object) {
     }
 
     @Override
-    public void notifyRemoved(@NotNull final Object object) {
+    public void notifyRemoved(@NotNull Object object) {
     }
 
     @Override
@@ -282,15 +282,15 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
     }
 
     @Override
-    public void cloneFields(@NotNull final Cloner cloner, @NotNull final Object original) {
+    public void cloneFields(@NotNull Cloner cloner, @NotNull Object original) {
         this.lightProbe = cloner.clone(lightProbe);
         this.pbrScene = cloner.clone(pbrScene);
         this.probeHandler = makeProbeHandler();
     }
 
     @Override
-    public void write(@NotNull final JmeExporter ex) throws IOException {
-        final OutputCapsule out = ex.getCapsule(this);
+    public void write(@NotNull JmeExporter ex) throws IOException {
+        OutputCapsule out = ex.getCapsule(this);
         out.write(lightProbe, "lightProbe", null);
         out.write(pbrScene, "pbrScene", this);
         out.write(environmentScene, "environmentScene", this);
@@ -299,8 +299,8 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
     }
 
     @Override
-    public void read(@NotNull final JmeImporter im) throws IOException {
-        final InputCapsule in = im.getCapsule(this);
+    public void read(@NotNull JmeImporter im) throws IOException {
+        InputCapsule in = im.getCapsule(this);
         lightProbe = (LightProbe) in.readSavable("lightProbe", null);
         pbrScene = (Node) in.readSavable("pbrScene", null);
         environmentScene = (Node) in.readSavable("environmentScene", null);
@@ -309,17 +309,17 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
     }
 
     @Override
-    public @Nullable String checkStates(@NotNull final List<SceneAppState> exists) {
+    public @Nullable String checkStates(@NotNull List<SceneAppState> exists) {
         return null;
     }
 
     @Override
-    public @Nullable String checkFilters(@NotNull final List<SceneFilter> exists) {
+    public @Nullable String checkFilters(@NotNull List<SceneFilter> exists) {
         return null;
     }
 
     @Override
-    public void setSize(final int size) {
+    public void setSize(int size) {
         nextSize = size;
 
         if (!preparing) {
@@ -341,12 +341,12 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
 
     @Override
     public @NotNull Vector3f getScale() {
-        final float radius = getRadius();
+        float radius = getRadius();
         return new Vector3f(radius, radius, radius);
     }
 
     @Override
-    public void setLocation(@NotNull final Vector3f location) {
+    public void setLocation(@NotNull Vector3f location) {
 
         if (!location.equals(lightProbe.getPosition())) {
             frame = 0;
@@ -356,9 +356,9 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
     }
 
     @Override
-    public void setScale(@NotNull final Vector3f scale) {
+    public void setScale(@NotNull Vector3f scale) {
 
-        final float radius = max(max(scale.getX(), scale.getY()), scale.getZ());
+        float radius = max(max(scale.getX(), scale.getY()), scale.getZ());
 
         if (radius != getRadius()) {
             frame = 0;
@@ -372,9 +372,9 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
      *
      * @param radius the radius.
      */
-    public void setRadius(final float radius) {
+    public void setRadius(float radius) {
 
-        final BoundingVolume bounds = lightProbe.getBounds();
+        BoundingVolume bounds = lightProbe.getBounds();
 
         if (bounds instanceof BoundingSphere) {
             ((BoundingSphere) bounds).setRadius(radius);
@@ -388,7 +388,7 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
      */
     public float getRadius() {
 
-        final BoundingVolume bounds = lightProbe.getBounds();
+        BoundingVolume bounds = lightProbe.getBounds();
 
         if (bounds instanceof BoundingSphere) {
             return ((BoundingSphere) bounds).getRadius();
@@ -398,7 +398,7 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
     }
 
     @Override
-    public void setRotation(@NotNull final Quaternion rotation) {
+    public void setRotation(@NotNull Quaternion rotation) {
     }
 
     @Override
@@ -409,7 +409,7 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
     @Override
     public @NotNull List<EditableProperty<?, ?>> getEditableProperties() {
 
-        final List<EditableProperty<?, ?>> result = new ArrayList<>();
+        List<EditableProperty<?, ?>> result = new ArrayList<>();
         result.add(new SimpleProperty<>(INTEGER, "Quality size", this,
                 makeGetter(this, int.class, "getSize"),
                 makeSetter(this, int.class, "setSize")));

@@ -12,6 +12,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.texture.Texture2D;
+import com.ss.editor.extension.scene.SceneLayer;
 import javafx.scene.AmbientLight;
 import javafx.scene.text.Font;
 import org.jetbrains.annotations.NotNull;
@@ -54,7 +55,9 @@ public enum EditablePropertyType {
     EXTERNAL_FILE(Path.class),
     LIGHT_FROM_SCENE(Light.class),
     AMBIENT_LIGHT_FROM_SCENE(AmbientLight.class),
-    FILTER_FROM_SCENE(Filter.class),;
+    FILTER_FROM_SCENE(Filter.class),
+    SCENE_LAYER(SceneLayer.class),
+    MIN_MAX_2F(Vector2f.class),;
 
     @NotNull
     private static final EditablePropertyType[] TYPES = values();
@@ -65,7 +68,7 @@ public enum EditablePropertyType {
      * @param index the index.
      * @return the property type.
      */
-    public static @NotNull EditablePropertyType valueOf(final int index) {
+    public static @NotNull EditablePropertyType valueOf(int index) {
         return TYPES[index];
     }
 
@@ -75,7 +78,7 @@ public enum EditablePropertyType {
     @NotNull
     private final Class<?>[] types;
 
-    EditablePropertyType(@NotNull final Class<?>... types) {
+    EditablePropertyType(@NotNull Class<?>... types) {
         this.types = types;
     }
 

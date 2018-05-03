@@ -50,7 +50,7 @@ public class EditableFXAAFilter extends FXAAFilter implements EditableSceneFilte
     @Override
     public @NotNull List<EditableProperty<?, ?>> getEditableProperties() {
 
-        final List<EditableProperty<?, ?>> result = new ArrayList<>(4);
+        List<EditableProperty<?, ?>> result = new ArrayList<>(4);
 
         result.add(new SimpleProperty<>(FLOAT, "Sub pixel shift", 0.005F, 0F, 10F, this,
                 makeGetter(this, float.class, "getSubPixelShift"),
@@ -69,13 +69,13 @@ public class EditableFXAAFilter extends FXAAFilter implements EditableSceneFilte
     }
 
     @Override
-    public void cloneFields(@NotNull final Cloner cloner, @NotNull final Object original) {
+    public void cloneFields(@NotNull Cloner cloner, @NotNull Object original) {
     }
 
     @Override
-    public void read(@NotNull final JmeImporter importer) throws IOException {
+    public void read(@NotNull JmeImporter importer) throws IOException {
         super.read(importer);
-        final InputCapsule capsule = importer.getCapsule(this);
+        InputCapsule capsule = importer.getCapsule(this);
         setSubPixelShift(capsule.readFloat("subPixelShift", 1.0f / 4.0f));
         setVxOffset(capsule.readFloat("vxOffset", 0.0f));
         setSpanMax(capsule.readFloat("spanMax", 8.0f));
@@ -83,9 +83,9 @@ public class EditableFXAAFilter extends FXAAFilter implements EditableSceneFilte
     }
 
     @Override
-    public void write(@NotNull final JmeExporter exporter) throws IOException {
+    public void write(@NotNull JmeExporter exporter) throws IOException {
         super.write(exporter);
-        final OutputCapsule capsule = exporter.getCapsule(this);
+        OutputCapsule capsule = exporter.getCapsule(this);
         capsule.write(getSubPixelShift(), "subPixelShift", 1.0f / 4.0f);
         capsule.write(getVxOffset(), "vxOffset", 0.0f);
         capsule.write(getSpanMax(), "spanMax", 8.0f);
@@ -93,12 +93,12 @@ public class EditableFXAAFilter extends FXAAFilter implements EditableSceneFilte
     }
 
     @Override
-    public @Nullable String checkStates(@NotNull final List<SceneAppState> exists) {
+    public @Nullable String checkStates(@NotNull List<SceneAppState> exists) {
         return null;
     }
 
     @Override
-    public @Nullable String checkFilters(@NotNull final List<SceneFilter> exists) {
+    public @Nullable String checkFilters(@NotNull List<SceneFilter> exists) {
         return null;
     }
 }

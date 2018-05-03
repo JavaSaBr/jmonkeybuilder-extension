@@ -45,7 +45,7 @@ public class EditableColorOverlayFilter extends ColorOverlayFilter implements Ed
     @Override
     public @NotNull List<EditableProperty<?, ?>> getEditableProperties() {
 
-        final List<EditableProperty<?, ?>> result = new ArrayList<>(1);
+        List<EditableProperty<?, ?>> result = new ArrayList<>(1);
 
         result.add(new SimpleProperty<>(COLOR, "Color", this,
                 ReflectionGetterSetterFactory.makeGetter(this, ColorRGBA.class, "getColor"),
@@ -55,17 +55,17 @@ public class EditableColorOverlayFilter extends ColorOverlayFilter implements Ed
     }
 
     @Override
-    public void cloneFields(@NotNull final Cloner cloner, @NotNull final Object original) {
+    public void cloneFields(@NotNull Cloner cloner, @NotNull Object original) {
         setColor(cloner.clone(getColor()));
     }
 
     @Override
-    public @Nullable String checkStates(@NotNull final List<SceneAppState> exists) {
+    public @Nullable String checkStates(@NotNull List<SceneAppState> exists) {
         return null;
     }
 
     @Override
-    public @Nullable String checkFilters(@NotNull final List<SceneFilter> exists) {
+    public @Nullable String checkFilters(@NotNull List<SceneFilter> exists) {
         return null;
     }
 }

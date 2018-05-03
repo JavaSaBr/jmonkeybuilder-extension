@@ -18,19 +18,19 @@ public class JmbExtUtils {
     public static final SceneGraphVisitor RESET_PHYSICS_VISITOR = new SceneGraphVisitor() {
 
         @Override
-        public void visit(@NotNull final Spatial spatial) {
-            final int numControls = spatial.getNumControls();
+        public void visit(@NotNull Spatial spatial) {
+            int numControls = spatial.getNumControls();
             for (int i = 0; i < numControls; i++) {
 
-                final Control control = spatial.getControl(i);
+                Control control = spatial.getControl(i);
                 if (!(control instanceof PhysicsControl) || !((PhysicsControl) control).isEnabled()) {
                     continue;
                 }
 
                 if (control instanceof RigidBodyControl) {
-                    final RigidBodyControl bodyControl = (RigidBodyControl) control;
-                    final boolean kinematic = bodyControl.isKinematic();
-                    final boolean kinematicSpatial = bodyControl.isKinematicSpatial();
+                    RigidBodyControl bodyControl = (RigidBodyControl) control;
+                    boolean kinematic = bodyControl.isKinematic();
+                    boolean kinematicSpatial = bodyControl.isKinematicSpatial();
                     bodyControl.setKinematic(true);
                     bodyControl.setKinematicSpatial(true);
                     bodyControl.clearForces();
@@ -47,7 +47,7 @@ public class JmbExtUtils {
      *
      * @param spatial the spatial.
      */
-    public static void resetPhysicsControlPositions(@NotNull final Spatial spatial) {
+    public static void resetPhysicsControlPositions(@NotNull Spatial spatial) {
         spatial.depthFirstTraversal(RESET_PHYSICS_VISITOR);
     }
 }

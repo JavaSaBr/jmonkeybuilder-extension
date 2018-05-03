@@ -33,17 +33,20 @@ public class ReflectionGetterSetterFactory {
      * @param object       the editable object.
      * @param propertyType the property type.
      * @param methodName   the method name.
+     * @param <T>          the edited object's type.
+     * @param <O>          the edited properties type.
      * @return the getter.
      */
-    public static synchronized @NotNull <T, O> Getter<T, O> makeGetter(@NotNull final T object,
-                                                                       @NotNull final Class<O> propertyType,
-                                                                       @NotNull final String methodName) {
+    public static synchronized @NotNull <T, O> Getter<T, O> makeGetter(
+            @NotNull T object,
+            @NotNull Class<O> propertyType,
+            @NotNull String methodName
+    ) {
 
-        final Class<?> objectType = object.getClass();
-        final String key = objectType.getName() + "." + methodName;
+        Class<?> objectType = object.getClass();
+        String key = objectType.getName() + "." + methodName;
 
         Getter<T, O> getter = (Getter<T, O>) GETTERS.get(key);
-
         if (getter != null) {
             return getter;
         }
@@ -78,17 +81,20 @@ public class ReflectionGetterSetterFactory {
      * @param object       the editable object.
      * @param propertyType the property type.
      * @param methodName   the method name.
+     * @param <T>          the edited object's type.
+     * @param <O>          the edited properties type.
      * @return the setter.
      */
-    public static synchronized @NotNull <T, O> Setter<T, O> makeSetter(@NotNull final T object,
-                                                                       @NotNull final Class<O> propertyType,
-                                                                       @NotNull final String methodName) {
+    public static synchronized @NotNull <T, O> Setter<T, O> makeSetter(
+            @NotNull T object,
+            @NotNull Class<O> propertyType,
+            @NotNull String methodName
+    ) {
 
-        final Class<?> objectType = object.getClass();
-        final String key = objectType.getName() + "." + methodName;
+        Class<?> objectType = object.getClass();
+        String key = objectType.getName() + "." + methodName;
 
         Setter<T, O> setter = (Setter<T, O>) SETTERS.get(key);
-
         if (setter != null) {
             return setter;
         }

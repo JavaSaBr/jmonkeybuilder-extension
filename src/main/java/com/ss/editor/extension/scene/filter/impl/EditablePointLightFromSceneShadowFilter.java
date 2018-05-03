@@ -11,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The editable implementation of a {@link EditablePointLightShadowFilter} which uses the light from a scene.
@@ -20,8 +21,8 @@ import java.util.logging.Level;
 public class EditablePointLightFromSceneShadowFilter extends EditablePointLightShadowFilter {
 
     static {
-        java.util.logging.Logger.getLogger(AbstractShadowRenderer.class.getName())
-                                .setLevel(Level.OFF);
+        Logger.getLogger(AbstractShadowRenderer.class.getName())
+                .setLevel(Level.OFF);
     }
 
     public EditablePointLightFromSceneShadowFilter() {
@@ -35,7 +36,7 @@ public class EditablePointLightFromSceneShadowFilter extends EditablePointLightS
     @Override
     public @NotNull List<EditableProperty<?, ?>> getEditableProperties() {
 
-        final List<EditableProperty<?, ?>> result = super.getEditableProperties();
+        List<EditableProperty<?, ?>> result = super.getEditableProperties();
         result.add(new SimpleProperty<>(POINT_LIGHT_FROM_SCENE, "Point light", this,
                 makeGetter(this, PointLight.class, "getLight"),
                 makeSetter(this, PointLight.class, "setLight")));

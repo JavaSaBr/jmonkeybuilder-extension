@@ -16,7 +16,7 @@ public interface EditableSceneFilter extends SceneFilter {
     @NotNull List<EditableProperty<?, ?>> EMPTY_PROPERTIES = Collections.emptyList();
 
     /**
-     * Get list of editable properties.
+     * Get a list of editable properties.
      *
      * @return the list of editable properties.
      */

@@ -50,14 +50,14 @@ public class EditableCartoonEdgeFilter extends CartoonEdgeFilter implements Edit
     }
 
     @Override
-    public void cloneFields(@NotNull final Cloner cloner, @NotNull final Object original) {
+    public void cloneFields(@NotNull Cloner cloner, @NotNull Object original) {
         setEdgeColor(cloner.clone(getEdgeColor()));
     }
 
     @Override
     public @NotNull List<EditableProperty<?, ?>> getEditableProperties() {
 
-        final List<EditableProperty<?, ?>> result = new ArrayList<>(7);
+        List<EditableProperty<?, ?>> result = new ArrayList<>(7);
 
         result.add(new SimpleProperty<>(COLOR, "Edge color", this,
                 makeGetter(this, ColorRGBA.class, "getEdgeColor"),
@@ -85,9 +85,9 @@ public class EditableCartoonEdgeFilter extends CartoonEdgeFilter implements Edit
     }
 
     @Override
-    public void read(@NotNull final JmeImporter importer) throws IOException {
+    public void read(@NotNull JmeImporter importer) throws IOException {
         super.read(importer);
-        final InputCapsule capsule = importer.getCapsule(this);
+        InputCapsule capsule = importer.getCapsule(this);
         setEdgeWidth(capsule.readFloat("edgeWidth", 1.0f));
         setEdgeIntensity(capsule.readFloat("edgeIntensity", 1.0f));
         setNormalThreshold(capsule.readFloat("normalThreshold", 0.5f));
@@ -98,9 +98,9 @@ public class EditableCartoonEdgeFilter extends CartoonEdgeFilter implements Edit
     }
 
     @Override
-    public void write(@NotNull final JmeExporter exporter) throws IOException {
+    public void write(@NotNull JmeExporter exporter) throws IOException {
         super.write(exporter);
-        final OutputCapsule capsule = exporter.getCapsule(this);
+        OutputCapsule capsule = exporter.getCapsule(this);
         capsule.write(getEdgeWidth(), "edgeWidth", 1.0f);
         capsule.write(getEdgeIntensity(), "edgeIntensity", 1.0f);
         capsule.write(getNormalThreshold(), "normalThreshold", 0.5f);
@@ -111,12 +111,12 @@ public class EditableCartoonEdgeFilter extends CartoonEdgeFilter implements Edit
     }
 
     @Override
-    public @Nullable String checkStates(@NotNull final List<SceneAppState> exists) {
+    public @Nullable String checkStates(@NotNull List<SceneAppState> exists) {
         return null;
     }
 
     @Override
-    public @Nullable String checkFilters(@NotNull final List<SceneFilter> exists) {
+    public @Nullable String checkFilters(@NotNull List<SceneFilter> exists) {
         return null;
     }
 }

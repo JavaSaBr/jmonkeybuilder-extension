@@ -45,7 +45,7 @@ public class EditableRadialBlurFilter extends RadialBlurFilter implements Editab
     @Override
     public @NotNull List<EditableProperty<?, ?>> getEditableProperties() {
 
-        final List<EditableProperty<?, ?>> result = new ArrayList<>(2);
+        List<EditableProperty<?, ?>> result = new ArrayList<>(2);
         result.add(new SimpleProperty<>(FLOAT, "Sample distance", 0.1F, 0F, 100F, this,
                 makeGetter(this, float.class, "getSampleDistance"),
                 makeSetter(this, float.class, "setSampleDistance")));
@@ -57,16 +57,16 @@ public class EditableRadialBlurFilter extends RadialBlurFilter implements Editab
     }
 
     @Override
-    public void cloneFields(@NotNull final Cloner cloner, @NotNull final Object original) {
+    public void cloneFields(@NotNull Cloner cloner, @NotNull Object original) {
     }
 
     @Override
-    public @Nullable String checkStates(@NotNull final List<SceneAppState> exists) {
+    public @Nullable String checkStates(@NotNull List<SceneAppState> exists) {
         return null;
     }
 
     @Override
-    public @Nullable String checkFilters(@NotNull final List<SceneFilter> exists) {
+    public @Nullable String checkFilters(@NotNull List<SceneFilter> exists) {
         return null;
     }
 }

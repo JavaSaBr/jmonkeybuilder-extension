@@ -19,7 +19,7 @@ import java.util.List;
 public interface SceneFilter extends Savable, Named, JmeCloneable, Cloneable {
 
     /**
-     * Get a filter. It is usually return this.
+     * Get a filter. This method usually return itself.
      *
      * @return the filter.
      */
@@ -28,14 +28,14 @@ public interface SceneFilter extends Savable, Named, JmeCloneable, Cloneable {
     /**
      * Enable or disable this filter
      *
-     * @param enabled true to enable
+     * @param enabled true to enable.
      */
     void setEnabled(boolean enabled);
 
     /**
-     * returns true if the filter is enabled
+     * Returns true if the filter is enabled.
      *
-     * @return enabled
+     * @return true if the filter is enabled.
      */
     boolean isEnabled();
 
@@ -43,15 +43,15 @@ public interface SceneFilter extends Savable, Named, JmeCloneable, Cloneable {
      * Check state dependencies.
      *
      * @param exists the current exists states.
-     * @return null of can create or message with description.
+     * @return null if can be created or message with description of missed dependencies.
      */
-    @Nullable String checkStates(@NotNull final List<SceneAppState> exists);
+    @Nullable String checkStates(@NotNull List<SceneAppState> exists);
 
     /**
      * Check filter dependencies.
      *
      * @param exists the current exists filters.
-     * @return null of can create or message with description.
+     * @return null if can be created or message with description of missed dependencies.
      */
-    @Nullable String checkFilters(@NotNull final List<SceneFilter> exists);
+    @Nullable String checkFilters(@NotNull List<SceneFilter> exists);
 }

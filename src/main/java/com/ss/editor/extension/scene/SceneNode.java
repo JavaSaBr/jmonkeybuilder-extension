@@ -3,12 +3,9 @@ package com.ss.editor.extension.scene;
 import static com.ss.editor.extension.loader.SceneLoader.tryToGetPostProcessor;
 import static com.ss.editor.extension.loader.SceneLoader.tryToGetStateManager;
 import com.jme3.app.state.AppStateManager;
-import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.export.*;
 import com.jme3.post.FilterPostProcessor;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
-import com.jme3.scene.control.Control;
 import com.jme3.util.SafeArrayList;
 import com.jme3.util.clone.Cloner;
 import com.ss.editor.extension.scene.app.state.SceneAppState;
@@ -26,13 +23,8 @@ import java.io.IOException;
 @SuppressWarnings("WeakerAccess")
 public class SceneNode extends Node {
 
-    @NotNull
     public static final SceneLayer[] EMPTY_LAYERS = new SceneLayer[0];
-
-    @NotNull
     public static final SceneAppState[] EMPTY_STATES = new SceneAppState[0];
-
-    @NotNull
     public static final SceneFilter[] EMPTY_FILTERS = new SceneFilter[0];
 
     /**
@@ -77,7 +69,7 @@ public class SceneNode extends Node {
      *
      * @param stateManager the override state manager.
      */
-    private void setStateManager(@Nullable final AppStateManager stateManager) {
+    private void setStateManager(@Nullable AppStateManager stateManager) {
         this.stateManager = stateManager;
     }
 
@@ -86,7 +78,7 @@ public class SceneNode extends Node {
      *
      * @param postProcessor the override post processor.
      */
-    private void setPostProcessor(@Nullable final FilterPostProcessor postProcessor) {
+    private void setPostProcessor(@Nullable FilterPostProcessor postProcessor) {
         this.postProcessor = postProcessor;
     }
 
@@ -99,14 +91,14 @@ public class SceneNode extends Node {
     }
 
     @Override
-    protected void setParent(@Nullable final Node parent) {
+    protected void setParent(@Nullable Node parent) {
         super.setParent(parent);
 
-        final AppStateManager stateManager = getStateManager() == null ? tryToGetStateManager() : getStateManager();
-        final FilterPostProcessor postProcessor = getPostProcessor() == null ? tryToGetPostProcessor() : getPostProcessor();
+        AppStateManager stateManager = getStateManager() == null ? tryToGetStateManager() : getStateManager();
+        FilterPostProcessor postProcessor = getPostProcessor() == null ? tryToGetPostProcessor() : getPostProcessor();
 
-        final SafeArrayList<SceneAppState> appStates = getAppStates();
-        final SafeArrayList<SceneFilter> filters = getFilters();
+        SafeArrayList<SceneAppState> appStates = getAppStates();
+        SafeArrayList<SceneFilter> filters = getFilters();
 
         if (!filters.isEmpty() && postProcessor == null) {
             throw new IllegalArgumentException("Not found an instance of FilterPostProcessor in your installed SceneLoader, " +
@@ -115,24 +107,24 @@ public class SceneNode extends Node {
 
         if (parent == null) {
 
-            for (final SceneAppState appState : appStates) {
+            for (SceneAppState appState : appStates) {
                 stateManager.detach(appState);
             }
 
             if (postProcessor != null) {
-                for (final SceneFilter filter : filters) {
+                for (SceneFilter filter : filters) {
                     postProcessor.removeFilter(filter.get());
                 }
             }
 
         } else {
 
-            for (final SceneAppState appState : appStates) {
+            for (SceneAppState appState : appStates) {
                 stateManager.attach(appState);
             }
 
             if (postProcessor != null) {
-                for (final SceneFilter filter : filters) {
+                for (SceneFilter filter : filters) {
                     postProcessor.addFilter(filter.get());
                 }
             }
@@ -140,24 +132,26 @@ public class SceneNode extends Node {
     }
 
     /**
-     * Add a new layer.
+     * Add the new layer.
      *
      * @param layer the layer.
      */
-    public void addLayer(@NotNull final SceneLayer layer) {
+    public void addLayer(@NotNull SceneLayer layer) {
         layers.add(layer);
     }
 
     /**
-     * Remove an old layer.
+     * Remove the layer.
      *
      * @param layer the layer.
      */
-    public void removeLayer(@NotNull final SceneLayer layer) {
+    public void removeLayer(@NotNull SceneLayer layer) {
         layers.remove(layer);
     }
 
     /**
+     * Get the scene layers.
+     *
      * @return the scene layers.
      */
     public @NotNull SafeArrayList<SceneLayer> getLayers() {
@@ -165,26 +159,28 @@ public class SceneNode extends Node {
     }
 
     /**
-     * Add a new scene app state.
+     * Add the new scene app state.
      *
      * @param appState the scene app state.
      */
-    public void addAppState(@NotNull final SceneAppState appState) {
+    public void addAppState(@NotNull SceneAppState appState) {
         appStates.add(appState);
         appState.setSceneNode(this);
     }
 
     /**
-     * Remove an old scene app state.
+     * Remove the scene app state.
      *
      * @param appState the scene app state.
      */
-    public void removeAppState(@NotNull final SceneAppState appState) {
+    public void removeAppState(@NotNull SceneAppState appState) {
         appStates.remove(appState);
         appState.setSceneNode(null);
     }
 
     /**
+     * Get the scene app states.
+     *
      * @return the scene app states.
      */
     public @NotNull SafeArrayList<SceneAppState> getAppStates() {
@@ -192,20 +188,20 @@ public class SceneNode extends Node {
     }
 
     /**
-     * Add a new filter.
+     * Add the new scene filter.
      *
      * @param filter the scene filter.
      */
-    public void addFilter(@NotNull final SceneFilter filter) {
+    public void addFilter(@NotNull SceneFilter filter) {
         filters.add(filter);
     }
 
     /**
-     * Remove an old filter.
+     * Remove the scene filter.
      *
      * @param filter the scene filter.
      */
-    public void removeFilter(@NotNull final SceneFilter filter) {
+    public void removeFilter(@NotNull SceneFilter filter) {
         filters.remove(filter);
     }
 
@@ -219,12 +215,12 @@ public class SceneNode extends Node {
     }
 
     @Override
-    public void write(@NotNull final JmeExporter exporter) throws IOException {
+    public void write(@NotNull JmeExporter exporter) throws IOException {
 
-        final OutputCapsule capsule = exporter.getCapsule(this);
-        final SceneLayer[] layers = getLayers().getArray();
-        final SceneAppState[] appStates = getAppStates().getArray();
-        final SceneFilter[] filters = getFilters().getArray();
+        OutputCapsule capsule = exporter.getCapsule(this);
+        SceneLayer[] layers = getLayers().getArray();
+        SceneAppState[] appStates = getAppStates().getArray();
+        SceneFilter[] filters = getFilters().getArray();
 
         capsule.write(layers, "layers", EMPTY_LAYERS);
         capsule.write(appStates, "appStates", EMPTY_STATES);
@@ -234,23 +230,23 @@ public class SceneNode extends Node {
     }
 
     @Override
-    public void read(@NotNull final JmeImporter importer) throws IOException {
+    public void read(@NotNull JmeImporter importer) throws IOException {
 
         final InputCapsule capsule = importer.getCapsule(this);
 
-        final Savable[] importedLayers = capsule.readSavableArray("layers", EMPTY_LAYERS);
-        final Savable[] importedAppStates = capsule.readSavableArray("appStates", EMPTY_STATES);
-        final Savable[] importedFilters = capsule.readSavableArray("filters", EMPTY_FILTERS);
+        Savable[] importedLayers = capsule.readSavableArray("layers", EMPTY_LAYERS);
+        Savable[] importedAppStates = capsule.readSavableArray("appStates", EMPTY_STATES);
+        Savable[] importedFilters = capsule.readSavableArray("filters", EMPTY_FILTERS);
 
-        for (final Savable savable : importedLayers) {
+        for (Savable savable : importedLayers) {
             layers.add((SceneLayer) savable);
         }
 
-        for (final Savable savable : importedAppStates) {
+        for (Savable savable : importedAppStates) {
             appStates.add((SceneAppState) savable);
         }
 
-        for (final Savable savable : importedFilters) {
+        for (Savable savable : importedFilters) {
             filters.add((SceneFilter) savable);
         }
 
@@ -258,35 +254,35 @@ public class SceneNode extends Node {
     }
 
     @Override
-    public void cloneFields(final Cloner cloner, final Object original) {
+    public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
 
         layers = cloner.clone(layers);
         appStates = cloner.clone(appStates);
         filters = cloner.clone(filters);
 
-        for (final SceneAppState appState : appStates.getArray()) {
+        for (SceneAppState appState : appStates.getArray()) {
             appState.setSceneNode(this);
         }
     }
 
     /**
-     * Notify a scene node about added an object to this scene.
+     * Notify this scene node about the added object.
      *
      * @param object the added object.
      */
-    public void notifyAdded(@NotNull final Object object) {
+    public void notifyAdded(@NotNull Object object) {
         for (final SceneAppState appState : getAppStates().getArray()) {
             appState.notifyAdded(object);
         }
     }
 
     /**
-     * Notify a scene node about removed an object from this scene.
+     * Notify this scene node about the removed object.
      *
      * @param object the removed object.
      */
-    public void notifyRemoved(@NotNull final Object object) {
+    public void notifyRemoved(@NotNull Object object) {
         for (final SceneAppState appState : getAppStates().getArray()) {
             appState.notifyRemoved(object);
         }

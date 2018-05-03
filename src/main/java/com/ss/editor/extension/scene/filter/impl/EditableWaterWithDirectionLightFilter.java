@@ -43,7 +43,7 @@ public class EditableWaterWithDirectionLightFilter extends EditableWaterFilter {
     @Override
     public @NotNull List<EditableProperty<?, ?>> getEditableProperties() {
 
-        final List<EditableProperty<?, ?>> result = super.getEditableProperties();
+        List<EditableProperty<?, ?>> result = super.getEditableProperties();
         result.add(new SimpleProperty<>(DIRECTION_LIGHT_FROM_SCENE, "Direction light", this,
                 makeGetter(this, DirectionalLight.class, "getDirectionalLight"),
                 makeSetter(this, DirectionalLight.class, "setDirectionalLight")));
@@ -54,7 +54,7 @@ public class EditableWaterWithDirectionLightFilter extends EditableWaterFilter {
     /**
      * @param directionalLight the direction light to follow.
      */
-    public void setDirectionalLight(@Nullable final DirectionalLight directionalLight) {
+    public void setDirectionalLight(@Nullable DirectionalLight directionalLight) {
         this.directionalLight = directionalLight;
         if (directionalLight != null) {
             setLightDirection(directionalLight.getDirection());
@@ -83,24 +83,24 @@ public class EditableWaterWithDirectionLightFilter extends EditableWaterFilter {
     }
 
     @Override
-    public void cloneFields(final Cloner cloner, final Object original) {
+    public void cloneFields(Cloner cloner, Object original) {
         super.cloneFields(cloner, original);
         this.directionalLight = cloner.clone(directionalLight);
     }
 
     @Override
-    public void write(@NotNull final JmeExporter ex) throws IOException {
+    public void write(@NotNull JmeExporter ex) throws IOException {
         super.write(ex);
 
-        final OutputCapsule out = ex.getCapsule(this);
+        OutputCapsule out = ex.getCapsule(this);
         out.write(directionalLight, "directionLight", null);
     }
 
     @Override
-    public void read(@NotNull final JmeImporter im) throws IOException {
+    public void read(@NotNull JmeImporter im) throws IOException {
         super.read(im);
 
-        final InputCapsule in = im.getCapsule(this);
+        InputCapsule in = im.getCapsule(this);
         setDirectionalLight((DirectionalLight) in.readSavable("directionLight", null));
     }
 }
