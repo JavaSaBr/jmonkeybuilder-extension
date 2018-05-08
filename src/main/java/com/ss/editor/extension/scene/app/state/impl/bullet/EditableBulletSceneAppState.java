@@ -51,7 +51,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
 
         @Override
         public Boolean call() throws Exception {
-            final PhysicsSpace physicsSpace = getPhysicsSpace();
+            PhysicsSpace physicsSpace = getPhysicsSpace();
             if (physicsSpace == null) return false;
             physicsSpace.update(getTpf() * getSpeed());
             return true;
@@ -124,10 +124,16 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
     protected Vector3f worldMin;
 
     /**
-     * Thw world max.
+     * The world max.
      */
     @NotNull
     protected Vector3f worldMax;
+
+    /**
+     * The gravity.
+     */
+    @NotNull
+    protected Vector3f gravity;
 
     /**
      * The reference to background physics updating.
@@ -149,11 +155,12 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
         this.broadphaseType = BroadphaseType.AXIS_SWEEP_3;
         this.worldMin = new Vector3f(-10000f, -10000f, -10000f);
         this.worldMax = new Vector3f(10000f, 10000f, 10000f);
+        this.gravity = new Vector3f(0,-9.81f,0);
         this.debugEnabled = false;
     }
 
     @Override
-    public void setSceneNode(@Nullable final SceneNode sceneNode) {
+    public void setSceneNode(@Nullable SceneNode sceneNode) {
         this.sceneNode = sceneNode;
     }
 
@@ -171,7 +178,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
      *
      * @param debugEnabled the flag to enable debug.
      */
-    public void setDebugEnabled(final boolean debugEnabled) {
+    public void setDebugEnabled(boolean debugEnabled) {
         this.debugEnabled = debugEnabled;
         rebuildState();
     }
@@ -208,7 +215,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
      *
      * @param speed the speed.
      */
-    public void setSpeed(final float speed) {
+    public void setSpeed(float speed) {
         this.speed = speed;
     }
 
@@ -231,7 +238,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
      *
      * @param threadingType the threading type
      */
-    public void setThreadingType(@NotNull final ThreadingType threadingType) {
+    public void setThreadingType(@NotNull ThreadingType threadingType) {
         this.prevThreadingType = getPhysicsSpace() != null ? getThreadingType() : null;
         this.threadingType = threadingType;
         rebuildState();
@@ -251,7 +258,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
      *
      * @param broadphaseType the broadphase type
      */
-    public void setBroadphaseType(@NotNull final BroadphaseType broadphaseType) {
+    public void setBroadphaseType(@NotNull BroadphaseType broadphaseType) {
         this.broadphaseType = broadphaseType;
         rebuildState();
     }
@@ -279,7 +286,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
      *
      * @param worldMax the world max
      */
-    public void setWorldMax(@NotNull final Vector3f worldMax) {
+    public void setWorldMax(@NotNull Vector3f worldMax) {
         this.worldMax.set(worldMax);
         rebuildState();
     }
@@ -298,13 +305,37 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
      *
      * @param worldMin the world min
      */
-    public void setWorldMin(@NotNull final Vector3f worldMin) {
+    public void setWorldMin(@NotNull Vector3f worldMin) {
         this.worldMin.set(worldMin);
         rebuildState();
     }
 
+    /**
+     * Get the gravity.
+     *
+     * @return the gravity.
+     */
+    public @NotNull Vector3f getGravity() {
+        return gravity;
+    }
+
+    /**
+     * Set the gravity.
+     *
+     * @param gravity the gravity.
+     */
+    public void setGravity(@NotNull Vector3f gravity) {
+        this.gravity.set(gravity);
+
+        PhysicsSpace physicsSpace = getPhysicsSpace();
+
+        if (physicsSpace != null) {
+            physicsSpace.setGravity(gravity);
+        }
+    }
+
     @Override
-    public void initialize(@NotNull final AppStateManager stateManager, @NotNull final Application app) {
+    public void initialize(@NotNull AppStateManager stateManager, @NotNull Application app) {
         super.initialize(stateManager, app);
         this.stateManager = stateManager;
         this.application = app;
@@ -316,7 +347,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
             stateManager.attach(debugAppState);
         }
 
-        final SceneNode sceneNode = getSceneNode();
+        SceneNode sceneNode = getSceneNode();
         if (sceneNode != null) {
             updateNode(sceneNode, physicsSpace);
         }
@@ -328,16 +359,16 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
      * @param spatial      the spatial.
      * @param physicsSpace the new physical space or null.
      */
-    private void updateNode(@NotNull final Spatial spatial, @Nullable final PhysicsSpace physicsSpace) {
+    private void updateNode(@NotNull Spatial spatial, @Nullable final PhysicsSpace physicsSpace) {
         spatial.depthFirstTraversal(new SceneGraphVisitor() {
 
             @Override
             public void visit(final Spatial spatial) {
 
-                final int numControls = spatial.getNumControls();
+                int numControls = spatial.getNumControls();
 
                 for (int i = 0; i < numControls; i++) {
-                    final Control control = spatial.getControl(i);
+                    Control control = spatial.getControl(i);
                     if (control instanceof PhysicsControl) {
                         ((PhysicsControl) control).setPhysicsSpace(physicsSpace);
                     }
@@ -355,7 +386,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
             debugAppState = null;
         }
 
-        final SceneNode sceneNode = getSceneNode();
+        SceneNode sceneNode = getSceneNode();
         if (sceneNode != null) {
             updateNode(sceneNode, null);
         }
@@ -370,6 +401,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
      * Start physics.
      */
     public void startPhysics() {
+
         if (physicsSpace != null) {
             return;
         }
@@ -379,6 +411,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
         } else {
             physicsSpace = new PhysicsSpace(worldMin, worldMax, broadphaseType);
             physicsSpace.addTickListener(this);
+            physicsSpace.setGravity(getGravity());
         }
 
         if (threadingType == ThreadingType.PARALLEL) {
@@ -405,12 +438,13 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
                 public Boolean call() throws Exception {
                     physicsSpace = new PhysicsSpace(worldMin, worldMax, broadphaseType);
                     physicsSpace.addTickListener(EditableBulletSceneAppState.this);
+                    physicsSpace.setGravity(getGravity());
                     return true;
                 }
 
             }).get();
 
-        } catch (final InterruptedException | ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
             return false;
         }
@@ -425,7 +459,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
             return;
         }
 
-        final SceneNode sceneNode = getSceneNode();
+        SceneNode sceneNode = getSceneNode();
 
         if (debugAppState != null) {
             stateManager.detach(debugAppState);
@@ -463,7 +497,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
             executor = null;
         }
 
-        final ThreadingType threadingType = prevThreadingType != null ? prevThreadingType : getThreadingType();
+        ThreadingType threadingType = prevThreadingType != null ? prevThreadingType : getThreadingType();
 
         if (threadingType == ThreadingType.PARALLEL) {
             PhysicsSpace.setLocalThreadPhysicsSpace(null);
@@ -476,7 +510,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
     }
 
     @Override
-    public void render(@NotNull final RenderManager renderManager) {
+    public void render(@NotNull RenderManager renderManager) {
 
         if (!isEnabled()) {
             return;
@@ -504,26 +538,26 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
         try {
             physicsFuture.get();
             physicsFuture = null;
-        } catch (final InterruptedException | ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void prePhysicsTick(@NotNull final PhysicsSpace space, final float tpf) {
+    public void prePhysicsTick(@NotNull PhysicsSpace space, float tpf) {
 
     }
 
     @Override
-    public void physicsTick(@NotNull final PhysicsSpace space, final float tpf) {
+    public void physicsTick(@NotNull PhysicsSpace space, float tpf) {
 
     }
 
     @Override
-    public void update(final float tpf) {
+    public void update(float tpf) {
         super.update(tpf);
 
-        final PhysicsSpace physicsSpace = getPhysicsSpace();
+        PhysicsSpace physicsSpace = getPhysicsSpace();
         if (physicsSpace != null) {
             physicsSpace.distributeEvents();
         }
@@ -532,7 +566,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
     }
 
     @Override
-    public void notifyAdded(@NotNull final Object object) {
+    public void notifyAdded(@NotNull Object object) {
         if (object instanceof PhysicsControl) {
             ((PhysicsControl) object).setPhysicsSpace(getPhysicsSpace());
         } else if (object instanceof Spatial) {
@@ -541,7 +575,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
     }
 
     @Override
-    public void notifyRemoved(@NotNull final Object object) {
+    public void notifyRemoved(@NotNull Object object) {
         if (object instanceof PhysicsControl) {
             ((PhysicsControl) object).setPhysicsSpace(null);
         } else if (object instanceof Spatial) {
@@ -552,7 +586,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
     @Override
     public @NotNull List<EditableProperty<?, ?>> getEditableProperties() {
 
-        final List<EditableProperty<?, ?>> result = new ArrayList<>(6);
+        List<EditableProperty<?, ?>> result = new ArrayList<>(7);
 
         result.add(new SimpleProperty<>(BOOLEAN, "Debug enabled", this,
                 makeGetter(this, boolean.class, "isDebugEnabled"),
@@ -572,17 +606,20 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
         result.add(new SimpleProperty<>(VECTOR_3F, "World min", this,
                 makeGetter(this, Vector3f.class, "getWorldMin"),
                 makeSetter(this, Vector3f.class, "setWorldMin")));
+        result.add(new SimpleProperty<>(VECTOR_3F, "Gravity", this,
+                makeGetter(this, Vector3f.class, "getGravity"),
+                makeSetter(this, Vector3f.class, "setGravity")));
 
         return result;
     }
 
     @Override
-    public @Nullable String checkStates(@NotNull final List<SceneAppState> exists) {
+    public @Nullable String checkStates(@NotNull List<SceneAppState> exists) {
         return null;
     }
 
     @Override
-    public @Nullable String checkFilters(@NotNull final List<SceneFilter> exists) {
+    public @Nullable String checkFilters(@NotNull List<SceneFilter> exists) {
         return null;
     }
 
@@ -590,38 +627,40 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
     public Object jmeClone() {
         try {
             return super.clone();
-        } catch (final CloneNotSupportedException e) {
+        } catch (CloneNotSupportedException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public void cloneFields(@NotNull final Cloner cloner, @NotNull final Object original) {
+    public void cloneFields(@NotNull Cloner cloner, @NotNull Object original) {
         sceneNode = cloner.clone(sceneNode);
         worldMin = cloner.clone(worldMin);
         worldMax = cloner.clone(worldMax);
     }
 
     @Override
-    public void write(@NotNull final JmeExporter exporter) throws IOException {
-        final OutputCapsule capsule = exporter.getCapsule(this);
+    public void write(@NotNull JmeExporter exporter) throws IOException {
+        OutputCapsule capsule = exporter.getCapsule(this);
         capsule.write(sceneNode, "sceneNode", null);
         capsule.write(threadingType, "threadingType", ThreadingType.SEQUENTIAL);
         capsule.write(broadphaseType, "broadphaseType", BroadphaseType.DBVT);
         capsule.write(worldMin, "worldMin", null);
         capsule.write(worldMax, "worldMax", null);
+        capsule.write(gravity, "gravity", null);
         capsule.write(speed, "speed", 0);
         capsule.write(debugEnabled, "debugEnabled", false);
     }
 
     @Override
-    public void read(@NotNull final JmeImporter importer) throws IOException {
-        final InputCapsule capsule = importer.getCapsule(this);
+    public void read(@NotNull JmeImporter importer) throws IOException {
+        InputCapsule capsule = importer.getCapsule(this);
         sceneNode = (SceneNode) capsule.readSavable("sceneNode", null);
         threadingType = capsule.readEnum("threadingType", ThreadingType.class, ThreadingType.SEQUENTIAL);
         broadphaseType = capsule.readEnum("broadphaseType", BroadphaseType.class, BroadphaseType.DBVT);
         worldMin = (Vector3f) capsule.readSavable("worldMin", null);
         worldMax = (Vector3f) capsule.readSavable("worldMax", null);
+        gravity = (Vector3f) capsule.readSavable("worldMax", new Vector3f(0, -9.81f, 0));
         speed = capsule.readFloat("speed", 0);
         debugEnabled = capsule.readBoolean("debugEnabled", false);
     }
