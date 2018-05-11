@@ -660,7 +660,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
         broadphaseType = capsule.readEnum("broadphaseType", BroadphaseType.class, BroadphaseType.DBVT);
         worldMin = (Vector3f) capsule.readSavable("worldMin", null);
         worldMax = (Vector3f) capsule.readSavable("worldMax", null);
-        gravity = (Vector3f) capsule.readSavable("worldMax", new Vector3f(0, -9.81f, 0));
+        gravity = (Vector3f) capsule.readSavable("gravity", new Vector3f(0, -9.81f, 0));
         speed = capsule.readFloat("speed", 0);
         debugEnabled = capsule.readBoolean("debugEnabled", false);
     }
