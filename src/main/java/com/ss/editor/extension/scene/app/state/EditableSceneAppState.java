@@ -1,5 +1,7 @@
 package com.ss.editor.extension.scene.app.state;
 
+import com.ss.editor.extension.action.ModifyingAction;
+import com.ss.editor.extension.integration.EditorEnvironment;
 import com.ss.editor.extension.property.EditableProperty;
 import com.ss.editor.extension.scene.filter.SceneFilter;
 import org.jetbrains.annotations.NotNull;
@@ -15,7 +17,8 @@ import java.util.List;
  */
 public interface EditableSceneAppState extends SceneAppState {
 
-    @NotNull List<EditableProperty<?, ?>> EMPTY_PROPERTIES = Collections.emptyList();
+    List<EditableProperty<?, ?>> EMPTY_PROPERTIES = Collections.emptyList();
+    List<ModifyingAction> EMPTY_ACTIONS = Collections.emptyList();
 
     /**
      * Get a list of editable properties.
@@ -23,6 +26,13 @@ public interface EditableSceneAppState extends SceneAppState {
      * @return the list of editable properties.
      */
     @NotNull List<EditableProperty<?, ?>> getEditableProperties();
+
+    /**
+     * Get a list of modifying actions.
+     *
+     * @return the list of modifying actions.
+     */
+    @NotNull List<ModifyingAction> getModifyingActions(@NotNull EditorEnvironment env);
 
     /**
      * Check state dependencies.

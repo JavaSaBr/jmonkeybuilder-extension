@@ -17,7 +17,7 @@ apply plugin: 'com.jfrog.bintray'
 apply plugin: 'maven-publish'
 
 group = 'com.spaceshift'
-version = '2.3.1'
+version = '2.4.0'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -134,5 +134,5 @@ artifacts {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '4.7'
+    gradleVersion = '4.8'
 }

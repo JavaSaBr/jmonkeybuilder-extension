@@ -59,7 +59,6 @@ public enum EditablePropertyType {
     SCENE_LAYER(SceneLayer.class),
     MIN_MAX_2F(Vector2f.class),;
 
-    @NotNull
     private static final EditablePropertyType[] TYPES = values();
 
     /**
