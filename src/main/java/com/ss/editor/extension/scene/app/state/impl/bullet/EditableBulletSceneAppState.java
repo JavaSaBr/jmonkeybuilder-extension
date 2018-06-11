@@ -35,6 +35,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -617,7 +618,7 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
 
     @Override
     public @NotNull List<ModifyingAction> getModifyingActions(@NotNull EditorEnvironment env) {
-        return EMPTY_ACTIONS;
+        return Collections.emptyList();
     }
 
     @Override

@@ -29,12 +29,13 @@ compileTestJava {
 }
 
 ext.rlibVersion = "7.0.0"
+ext.jmeVersion = "develop-SNAPSHOT"
 ext.junitPlatformVersion = "1.0.0"
 ext.junitJupiterVersion = "5.0.0"
 ext.log4jVersion = '2.6.2'
 ext.bintrayVersion = version
 
-def jme3 = [v: '3.2.0-stable', g: 'org.jmonkeyengine']
+def jme3 = [v: '3.2.1-stable', g: 'org.jmonkeyengine']
 
 junitPlatform {
     filters {
@@ -96,17 +97,27 @@ bintray {
 dependencies {
     compile group: 'org.jetbrains', name: 'annotations', version: '15.0'
 
-    compile "${jme3.g}:jme3-core:${jme3.v}"
+    //TODO
+    compile "com.github.JavaSaBr.jmonkeyengine:jme3-core:$jmeVersion"
+    compile "com.github.JavaSaBr.jmonkeyengine:jme3-effects:$jmeVersion"
+    compile "com.github.JavaSaBr.jmonkeyengine:jme3-bullet:$jmeVersion"
+
+    /*compile "${jme3.g}:jme3-core:${jme3.v}"
     compile "${jme3.g}:jme3-effects:${jme3.v}"
-    compile "${jme3.g}:jme3-bullet:${jme3.v}"
+    compile "${jme3.g}:jme3-bullet:${jme3.v}"*/
 
     testCompile "com.spaceshift:rlib.common:$rlibVersion"
     testCompile "org.junit.platform:junit-platform-commons:$junitPlatformVersion"
     testRuntime "org.junit.platform:junit-platform-engine:$junitPlatformVersion"
 
-    testRuntime "${jme3.g}:jme3-bullet:${jme3.v}"
+    //TODO
+    compile "com.github.JavaSaBr.jmonkeyengine:jme3-bullet:$jmeVersion"
+    compile "com.github.JavaSaBr.jmonkeyengine:jme3-bullet-native:$jmeVersion"
+    compile "com.github.JavaSaBr.jmonkeyengine:jme3-lwjgl3:$jmeVersion"
+
+    /*testRuntime "${jme3.g}:jme3-bullet:${jme3.v}"
     testRuntime "${jme3.g}:jme3-bullet-native:${jme3.v}"
-    testRuntime "${jme3.g}:jme3-lwjgl3:${jme3.v}"
+    testRuntime "${jme3.g}:jme3-lwjgl3:${jme3.v}"*/
 
     testCompile "org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion"
     testRuntime "org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion"

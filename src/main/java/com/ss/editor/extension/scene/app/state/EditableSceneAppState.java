@@ -7,7 +7,6 @@ import com.ss.editor.extension.scene.filter.SceneFilter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -16,9 +15,6 @@ import java.util.List;
  * @author JavaSaBr
  */
 public interface EditableSceneAppState extends SceneAppState {
-
-    List<EditableProperty<?, ?>> EMPTY_PROPERTIES = Collections.emptyList();
-    List<ModifyingAction> EMPTY_ACTIONS = Collections.emptyList();
 
     /**
      * Get a list of editable properties.
@@ -30,6 +26,7 @@ public interface EditableSceneAppState extends SceneAppState {
     /**
      * Get a list of modifying actions.
      *
+     * @param env the editor's environment.
      * @return the list of modifying actions.
      */
     @NotNull List<ModifyingAction> getModifyingActions(@NotNull EditorEnvironment env);

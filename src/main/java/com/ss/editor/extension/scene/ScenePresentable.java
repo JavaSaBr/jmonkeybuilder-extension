@@ -13,6 +13,7 @@ public interface ScenePresentable {
 
     enum PresentationType {
         SPHERE,
+        BOX
     }
 
     /**

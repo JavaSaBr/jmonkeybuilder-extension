@@ -2,6 +2,8 @@ package com.ss.editor.extension.util;
 
 import com.jme3.bullet.control.PhysicsControl;
 import com.jme3.bullet.control.RigidBodyControl;
+import com.jme3.light.Light;
+import com.jme3.light.LightList;
 import com.jme3.scene.SceneGraphVisitor;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.Control;
@@ -49,5 +51,29 @@ public class JmbExtUtils {
      */
     public static void resetPhysicsControlPositions(@NotNull Spatial spatial) {
         spatial.depthFirstTraversal(RESET_PHYSICS_VISITOR);
+    }
+
+    /**
+     * Check of existing the light in the local light list of the spatial.
+     *
+     * @param spatial the spatial.
+     * @param light   the light.
+     * @return true if the light is already in the local light list.
+     */
+    public static boolean contains(@NotNull Spatial spatial, @NotNull Light light) {
+
+        LightList lightList = spatial.getLocalLightList();
+
+        if (lightList.size() == 0) {
+            return false;
+        }
+
+        for (int i = 0; i < lightList.size(); i++) {
+            if (lightList.get(i) == light) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

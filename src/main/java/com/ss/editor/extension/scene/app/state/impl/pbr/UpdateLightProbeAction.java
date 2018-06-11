@@ -14,11 +14,11 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author JavaSaBr
  */
-public class UpdateProbeAction extends AbstractModifyingAction<Object, StaticLightProbeSceneAppState> {
+public class UpdateLightProbeAction extends AbstractModifyingAction<Object, StaticLightProbeSceneAppState> {
 
-    private static final UpdateProbeAction INSTANCE = new UpdateProbeAction();
+    private static final UpdateLightProbeAction INSTANCE = new UpdateLightProbeAction();
 
-    protected static @NotNull UpdateProbeAction getInstance() {
+    protected static @NotNull UpdateLightProbeAction getInstance() {
         return INSTANCE;
     }
 
