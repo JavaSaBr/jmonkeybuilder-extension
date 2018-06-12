@@ -5,6 +5,8 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.control.AbstractControl;
 import com.ss.editor.extension.property.EditableProperty;
+import com.ss.editor.extension.property.EditablePropertyType;
+import com.ss.editor.extension.property.SimpleProperty;
 import com.ss.editor.extension.scene.control.EditableControl;
 import org.jetbrains.annotations.NotNull;
 
@@ -12,94 +14,64 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The example of a editable custom control.
+ * The example of an editable custom control.
  *
  * @author JavaSaBr
  */
 public class CustomControlExample extends AbstractControl implements EditableControl {
 
-    private String stringProperty;
+    private String string;
+    private Vector3f position;
+    private float power;
 
-    private Vector3f vectorProperty;
-
-    private float floatProperty;
-
-    @NotNull
     @Override
-    public String getName() {
-        return null;
+    public @NotNull String getName() {
+        return "MyControl";
     }
 
-    @NotNull
     @Override
-    public List<EditableProperty<?, ?>> getEditableProperties() {
+    public @NotNull List<EditableProperty<?, ?>> getEditableProperties() {
 
-        final List<EditableProperty<?, ?>> result = new ArrayList<>(3);
+        var result = new ArrayList<EditableProperty<?, ?>>(3);
+        result.add(new SimpleProperty<>(EditablePropertyType.FLOAT, "Power", this,
+                CustomControlExample::getPower, CustomControlExample::setPower));
+        result.add(new SimpleProperty<>(EditablePropertyType.STRING, "String", this,
+                CustomControlExample::getString, CustomControlExample::setString));
+        result.add(new SimpleProperty<>(EditablePropertyType.VECTOR_3F, "Position", this,
+                CustomControlExample::getPosition, CustomControlExample::setPosition));
 
         return result;
     }
 
-    /**
-     * Gets string property.
-     *
-     * @return the string property
-     */
-    public String getStringProperty() {
-        return stringProperty;
+    public String getString() {
+        return string;
     }
 
-    /**
-     * Sets string property.
-     *
-     * @param stringProperty the string property
-     */
-    public void setStringProperty(final String stringProperty) {
-        this.stringProperty = stringProperty;
+    public void setString(String string) {
+        this.string = string;
     }
 
-    /**
-     * Gets vector property.
-     *
-     * @return the vector property
-     */
-    public Vector3f getVectorProperty() {
-        return vectorProperty;
+    public Vector3f getPosition() {
+        return position;
     }
 
-    /**
-     * Sets vector property.
-     *
-     * @param vectorProperty the vector property
-     */
-    public void setVectorProperty(final Vector3f vectorProperty) {
-        this.vectorProperty.set(vectorProperty);
+    public void setPosition(Vector3f position) {
+        this.position.set(position);
     }
 
-    /**
-     * Gets float property.
-     *
-     * @return the float property
-     */
-    public float getFloatProperty() {
-        return floatProperty;
+    public float getPower() {
+        return power;
     }
 
-    /**
-     * Sets float property.
-     *
-     * @param floatProperty the float property
-     */
-    public void setFloatProperty(final float floatProperty) {
-        this.floatProperty = floatProperty;
+    public void setPower(float power) {
+        this.power = power;
     }
 
     @Override
-    protected void controlUpdate(final float tpf) {
-
+    protected void controlUpdate(float tpf) {
     }
 
     @Override
-    protected void controlRender(final RenderManager rm, final ViewPort vp) {
-
+    protected void controlRender(RenderManager rm, ViewPort vp) {
     }
 }
