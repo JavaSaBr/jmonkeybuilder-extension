@@ -16,7 +16,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.spaceshift:jmonkeybuilder-extension:2.4.0'
+    compile 'com.spaceshift:jmonkeybuilder-extension:2.4.1'
 }
 ```
 
@@ -37,7 +37,7 @@ dependencies {
 <dependency>
     <groupId>com.spaceshift</groupId>
     <artifactId>jmonkeybuilder-extension</artifactId>
-    <version>2.4.0</version>
+    <version>2.4.1</version>
 </dependency>
 ```
 
