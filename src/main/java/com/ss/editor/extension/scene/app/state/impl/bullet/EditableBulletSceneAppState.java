@@ -21,6 +21,8 @@ import com.jme3.scene.SceneGraphVisitor;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.Control;
 import com.jme3.util.clone.Cloner;
+import com.ss.editor.extension.action.ModifyingAction;
+import com.ss.editor.extension.integration.EditorEnvironment;
 import com.ss.editor.extension.property.EditableProperty;
 import com.ss.editor.extension.property.SimpleProperty;
 import com.ss.editor.extension.scene.SceneNode;
@@ -33,6 +35,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -611,6 +614,11 @@ public class EditableBulletSceneAppState extends AbstractAppState implements Edi
                 makeSetter(this, Vector3f.class, "setGravity")));
 
         return result;
+    }
+
+    @Override
+    public @NotNull List<ModifyingAction> getModifyingActions(@NotNull EditorEnvironment env) {
+        return Collections.emptyList();
     }
 
     @Override

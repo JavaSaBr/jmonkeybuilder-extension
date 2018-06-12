@@ -5,23 +5,24 @@ import static com.ss.editor.extension.property.ReflectionGetterSetterFactory.mak
 import static com.ss.editor.extension.property.ReflectionGetterSetterFactory.makeSetter;
 import static java.lang.Math.max;
 import com.jme3.app.Application;
-import com.jme3.bounding.BoundingSphere;
-import com.jme3.bounding.BoundingVolume;
 import com.jme3.environment.EnvironmentCamera;
-import com.jme3.environment.LightProbeFactory;
-import com.jme3.environment.generation.JobProgressAdapter;
 import com.jme3.environment.util.EnvMapUtils.GenerationType;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
-import com.jme3.light.LightList;
 import com.jme3.light.LightProbe;
+import com.jme3.light.LightProbe.AreaType;
+import com.jme3.light.OrientedBoxProbeArea;
+import com.jme3.light.ProbeArea;
+import com.jme3.light.SphereProbeArea;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
-import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Node;
 import com.jme3.util.clone.Cloner;
+import com.ss.editor.extension.EditableName;
+import com.ss.editor.extension.action.ModifyingAction;
+import com.ss.editor.extension.integration.EditorEnvironment;
 import com.ss.editor.extension.property.EditableProperty;
 import com.ss.editor.extension.property.SimpleProperty;
 import com.ss.editor.extension.scene.SceneNode;
@@ -29,6 +30,7 @@ import com.ss.editor.extension.scene.ScenePresentable;
 import com.ss.editor.extension.scene.app.state.EditableSceneAppState;
 import com.ss.editor.extension.scene.app.state.SceneAppState;
 import com.ss.editor.extension.scene.filter.SceneFilter;
+import com.ss.editor.extension.util.JmbExtUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -41,16 +43,15 @@ import java.util.List;
  *
  * @author JavaSaBr
  */
-public class StaticLightProbeSceneAppState extends EnvironmentCamera implements EditableSceneAppState, ScenePresentable {
+public class StaticLightProbeSceneAppState extends EnvironmentCamera implements
+        EditableSceneAppState, ScenePresentable, EditableName {
 
-    @NotNull
-    private JobProgressAdapter<LightProbe> probeHandler = makeProbeHandler();
+    protected static final Node EMPTY_SCENE = new Node("Empty scene");
 
-    @NotNull
-    private static final Node EMPTY_SCENE = new Node("Empty scene");
+    private static final String DEFAULT_NAME = "Static light probe";
 
     /**
-     * The PBR Light probe.
+     * The PBR light probe.
      */
     @NotNull
     private LightProbe lightProbe;
@@ -74,9 +75,10 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
     private GenerationType generationType;
 
     /**
-     * The current frame.
+     * The name.
      */
-    private int frame;
+    @NotNull
+    private String name;
 
     /**
      * The next quality size.
@@ -91,6 +93,7 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
     public StaticLightProbeSceneAppState() {
         this.lightProbe = new InvisibleLightProbe();
         this.generationType = GenerationType.Fast;
+        this.name = DEFAULT_NAME;
     }
 
     /**
@@ -108,11 +111,9 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
 
         this.pbrScene = scene;
 
-        if (scene != null) {
+        if (scene != null && !JmbExtUtils.contains(scene, lightProbe)) {
             scene.addLight(lightProbe);
         }
-
-        this.frame = 0;
     }
 
     /**
@@ -134,13 +135,32 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
     }
 
     /**
+     * Sets the area type.
+     *
+     * @return the area type.
+     */
+    public @NotNull AreaType getAreaType() {
+        return lightProbe.getAreaType();
+    }
+
+    /**
+     * Gets the area type.
+     *
+     * @param areaType the area type.
+     */
+    public void setAreaType(@NotNull AreaType areaType) {
+        Vector3f scale = getScale();
+        this.lightProbe.setAreaType(areaType);
+        setScale(scale);
+    }
+
+    /**
      * Set the scene to make a light probe.
      *
      * @param environmentScene the scene to make a light probe.
      */
-    public void setEnvironmentScene(Node environmentScene) {
+    public void setEnvironmentScene(@Nullable Node environmentScene) {
         this.environmentScene = environmentScene;
-        this.frame = 0;
     }
 
     @Override
@@ -148,16 +168,8 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
         super.onEnable();
 
         Node pbrScene = getPbrScene();
-        if (pbrScene == null) {
+        if (pbrScene == null || JmbExtUtils.contains(pbrScene, lightProbe)) {
             return;
-        }
-
-        LightList lightList = pbrScene.getLocalLightList();
-
-        for (int i = 0; i < lightList.size(); i++) {
-            if (lightList.get(i) == lightProbe) {
-                return;
-            }
         }
 
         pbrScene.addLight(lightProbe);
@@ -174,60 +186,28 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
         }
     }
 
+    /**
+     * Get the current PBR scene.
+     *
+     * @return the current PBR scene.
+     */
     public @Nullable Node getPbrScene() {
         return pbrScene;
     }
 
+    /**
+     * Get the current env scene.
+     *
+     * @return the current env scene.
+     */
     public @Nullable Node getEnvironmentScene() {
         return environmentScene;
     }
 
     @Override
-    protected void initialize(Application app) {
+    protected void initialize(@NotNull Application application) {
         this.nextSize = size;
-        super.initialize(app);
-    }
-
-    @Override
-    public void render(RenderManager renderManager) {
-        try {
-
-            if (pbrScene == null) {
-                return;
-            }
-
-            if (frame == 2 && !preparing) {
-                prepareToMakeProbe();
-
-                Node environmentScene = getEnvironmentScene();
-
-                if (environmentScene == null) {
-                    environmentScene = EMPTY_SCENE;
-                }
-
-                environmentScene.updateGeometricState();
-
-                LightProbeFactory.updateProbe(lightProbe, this, environmentScene, getGenerationType(), probeHandler);
-
-                frame++;
-            } else if (frame < 2) {
-                frame++;
-            }
-
-        } finally {
-            super.render(renderManager);
-        }
-    }
-
-    protected @NotNull JobProgressAdapter<LightProbe> makeProbeHandler() {
-        return new JobProgressAdapter<LightProbe>() {
-
-            @Override
-            public void done(@NotNull final LightProbe result) {
-                if (!isInitialized()) return;
-                notifyProbeComplete();
-            }
-        };
+        super.initialize(application);
     }
 
     /**
@@ -256,8 +236,14 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
     }
 
     @Override
+    public void setName(@NotNull String name) {
+        this.name = name;
+    }
+
+
+    @Override
     public @NotNull String getName() {
-        return "Static Light probe";
+        return name;
     }
 
     @Override
@@ -276,7 +262,7 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
     public Object jmeClone() {
         try {
             return super.clone();
-        } catch (final CloneNotSupportedException e) {
+        } catch (CloneNotSupportedException e) {
             throw new RuntimeException(e);
         }
     }
@@ -285,27 +271,27 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
     public void cloneFields(@NotNull Cloner cloner, @NotNull Object original) {
         this.lightProbe = cloner.clone(lightProbe);
         this.pbrScene = cloner.clone(pbrScene);
-        this.probeHandler = makeProbeHandler();
+        this.environmentScene = cloner.clone(environmentScene);
     }
 
     @Override
     public void write(@NotNull JmeExporter ex) throws IOException {
         OutputCapsule out = ex.getCapsule(this);
+        out.write(name, "name", null);
         out.write(lightProbe, "lightProbe", null);
-        out.write(pbrScene, "pbrScene", this);
-        out.write(environmentScene, "environmentScene", this);
-        out.write(frame, "frame", 0);
+        out.write(pbrScene, "pbrScene", null);
+        out.write(environmentScene, "environmentScene", null);
         out.write(generationType, "generationType", GenerationType.Fast);
     }
 
     @Override
     public void read(@NotNull JmeImporter im) throws IOException {
         InputCapsule in = im.getCapsule(this);
+        name = in.readString("name", DEFAULT_NAME);
         lightProbe = (LightProbe) in.readSavable("lightProbe", null);
         pbrScene = (Node) in.readSavable("pbrScene", null);
         environmentScene = (Node) in.readSavable("environmentScene", null);
         generationType = in.readEnum("generationType", GenerationType.class, GenerationType.Fast);
-        frame = in.readInt("frame", 0);
     }
 
     @Override
@@ -325,8 +311,6 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
         if (!preparing) {
             super.setSize(size);
         }
-
-        frame = 0;
     }
 
     @Override
@@ -341,60 +325,35 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
 
     @Override
     public @NotNull Vector3f getScale() {
-        float radius = getRadius();
-        return new Vector3f(radius, radius, radius);
+
+        ProbeArea area = lightProbe.getArea();
+
+        if (area instanceof SphereProbeArea) {
+            float radius = area.getRadius();
+            return new Vector3f(radius, radius, radius);
+        } else if (area instanceof OrientedBoxProbeArea) {
+            Vector3f extent = ((OrientedBoxProbeArea) area).getExtent();
+            return extent.clone();
+        }
+
+        return new Vector3f();
     }
 
     @Override
     public void setLocation(@NotNull Vector3f location) {
-
-        if (!location.equals(lightProbe.getPosition())) {
-            frame = 0;
-        }
-
         lightProbe.setPosition(location);
     }
 
     @Override
     public void setScale(@NotNull Vector3f scale) {
 
-        float radius = max(max(scale.getX(), scale.getY()), scale.getZ());
+        ProbeArea area = lightProbe.getArea();
 
-        if (radius != getRadius()) {
-            frame = 0;
+        if (area instanceof SphereProbeArea) {
+            area.setRadius(max(max(scale.getX(), scale.getY()), scale.getZ()));
+        } else if (area instanceof OrientedBoxProbeArea) {
+            ((OrientedBoxProbeArea) area).setExtent(scale.clone());
         }
-
-        setRadius(radius);
-    }
-
-    /**
-     * Set the radius of the light probe.
-     *
-     * @param radius the radius.
-     */
-    public void setRadius(float radius) {
-
-        BoundingVolume bounds = lightProbe.getBounds();
-
-        if (bounds instanceof BoundingSphere) {
-            ((BoundingSphere) bounds).setRadius(radius);
-        }
-    }
-
-    /**
-     * Get the radius of the light probe.
-     *
-     * @return the radius.
-     */
-    public float getRadius() {
-
-        BoundingVolume bounds = lightProbe.getBounds();
-
-        if (bounds instanceof BoundingSphere) {
-            return ((BoundingSphere) bounds).getRadius();
-        }
-
-        return 1F;
     }
 
     @Override
@@ -403,31 +362,56 @@ public class StaticLightProbeSceneAppState extends EnvironmentCamera implements 
 
     @Override
     public @NotNull ScenePresentable.PresentationType getPresentationType() {
+
+        switch (getAreaType()) {
+            case OrientedBox: return PresentationType.BOX;
+            case Spherical: return PresentationType.SPHERE;
+        }
+
         return PresentationType.SPHERE;
+    }
+
+    protected @NotNull LightProbe getLightProbe() {
+        return lightProbe;
     }
 
     @Override
     public @NotNull List<EditableProperty<?, ?>> getEditableProperties() {
 
-        List<EditableProperty<?, ?>> result = new ArrayList<>();
+        List<EditableProperty<?, ?>> result = new ArrayList<>(6);
         result.add(new SimpleProperty<>(INTEGER, "Quality size", this,
                 makeGetter(this, int.class, "getSize"),
                 makeSetter(this, int.class, "setSize")));
-        result.add(new SimpleProperty<>(FLOAT, "Radius", this,
-                makeGetter(this, float.class, "getRadius"),
-                makeSetter(this, float.class, "setRadius")));
+        result.add(new SimpleProperty<>(ENUM, "Generation type", this,
+                makeGetter(this, GenerationType.class, "getGenerationType"),
+                makeSetter(this, GenerationType.class, "setGenerationType")));
+        result.add(new SimpleProperty<>(ENUM, "Area type", this,
+                makeGetter(this, AreaType.class, "getAreaType"),
+                makeSetter(this, AreaType.class, "setAreaType")));
         result.add(new SimpleProperty<>(NODE_FROM_SCENE, "Env scene", this,
                 makeGetter(this, Node.class, "getEnvironmentScene"),
                 makeSetter(this, Node.class, "setEnvironmentScene")));
         result.add(new SimpleProperty<>(NODE_FROM_SCENE, "PBR Scene", this,
                 makeGetter(this, Node.class, "getPbrScene"),
                 makeSetter(this, Node.class, "setPbrScene")));
+        result.add(new SimpleProperty<>(VECTOR_3F, "Scale", this,
+                makeGetter(this, Vector3f.class, "getScale"),
+                makeSetter(this, Vector3f.class, "setScale")));
         result.add(new SimpleProperty<>(VECTOR_3F, "Position", this,
                 makeGetter(this, Vector3f.class, "getLocation"),
                 makeSetter(this, Vector3f.class, "setLocation")));
-        result.add(new SimpleProperty<>(ENUM, "Generation type", this,
-                makeGetter(this, GenerationType.class, "getGenerationType"),
-                makeSetter(this, GenerationType.class, "setGenerationType")));
+
+        return result;
+    }
+
+    @Override
+    public @NotNull List<ModifyingAction> getModifyingActions(@NotNull EditorEnvironment env) {
+
+        List<ModifyingAction> result = new ArrayList<>(1);
+
+        if (!preparing) {
+            result.add(UpdateLightProbeAction.getInstance());
+        }
 
         return result;
     }
