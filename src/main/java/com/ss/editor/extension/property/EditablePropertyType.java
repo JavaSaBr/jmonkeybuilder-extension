@@ -1,5 +1,9 @@
 package com.ss.editor.extension.property;
 
+import com.jme3.asset.MaterialKey;
+import com.jme3.asset.ModelKey;
+import com.jme3.asset.TextureKey;
+import com.jme3.audio.AudioKey;
 import com.jme3.light.DirectionalLight;
 import com.jme3.light.Light;
 import com.jme3.light.PointLight;
@@ -57,7 +61,11 @@ public enum EditablePropertyType {
     AMBIENT_LIGHT_FROM_SCENE(AmbientLight.class),
     FILTER_FROM_SCENE(Filter.class),
     SCENE_LAYER(SceneLayer.class),
-    MIN_MAX_2F(Vector2f.class),;
+    MIN_MAX_2F(Vector2f.class),
+    MODEL_KEY(ModelKey.class),
+    AUDIO_KEY(AudioKey.class),
+    TEXTURE_KEY(TextureKey.class),
+    MATERIAL_KEY(MaterialKey.class);
 
     private static final EditablePropertyType[] TYPES = values();
 
